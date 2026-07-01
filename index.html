@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US Oil &amp; Gas · Prepared for MI3 Energy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:  #f6f7f9;            /* near-white page */
+    --panel:  #ffffff;           /* card */
+    --panel2: #f1f3f5;
+    --ink:    #16181c;           /* near-black text */
+    --muted:  #5b626d;           /* secondary text */
+    --faint:  #868d97;           /* tertiary text */
+    --accent: #c8102e;           /* MI3 red */
+    --accent-soft: rgba(200,16,46,0.08);
+    --accent-dk: #9b0c23;
+    --grid:   #e6e8eb;
+    --line:   #e2e4e8;
+
+    /* ONE basin palette — Permian red, then charcoal / steel-blue / tan / grey */
+    --permian:     #c8102e;
+    --bakken:      #33373d;
+    --eagleford:   #4f7186;
+    --appalachia:  #8d8a5e;
+    --haynesville: #b08968;
+    --restl48:     #9aa1ab;
+    --gulf:        #6f93ab;
+    --alaska:      #7a5c8a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, .tab-title, .section-title, .brand-text h1, .panel-head h2, .hs .val { font-family: "Space Grotesk", "IBM Plex Sans", sans-serif; letter-spacing: -0.01em; }
+  .mono { font-family: "IBM Plex Mono", "SF Mono", "Consolas", ui-monospace, monospace; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px 64px; }
+  a { color: var(--accent); }
+
+  /* ---- masthead ---- */
+  .masthead { background: var(--panel); border-bottom: 1px solid var(--line); }
+  .masthead-inner { max-width: 1040px; margin: 0 auto; padding: 18px 28px 14px;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+  .brand-block { display: flex; align-items: center; gap: 14px; }
+  .brand-logo { height: 46px; width: auto; max-width: 160px; display: block; }
+  .brand-mark { width: 44px; height: 44px; border-radius: 9px; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; letter-spacing: -0.02em;
+    font-family: "Space Grotesk", sans-serif; }
+  .brand-text h1 { margin: 0; font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+  .brand-text .prep { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 1px; }
+  .brand-text .prep b { color: var(--accent); }
+  .masthead .headline-stats { display: flex; gap: 22px; flex-wrap: wrap; }
+  .hs { text-align: right; }
+  .hs .label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); font-weight: 700; }
+  .hs .val { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  .hs .val small { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .hs .sub { font-size: 10.5px; color: var(--faint); }
+
+  /* ---- sticky tab bar ---- */
+  .tabbar { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .tabbar-inner { max-width: 1040px; margin: 0 auto; padding: 0 20px; display: flex; gap: 2px; overflow-x: auto; }
+  .tabbar a { text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 600; white-space: nowrap;
+    padding: 13px 14px; border-bottom: 2.5px solid transparent; cursor: pointer; }
+  .tabbar a:hover { color: var(--ink); }
+  .tabbar a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .tab { padding-top: 26px; }
+  .tab[hidden] { display: none; }
+  .tab-intro { font-size: 15px; color: var(--muted); line-height: 1.6; max-width: 760px; margin: 0 0 4px; }
+  .tab-title { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; }
+
+  /* ---- provenance tags ---- */
+  .prov { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px; white-space: nowrap; letter-spacing: .01em; }
+  .prov::before { content: ""; width: 7px; height: 7px; border-radius: 50%; }
+  .prov.live { background: #e7f3ec; color: #2c7a4d; } .prov.live::before { background: #2f9d5f; }
+  .prov.sourced { background: #f1eef0; color: #8a3b48; } .prov.sourced::before { background: var(--accent); }
+  .prov.proj { background: #eef1f4; color: #4a6275; } .prov.proj::before { background: #6fa8cc; }
+  .reviewed { font-size: 10.5px; color: var(--faint); font-style: italic; }
+  .needs-review { color: var(--accent); font-weight: 700; }
+
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 20px 16px; margin-top: 18px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
+  .panel-head h2 { margin: 0; font-size: 16px; font-weight: 700; }
+  .panel-head .tag { font-size: 11px; color: var(--faint); }
+  .caption { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin: 0 0 12px; }
+
+  .callout { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 6px;
+    padding: 11px 14px; font-size: 13.5px; line-height: 1.55; color: #5e2630; margin: 0 0 14px; }
+  .callout b { color: var(--accent-dk); }
+
+  .bignum { background: #16181c; border: 1px solid var(--line);
+    border-left: 4px solid var(--accent); color: #e7e9ec; border-radius: 10px; padding: 18px 22px; font-size: 16px; line-height: 1.55; margin-top: 4px; }
+  .bignum .n { color: #ff7184; font-weight: 700; }
+
+  .chart-box { position: relative; height: 380px; }
+  .chart-box.tall { height: 440px; }
+  .chart-box.short { height: 240px; }
+
+  .controls { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin: 0 0 12px; }
+  .viewlabel { font-size: 11px; color: var(--faint); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .btnrow { display: inline-flex; gap: 4px; background: var(--paper); padding: 3px; border-radius: 8px; }
+  .btnrow button { border: 0; background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 6px; cursor: pointer; font-family: inherit; }
+  .btnrow button.active { background: var(--panel); color: var(--accent); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .hint { font-size: 12px; color: var(--faint); }
+
+  .story { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: #fbeef0; border: 1px solid #f0cdd4; border-radius: 9px; padding: 10px 14px; margin: 0 0 14px; }
+  .story button { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; }
+  .story button.play { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .story .step { font-size: 12.5px; color: var(--muted); font-weight: 600; } .story .step b { color: var(--ink); }
+  .story .dots { display: inline-flex; gap: 5px; margin-left: auto; }
+  .story .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); cursor: pointer; border: 0; padding: 0; }
+  .story .dot.on { background: var(--accent); }
+
+  .events-bar { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
+  .chip { border: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 20px; cursor: pointer; font-family: inherit; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chip .num { opacity: .6; margin-right: 5px; }
+
+  .event-detail { margin-top: 14px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: #fbfbfc; }
+  .event-detail .ed-head { background: var(--accent-soft); padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .event-detail .ed-title { font-weight: 700; font-size: 15px; } .event-detail .ed-date { font-size: 12px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .event-detail .ed-body { padding: 14px 16px; font-size: 13.5px; line-height: 1.6; } .event-detail .ed-body p { margin: 0 0 10px; }
+  .event-detail .ed-label { font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); font-weight: 700; margin-bottom: 2px; }
+  .event-detail .ed-price { color: var(--accent); font-weight: 600; } .event-detail .placeholder { color: var(--faint); font-style: italic; }
+
+  details.learn { margin-top: 14px; border-top: 1px dashed var(--line); padding-top: 10px; }
+  details.learn > summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent); list-style: none; user-select: none; }
+  details.learn > summary::-webkit-details-marker { display: none; }
+  details.learn > summary::before { content: "▸ "; } details.learn[open] > summary::before { content: "▾ "; }
+  details.learn .learn-body { font-size: 13px; line-height: 1.6; color: var(--muted); margin-top: 10px; }
+  details.learn .learn-body h4 { margin: 12px 0 4px; font-size: 12px; color: var(--ink); text-transform: uppercase; letter-spacing: .06em; }
+  details.learn .learn-body dl { margin: 0; } details.learn .learn-body dt { font-weight: 600; color: var(--ink); margin-top: 7px; } details.learn .learn-body dd { margin: 1px 0 0; }
+  .src { font-family: ui-monospace, monospace; font-size: 12px; color: var(--faint); }
+
+  .note-inline { font-size: 12.5px; color: var(--muted); background: var(--panel2); border: 1px solid var(--line); border-radius: 7px; padding: 8px 12px; margin: 0 0 12px; } .note-inline b { color: var(--accent-dk); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; } .grid2 .panel { margin-top: 0; }
+  .prose { font-size: 14.5px; line-height: 1.65; color: #2b2f36; } .prose h3 { font-size: 16px; margin: 20px 0 6px; color: var(--ink); } .prose h4 { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent-dk); margin: 16px 0 4px; } .prose p { margin: 0 0 10px; } .prose b { color: var(--ink); }
+
+  /* map — real US states */
+  .map-wrap { max-width: 820px; margin: 0 auto; }
+  .map-wrap .usmap { width: 100%; height: auto; display: block; }
+  .usmap .st { fill: #e8eaed; stroke: #ccd0d6; stroke-width: 1; }
+  .usmap .mk { cursor: pointer; }
+  .usmap .mk:hover circle { stroke: #15171b; stroke-width: 3.5; }
+  .usmap .mk circle { transition: r .1s; }
+  .usmap .mlabel { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 19px; fill: #15171b; paint-order: stroke; stroke: #ffffff; stroke-width: 3.5px; }
+  .usmap .msub { font-family: "IBM Plex Sans", sans-serif; font-size: 13px; fill: #5b626d; paint-order: stroke; stroke: #ffffff; stroke-width: 3.5px; }
+  .usmap .mk2 circle { opacity: 0.92; } .usmap .mlabel2 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 13px; fill: #5b626d; paint-order: stroke; stroke: #ffffff; stroke-width: 3px; }
+  .map-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 10px; justify-content: center; }
+  .map-legend span { font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .map-legend span:hover { color: var(--accent); }
+  .dot-sw { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  /* basin selector + deep dive */
+  .basinsel { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .basinsel button { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+    font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 7px; }
+  .basinsel button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .basinsel button .dot-sw { width: 10px; height: 10px; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .hcard { border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 10px; padding: 16px; background: var(--panel); }
+  .hcard h3 { margin: 0 0 2px; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .hcard .maturity { font-size: 11.5px; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+  .hcard .spark { position: relative; height: 46px; margin: 4px 0 12px; }
+  .hcard dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 12.5px; }
+  .hcard dt { color: var(--faint); font-weight: 600; } .hcard dd { margin: 0; }
+  .hcard .ops { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.5; } .hcard .ops b { color: var(--ink); }
+
+  .ddgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ddblock { border: 1px solid var(--line); border-radius: 9px; padding: 13px 15px; background: var(--panel); }
+  .ddblock h4 { margin: 0 0 5px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+  .ddblock p { margin: 0; font-size: 13px; line-height: 1.55; color: #2b2f36; }
+  .ddblock.caveat { background: #fbeef0; border-color: #f0cdd4; }
+  cite { display: block; font-style: normal; font-size: 11px; color: var(--faint); margin-top: 6px; }
+  cite a { color: var(--faint); text-decoration: underline; }
+
+  .runway { margin: 16px 0 6px; }
+  .runway .track { position: relative; height: 44px; background: var(--paper); border-radius: 8px; overflow: hidden; }
+  .runway .seg { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; }
+  .runway .tier1 { background: var(--accent); } .runway .tier2 { background: #d98a98; color: #5e2630; }
+  .runway .today { position: absolute; top: -6px; bottom: -6px; width: 2px; background: var(--ink); }
+  .runway .today span { position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+  .runway .axis { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--faint); margin-top: 5px; }
+
+  table.sources { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 6px; }
+  table.sources th, table.sources td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.sources th { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); }
+  table.sources td a { word-break: break-word; }
+
+  footer.foot { margin-top: 36px; padding: 18px 0 0; border-top: 2px solid var(--ink); font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  footer.foot .mi3 { font-weight: 700; color: var(--ink); }
+  footer.foot .updated { margin-top: 8px; color: var(--faint); }
+
+  .empty { background: var(--panel); border: 1px dashed var(--accent); border-radius: 10px; padding: 36px; margin-top: 26px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+  .empty code { background: var(--accent-soft); color: var(--accent); padding: 2px 7px; border-radius: 5px; font-family: ui-monospace, monospace; }
+
+  /* event detail modal */
+  .modal-back { position: fixed; inset: 0; background: rgba(0,0,0,0.74); z-index: 100; display: none; align-items: flex-start; justify-content: center; padding: 38px 16px; overflow-y: auto; }
+  .modal-back.open { display: flex; }
+  .modal { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; max-width: 660px; width: 100%; box-shadow: 0 24px 70px rgba(0,0,0,0.6); }
+  .modal-head { padding: 18px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+  .modal-head h3 { margin: 0; font-size: 19px; } .modal-head .when { color: var(--accent-dk); font-weight: 600; font-size: 13px; margin-top: 3px; }
+  .modal-close { background: var(--panel2); border: 1px solid var(--line); color: var(--ink); width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 16px; flex: none; line-height: 1; }
+  .modal-body { padding: 18px 22px; font-size: 14px; line-height: 1.65; }
+  .modal-body .ed-label { font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); font-weight: 700; margin: 14px 0 2px; }
+  .modal-body p { margin: 0 0 6px; }
+  .modal-stat { display: flex; gap: 24px; flex-wrap: wrap; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; margin: 14px 0; }
+  .modal-stat .ms .v { font-size: 19px; font-weight: 700; font-family: "IBM Plex Mono", monospace; } .modal-stat .ms .v.up { color: #2c7a4d; } .modal-stat .ms .v.down { color: #c8102e; }
+  .modal-stat .ms .l { font-size: 10.5px; color: var(--faint); text-transform: uppercase; letter-spacing: .05em; }
+  .modal-spark { height: 130px; position: relative; margin-top: 6px; }
+  .more-btn { display: inline-block; margin-top: 12px; background: var(--accent); color: #fff; border: 0; border-radius: 7px; padding: 8px 15px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .more-btn:hover { background: var(--accent-dk); color: #ffffff; }
+
+  /* operator share chart */
+  .op-box { position: relative; height: 230px; margin-top: 8px; }
+
+  /* consistent per-basin key-stats row */
+  .kstats { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin: 4px 0 4px; }
+  .kstat { background: var(--panel); padding: 11px 12px; }
+  .kstat .kv { font-family: "IBM Plex Mono", monospace; font-size: 17px; font-weight: 700; line-height: 1.05; }
+  .kstat .kv.na { color: var(--faint); font-weight: 500; }
+  .kstat .kl { font-size: 10px; color: var(--faint); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; line-height: 1.2; }
+  .kstat .ktag { font-size: 8.5px; font-weight: 700; letter-spacing: .03em; }
+  .kstat .ktag.live { color: #2c7a4d; } .kstat .ktag.src { color: var(--accent); }
+  .basin-status { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--accent-soft); color: var(--accent-dk); vertical-align: middle; margin-left: 8px; }
+
+  /* small-multiple chart grids */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .grid3 .panel { margin-top: 0; }
+  .mini { position: relative; height: 200px; }
+  .mini-h { font-size: 13.5px; font-weight: 700; margin: 0 0 2px; } .mini-sub { font-size: 11.5px; color: var(--muted); margin: 0 0 6px; }
+
+  /* creaming curve */
+  .cream-wrap { position: relative; }
+  .cream-box { position: relative; height: 340px; }
+  .cream-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 6px 0 10px; }
+  .cream-controls input[type=range] { flex: 1; min-width: 180px; accent-color: var(--accent); }
+  .cream-readout { font-size: 13px; } .cream-readout b { color: var(--accent); font-family: "IBM Plex Mono", monospace; }
+  .cream-big { font-family: "IBM Plex Mono", monospace; font-size: 24px; font-weight: 700; color: var(--accent); }
+
+  @media (max-width: 800px) {
+    .wrap { padding: 0 16px 48px; } .masthead-inner { padding: 14px 16px; } .tabbar-inner { padding: 0 10px; }
+    .headline-stats { width: 100%; } .hs { text-align: left; }
+    .grid2, .ddgrid { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; }
+    .kstats { grid-template-columns: repeat(2, 1fr); } .grid3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <!-- masthead -->
+  <div class="masthead">
+    <div class="masthead-inner">
+      <div class="brand-block">
+        <span class="brand-mark" id="brand-fallback">MI3</span>
+        <img src="mi3-logo.svg" class="brand-logo" id="brand-logo" alt="MI3 Energy" hidden
+             onload="this.hidden=false; var f=document.getElementById('brand-fallback'); if(f) f.style.display='none';">
+        <div class="brand-text">
+          <h1>US Oil &amp; Gas Intelligence</h1>
+          <div class="prep">Prepared for <b>MI3 Energy</b> · Dashboard 1</div>
+        </div>
+      </div>
+      <div class="headline-stats" id="headline-stats" hidden>
+        <div class="hs"><div class="label">US Oil Production</div><div class="val mono" id="hs-oil">—</div><div class="sub" id="hs-oil-sub">—</div></div>
+        <div class="hs"><div class="label">WTI Spot</div><div class="val mono" id="hs-wti">—</div><div class="sub" id="hs-wti-sub">—</div></div>
+        <div class="hs"><div class="label">Henry Hub Gas</div><div class="val mono" id="hs-gas">—</div><div class="sub" id="hs-gas-sub">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- sticky tabs -->
+  <div class="tabbar">
+    <div class="tabbar-inner" id="tabbar">
+      <a data-tab="overview">Overview</a>
+      <a data-tab="primer">Oil &amp; Gas 101</a>
+      <a data-tab="production">Production</a>
+      <a data-tab="basins">Basins</a>
+      <a data-tab="inventory">Inventory &amp; Productivity</a>
+      <a data-tab="prices">Prices &amp; Markets</a>
+      <a data-tab="gas">Natural Gas</a>
+      <a data-tab="outlook">Outlook</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="empty" id="empty" hidden>
+      No data loaded yet. Run <code>python fetch_data.py</code> (or double-click <code>Update Oil Prices.bat</code>), then refresh.
+    </div>
+
+    <!-- ===================== OVERVIEW ===================== -->
+    <section class="tab" id="tab-overview" hidden>
+      <h2 class="tab-title">The state of US oil &amp; gas</h2>
+      <p id="state-of-union" class="tab-intro"></p>
+      <div class="bignum" id="bignum"></div>
+      <div class="panel">
+        <div class="panel-head"><h2>Where the basins are</h2><span class="tag">click a basin →</span></div>
+        <p class="caption">The five basins that dominate U.S. shale oil. Click any marker to open its deep-dive in the Basins tab.</p>
+        <div class="map-wrap" id="map-overview"></div>
+        <div class="map-legend" id="legend-overview"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>Today’s basin mix</h2><span class="prov live" id="snap-asof">Live</span></div>
+        <p class="caption">Each region’s share of U.S. crude right now (latest EIA month).</p>
+        <div class="chart-box short"><canvas id="chartSnap"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ===================== OIL & GAS 101 ===================== -->
+    <section class="tab" id="tab-primer" hidden>
+      <h2 class="tab-title">Oil &amp; Gas 101</h2>
+      <p class="tab-intro">A plain-English primer for newcomers and investors — what the industry is, how the oil actually gets out of the ground, and why it moves markets.</p>
+      <div class="panel"><div class="prose">
+        <h3>The business, in one minute</h3>
+        <p>The oil &amp; gas industry finds hydrocarbons underground, brings them to the surface, moves them, and turns them into fuels and products. It runs in three stages:</p>
+        <h4>Upstream — producing</h4>
+        <p><b>Exploration &amp; production (E&amp;P):</b> finding oil/gas and drilling wells to bring it up. This is where “basins,” “shale,” and the companies on this dashboard (ExxonMobil, ConocoPhillips, EOG, Chord, Diamondback…) operate.</p>
+        <h4>Midstream — moving &amp; storing</h4>
+        <p>Pipelines, gathering systems, storage, processing plants and export terminals (including <b>LNG</b> terminals that chill gas to a liquid for shipping overseas). Midstream is why a pipeline-constrained basin like Appalachia can’t always sell all it produces.</p>
+        <h4>Downstream — refining &amp; selling</h4>
+        <p><b>Refineries</b> turn crude into gasoline, diesel and jet fuel; marketers sell it. The Gulf Coast is the U.S. refining and export hub — a big advantage for nearby basins like the Eagle Ford.</p>
+
+        <h3>How shale oil actually gets out of the ground</h3>
+        <h4>Conventional vs. shale (tight) oil</h4>
+        <p><b>Conventional</b> oil sits in a porous pocket and flows up a vertical well — like sipping a juice box. <b>Shale (tight) oil</b> is locked inside dense rock that won’t flow on its own; you have to crack the rock open first.</p>
+        <h4>Horizontal drilling + fracking</h4>
+        <p>The oil-rich rock layer is thin but spreads sideways for miles. Modern wells drill down, then <b>turn horizontal</b> and run 2–4 miles through that layer (“<b>lateral feet</b>”). Then <b>hydraulic fracturing (“fracking”)</b> pumps water and sand (“<b>proppant</b>”) at high pressure to crack the rock; the sand props the cracks open so oil can flow.</p>
+        <h4>Why “lateral feet” is the key metric</h4>
+        <p>More rock contacted = more oil. The length of horizontal wellbore drilled is the headline productivity number analysts track.</p>
+        <h4>Rock tiers &amp; “high-grading”</h4>
+        <p>Acreage is graded <b>Tier 1</b> (best) to <b>Tier 4</b>. Companies drill their best rock first (“high-grading”), so the <i>leftover</i> inventory gets progressively worse — quality of remaining locations matters more than the raw count.</p>
+        <h4>Pressure depletion</h4>
+        <p>Wells drain a shared reservoir. A new well drilled <b>too close or too late</b> to older wells hits already-drained rock and produces less. As a basin matures, more new wells hit depleted rock — a key reason a basin’s best days are finite.</p>
+
+        <h3>Why it matters to an investor</h3>
+        <p>Energy is only ~3–4% of the S&amp;P 500 by weight, but oil &amp; gas ripple through the whole economy via <b>gasoline prices, inflation, and transport costs</b>. The U.S. is now the <b>world’s top producer</b> of both oil and gas. The single biggest shift to understand: <b>oil is maturing toward a plateau while natural gas is the growth engine</b> (LNG exports + AI/data-center power demand).</p>
+
+        <h3>How to read this dashboard</h3>
+        <p><b>Overview</b> = headline numbers + map. <b>Production</b> = how much oil the U.S. pumps, over a century. <b>Basins</b> = who produces it, basin by basin (click the map). <b>Prices &amp; Markets</b> = WTI history, events, and oil vs. the stock market. <b>Natural Gas</b> = the parallel gas story. <b>Outlook</b> = where it’s all heading. Look for the <span class="prov live">Live</span> and <span class="prov sourced">Sourced</span> tags — they tell you whether a number auto-updates from an API or is a hand-entered analyst estimate.</p>
+      </div></div>
+    </section>
+
+    <!-- ===================== PRODUCTION ===================== -->
+    <section class="tab" id="tab-production" hidden>
+      <h2 class="tab-title">US Oil Production</h2>
+      <p class="tab-intro">How much crude the U.S. pumps — a century of history, the deeper state-level view, and the breakdown by basin. <span class="prov live">Live · EIA · auto-updates</span></p>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Total US Crude Production — full history</h2><span class="prov live" id="b-asof">Live</span></div>
+        <p class="caption">Every barrel of crude pumped in the U.S., monthly, since 1920. <span class="tag" id="b-range"></span></p>
+        <div class="callout">💡 <b>What to notice:</b> the long slide from the 1970 peak — then the near-vertical climb after ~2010. That climb is <b>“fracking”</b> unlocking shale oil, which roughly doubled U.S. output in a decade.</div>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartB"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartB"></div></div>
+        <div class="chart-box tall"><canvas id="chartB"></canvas></div>
+        <div class="events-bar" id="chips-B"></div>
+        <div class="event-detail" id="detail-B"><div class="ed-head"><span class="ed-title">Events</span></div><div class="ed-body"><p class="placeholder">Click an event line or chip to see what happened and how it affected U.S. production.</p></div></div>
+        <details class="learn"><summary>Learn more — source &amp; how to read</summary><div class="learn-body">
+          <p>The line is national production in million barrels/day (Mbbl/d). Modern low is 2008; the climb after is the shale revolution; 2020 dipped on COVID shut-ins, then new records.</p>
+          <p class="src">Source: EIA “U.S. Field Production of Crude Oil,” series MCRFPUS2, monthly.</p>
+        </div></details>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Deep history by state <span style="font-weight:500;color:var(--faint)">(basin proxy)</span></h2><span class="prov live" id="d-asof">Live</span></div>
+        <p class="caption">The basin breakdown only starts in 2008. For the deeper past we use <b>state</b> production as a stand-in: Texas+New Mexico ≈ Permian, North Dakota ≈ Bakken. <span class="tag" id="d-range"></span></p>
+        <div class="note-inline"><b>Approximate.</b> A state-level <i>proxy</i>, not exact basin data.</div>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartD"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartD"></div></div>
+        <div class="chart-box"><canvas id="chartD"></canvas></div>
+        <p class="src" style="margin-top:6px">Source: EIA state crude field production, annual (MCRFPTX1, MCRFPNM1, MCRFPND1, …). Begins 1981.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Production by Basin</h2><span class="prov live" id="c-asof">Live</span></div>
+        <p class="caption">The national total, split into the regions that produce it. <span class="tag" id="c-range"></span></p>
+        <div class="callout">💡 <b>What to notice:</b> watch the red <b>Permian</b> band swell from a sliver into the biggest slice. Switch to <b>Share %</b> to see it take over the pie, or <b>Compare</b> to race the basins as lines.</div>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-mode-for="chartC"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartC"></div></div>
+        <div class="chart-box tall"><canvas id="chartC"></canvas></div>
+        <p class="hint" id="forecast-hint" style="margin:8px 0 0"></p>
+        <div class="events-bar" id="chips-C"></div>
+        <div class="event-detail" id="detail-C"><div class="ed-head"><span class="ed-title">Events</span></div><div class="ed-body"><p class="placeholder">Click an event to see which basins ramped up or got shut in.</p></div></div>
+        <p class="src" style="margin-top:6px">Source: EIA STEO regional crude series (COPRPM, COPRBK, COPREF, COPRAP, COPRHA, COPRR48, PAPRPGLF, PAPRPAK). Named basins begin Dec 2008.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Who produces the most US oil?</h2><span class="prov sourced">Sourced · 2024–25</span></div>
+        <p class="caption">The biggest U.S. oil companies by production. <span class="reviewed">Last reviewed 2026-06-26.</span></p>
+        <div class="callout">💡 <b>Heads-up:</b> the super-majors (Exxon, Chevron, ConocoPhillips) report <b>boe/d</b> (oil + gas + NGLs), so their bars run higher than the crude-only independents below them.</div>
+        <div class="op-box" style="height:300px"><canvas id="chartOilCos"></canvas></div>
+        <cite id="oilcos-src"></cite>
+      </div>
+    </section>
+
+    <!-- ===================== BASINS ===================== -->
+    <section class="tab" id="tab-basins" hidden>
+      <h2 class="tab-title">The Basins</h2>
+      <p class="tab-intro">Who actually pumps America’s oil. Click the map or a button to open a basin’s deep-dive. Live production trends pair with 2025 analyst estimates (each tagged and dated).</p>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Click a basin on the map</h2></div>
+        <div class="map-wrap" id="map-basins"></div>
+        <div class="map-legend" id="legend-basins"></div>
+      </div>
+      <div class="panel" id="basin-dd-panel">
+        <div class="basinsel" id="basinsel"></div>
+        <div id="basin-dd"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Basin Health &amp; Inventory</h2><span class="prov sourced">Sourced · Novi Labs / Enverus · 2025</span></div>
+        <p class="caption">Basins age like fields — grow, peak, mature. The Permian is the biggest <b>and</b> the youngest. Mini-charts are <b>live</b> EIA production; the figures are 2025 analyst estimates. <span class="reviewed">Last reviewed: 2026-06-26.</span></p>
+        <div class="cards" id="basin-cards"></div>
+        <div class="callout" style="margin-top:16px" id="gas-note"></div>
+        <div class="callout" id="cross-basin"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Breakeven vs. today’s price</h2><span class="prov sourced">Sourced · Dallas Fed Q1-2025</span></div>
+        <p class="caption">The WTI price each basin needs to profitably <b>drill a new well</b> (Dallas Fed Energy Survey, Q1 2025). The red line is the <b>live</b> current WTI spot — bars below it are profitable to drill today.</p>
+        <div class="callout">💡 The far lower <b>operating (“shut-in”) breakevens</b> are what keep wells <i>producing</i>: Eagle Ford ~$26, Permian Delaware ~$33, Midland ~$35. So even well below the drill price, existing wells keep pumping.</div>
+        <div class="chart-box short"><canvas id="chartBreakeven"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ===================== INVENTORY & PRODUCTIVITY ===================== -->
+    <section class="tab" id="tab-inventory" hidden>
+      <h2 class="tab-title">Inventory &amp; Productivity</h2>
+      <p class="tab-intro">The live drilling engine behind the production numbers — rigs, wells, drilled-but-uncompleted (DUC) wells, and how much oil each rig brings on. All figures are <span class="prov live">Live · EIA STEO Table 10a</span>, by region.</p>
+
+      <div class="bignum" id="inv-duc-callout"></div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>New-well oil production per rig, by basin</h2><span class="prov live" id="prr-asof">Live</span></div>
+        <p class="caption">How much new oil each active rig is bringing on. <span class="hint">Toggle basins in the legend. EIA smooths this — read it as a trend, not a precise monthly number.</span></p>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartPerRig"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartPerRig"></div></div>
+        <div class="chart-box tall"><canvas id="chartPerRig"></canvas></div>
+        <p class="src" style="margin-top:6px">Source: EIA STEO Table 10a, series CONWR&lt;region&gt; (thousand bbl/d per rig).</p>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-head"><h2>Active rig count, by basin</h2><span class="prov live">Live</span></div>
+          <p class="caption">Rigs currently drilling, by region.</p>
+          <div class="controls"><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartRigs"></div></div>
+          <div class="chart-box"><canvas id="chartRigs"></canvas></div>
+          <p class="src" style="margin-top:6px">Source: EIA STEO Table 10a, series RIGS&lt;region&gt;.</p>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>New wells: drilled vs. completed</h2><span class="prov live">Live</span></div>
+          <p class="caption">Pick a basin. When completed &gt; drilled, the DUC backlog falls.</p>
+          <div class="controls"><span class="viewlabel">Basin</span><div class="btnrow" id="dvc-basinsel"></div></div>
+          <div class="chart-box"><canvas id="chartDvC"></canvas></div>
+          <p class="src" style="margin-top:6px">Source: EIA STEO Table 10a, series NWD/NWC&lt;region&gt;.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-head"><h2>DUC wells today, by basin</h2><span class="prov live" id="duc-asof">Live</span></div>
+          <p class="caption">Drilled-but-uncompleted wells — a backlog of “wells in waiting.”</p>
+          <div class="chart-box short"><canvas id="chartDucBar"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>DUC trend over time</h2><span class="prov live">Live</span></div>
+          <p class="caption"><span class="hint">Falling DUC = completing faster than drilling; rising = banking wells for later.</span></p>
+          <div class="controls"><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartDucTrend"></div></div>
+          <div class="chart-box short"><canvas id="chartDucTrend"></canvas></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Permian creaming curve — inventory vs. price</h2><span class="prov sourced" id="cream-tag">Sourced · Enverus / Novi · 2026</span></div>
+        <p class="caption">Every remaining Permian drilling location, sorted cheapest-to-drill first. Drag the price slider to see how many locations are economic at a given WTI price.</p>
+        <div class="note-inline"><b>Verified.</b> Anchored on <b>Enverus Intelligence Research</b> (Apr 2026, via World Oil): ~55,000 Permian locations break even below $50/bbl and ~100,000 in total below ~$70/bbl (including geologically-viable rock). NPV25 breakevens cross-checked against <b>Novi Labs</b> public data (Delaware ~$52, Midland ~$50). The curve between anchors is interpolated. <i>Note:</i> the older “~200,000 locations” figure isn’t supported for the Permian alone — that scale reflects North-America-wide or all-tier counts.</div>
+        <div class="cream-wrap" id="cream-host"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PRICES & MARKETS ===================== -->
+    <section class="tab" id="tab-prices" hidden>
+      <h2 class="tab-title">Prices &amp; Markets</h2>
+      <p class="tab-intro">The price that drives it all — the world events that moved it, inflation-adjusted history, and how oil tracks the stock market. <span class="prov live">Live · EIA / BLS</span></p>
+
+      <div class="panel">
+        <div class="panel-head"><h2>WTI Crude Oil Price</h2><span class="prov live" id="e-asof">Live</span></div>
+        <p class="caption">The U.S. benchmark, monthly, since 1986. <span class="tag" id="e-range"></span></p>
+        <div class="callout">💡 Spikes are supply scares (wars); crashes are demand collapses (2008, 2020) or oversupply (2014–16). Press <b>Play</b> to walk through them.</div>
+        <div class="note-inline" id="real-note"></div>
+        <div class="story" id="story">
+          <button class="play" id="story-play">▶ Play the story</button>
+          <button id="story-prev">◀ Prev</button><button id="story-next">Next ▶</button><button id="story-exit">Reset</button>
+          <span class="step" id="story-step">Guided tour — 8 events that shaped oil prices</span>
+          <span class="dots" id="story-dots"></span>
+        </div>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartE"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartE"></div></div>
+        <div class="chart-box tall"><canvas id="chartE"></canvas></div>
+        <div class="events-bar" id="chips-E"></div>
+        <div class="event-detail" id="detail-E"><div class="ed-head"><span class="ed-title">Events</span></div><div class="ed-body"><p class="placeholder">Click an event line or chip — or press Play — to read what happened.</p></div></div>
+        <p class="src" style="margin-top:6px">Source: EIA WTI spot (Cushing, OK), series RWTC. Real prices use BLS CPI (CUSR0000SA0) / FRED CPIAUCSL.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Oil vs. the Stock Market</h2><span id="sp-prov" class="prov sourced">FRED</span></div>
+        <p class="caption">WTI and the S&amp;P 500, each indexed to 100 at the start so their shapes compare directly.</p>
+        <div class="callout">💡 Energy is only ~3–4% of the S&amp;P 500, but oil ripples through the economy via gasoline, inflation and transport. The link is loose and regime-dependent — high oil can mean a strong economy <i>or</i> an inflation shock.</div>
+        <div id="sp-wrap"><div class="chart-box"><canvas id="chartSP"></canvas></div></div>
+        <p class="src" style="margin-top:6px" id="sp-src">S&amp;P 500 source: FRED series SP500 (needs a FRED key; ~10-year history).</p>
+      </div>
+    </section>
+
+    <!-- ===================== NATURAL GAS ===================== -->
+    <section class="tab" id="tab-gas" hidden>
+      <h2 class="tab-title">Natural Gas — the growth story</h2>
+      <p class="tab-intro">Where oil is maturing, <b>gas is booming.</b> The U.S. produces a record ~118 Bcf/d of marketed gas, and demand from LNG exports and AI data centers is climbing fast. <span class="prov live">Live · EIA</span></p>
+
+      <div class="panel">
+        <div class="panel-head"><h2>US Natural Gas Production</h2><span class="prov live" id="g-asof">Live</span></div>
+        <p class="caption">Marketed and dry gas, monthly, in billion cubic feet per day (Bcf/d). <span class="tag" id="g-range"></span></p>
+        <div class="callout">💡 <b>What to notice:</b> a relentless climb to record highs — the mirror image of oil’s maturing plateau. Much of the recent growth is <b>associated gas</b> that comes up alongside Permian oil.</div>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartGasProd"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartGasProd"></div></div>
+        <div class="chart-box tall"><canvas id="chartGasProd"></canvas></div>
+        <p class="src" style="margin-top:6px">Source: EIA marketed production (N9050US2) &amp; dry production (N9070US2), monthly.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Henry Hub Gas Price</h2><span class="prov live" id="hh-asof">Live</span></div>
+        <p class="caption">The U.S. benchmark gas price, $/MMBtu, monthly since 1997. <span class="tag" id="hh-range"></span></p>
+        <div class="callout">💡 Gas normally runs <b>~$3–4</b>. The Jan-2026 spike (marked) was the polar-vortex winter; the daily spot briefly hit a record ~$30+/MMBtu during Winter Storm Fern.</div>
+        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartHH"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartHH"></div></div>
+        <div class="chart-box"><canvas id="chartHH"></canvas></div>
+        <p class="src" style="margin-top:6px">Source: EIA Henry Hub spot price, series RNGWHHD.</p>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-head"><h2>Where US gas comes from</h2><span class="prov sourced">Sourced · EIA · 2025</span></div>
+          <p class="caption">Share of U.S. marketed gas by region. Appalachia, Permian &amp; Haynesville are firm EIA figures; smaller regions are estimates.</p>
+          <div class="chart-box short"><canvas id="chartGasRegion"></canvas></div>
+          <cite id="gasreg-src"></cite>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Who produces US gas?</h2><span class="prov sourced">Sourced · 2024–25</span></div>
+          <p class="caption">Top U.S. natural-gas producing companies (Bcf/d).</p>
+          <div class="op-box" style="height:260px"><canvas id="chartGasCos"></canvas></div>
+          <cite id="gascos-src"></cite>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Why gas is booming</h2><span class="prov sourced">Sourced · EIA · 2025–26</span></div>
+        <div class="prose" id="gas-content"></div>
+      </div>
+    </section>
+
+    <!-- ===================== OUTLOOK ===================== -->
+    <section class="tab" id="tab-outlook" hidden>
+      <h2 class="tab-title">Outlook</h2>
+      <p class="tab-intro"><span class="prov proj">Projections</span> &nbsp;These are forward-looking — they blend <b>live</b> current data with EIA STEO forecasts. The numbers below <b>recompute every time you refresh the data</b> (STEO updates monthly), so the outlook shifts as projections shift.</p>
+      <div class="bignum" id="outlook-headline"></div>
+      <div class="panel" id="outlook-snapshot"></div>
+      <div class="panel">
+        <div class="panel-head"><h2>US crude: history → EIA projection</h2><span class="prov proj" id="outlook-proj-tag">Projection</span></div>
+        <p class="caption">Total U.S. crude (sum of EIA STEO regional series). Solid = reported history; shaded tail = STEO forecast. This redraws whenever <code style="font-family:ui-monospace,monospace">fetch_data.py</code> runs.</p>
+        <div class="chart-box"><canvas id="chartOutlook"></canvas></div>
+      </div>
+      <div class="grid2" style="margin-top:18px" id="outlook-cards"></div>
+      <div class="panel" id="outlook-detail"></div>
+    </section>
+
+    <!-- ===================== FOOTER / DATA & SOURCES ===================== -->
+    <footer class="foot" id="foot" hidden>
+      <details class="learn" open>
+        <summary style="font-size:14px">Data &amp; Sources — Live vs. Sourced</summary>
+        <div class="learn-body">
+          <p><span class="prov live">Live</span> = pulled from an API, auto-updates when <code style="font-family:ui-monospace,monospace">fetch_data.py</code> runs.
+             <span class="prov sourced">Sourced</span> = hand-entered analyst estimate, not auto-updating.
+             <span class="prov proj">Projections</span> = forecasts.</p>
+          <table class="sources" id="sources-table"><thead><tr><th>Metric</th><th>Type</th><th>Source</th><th>As of</th></tr></thead><tbody id="sources-tbody"></tbody></table>
+          <p style="margin-top:10px"><b class="needs-review">Notes &amp; caveats:</b> <span id="needs-review-list"></span></p>
+        </div>
+      </details>
+      <p style="margin-top:14px"><span class="mi3">MI3 Energy</span> · US Oil &amp; Gas Intelligence, Dashboard 1. Analyst figures are estimates that vary by price assumption and source; breakevens are half-cycle wellhead unless noted.</p>
+      <p class="updated" id="updated"></p>
+    </footer>
+  </div>
+
+  <!-- event detail modal -->
+  <div class="modal-back" id="ev-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="evm-title">
+      <div class="modal-head">
+        <div><h3 id="evm-title"></h3><div class="when" id="evm-when"></div></div>
+        <button class="modal-close" id="evm-close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="evm-body"></div>
+    </div>
+  </div>
+
+  <script src="data/wti.js"></script>
+  <script src="data/total_us.js"></script>
+  <script src="data/basins.js"></script>
+  <script src="data/states.js"></script>
+  <script src="data/natgas.js"></script>
+  <script src="data/sp500.js"></script>
+  <script src="data/drilling.js"></script>
+  <script src="data/usmap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    // =====================================================================
+    // ANALYST_FACTS — HAND-ENTERED, SOURCED (not live). Each figure carries a
+    // citation found via web verification (2026-06). Items that could not be
+    // independently verified are marked status:"review". Edit freely.
+    // =====================================================================
+    const ANALYST_FACTS = {
+      reviewed: "2026-06-26",
+      basins: [
+        { key:"Permian", color:"var(--permian)", share:"~48%", prod:"~6.6M bbl/d", breakeven:61, breakevenLabel:"$61–62 (Dallas Fed Q1-25)",
+          maturity:"Youngest & healthiest major oil basin",
+          inventory:"~100,000 locations (Enverus, Apr 2026); ~55k sub-$50/bbl; ~7–10 yrs runway",
+          growth:"Growth slowing",
+          operators:"<b>Midland:</b> ExxonMobil + Diamondback dominate. <b>Delaware:</b> EOG holds a leading position.",
+          src:"EIA (48%/6.6M, id=67404, 2026); Novi Labs / Enverus (inventory, 2025–26)" },
+        { key:"Bakken", color:"var(--bakken)", share:"~9%", prod:"~1.2M bbl/d", breakeven:63, breakevenLabel:"~$63 (Dallas Fed Q1-25)",
+          maturity:"Mature — peaked 2019, plateaued",
+          inventory:"~10 yrs at majors; ~1,400 sub-$50 locations left (Enverus)",
+          growth:"Extended via long laterals & refracs",
+          operators:"<b>Chord Energy</b> (largest, post-Enerplus), <b>Continental</b> (pioneer), Chevron (via Hess), ConocoPhillips.",
+          src:"EIA (9%/1.2M, id=67404); Enverus (~1,400 sub-$50, Aug 2024); RBN/Novi (peak 2019)" },
+        { key:"Eagle Ford", color:"var(--eagleford)", share:"~9%", prod:"~1.2M bbl/d", breakeven:62, breakevenLabel:"~$62 (Dallas Fed Q1-25)",
+          maturity:"Mature / disciplined",
+          inventory:"Tier-1 declining; refracs rising",
+          growth:"Near Gulf refineries & export docks",
+          operators:"<b>ConocoPhillips</b> (largest, via Marathon), EOG (4.6-mi record lateral), Crescent, BPX, Magnolia.",
+          src:"EIA (9%/1.2M, id=67404); EOG Q2-2025 call (4.6-mi lateral); operator 10-Ks" }
+      ],
+      gasNote:"🛢️ <b>Appalachia &amp; Haynesville</b> are mainly <b>natural-gas</b> basins, so they’re only tiny slivers on a <i>crude</i> chart — but giants on the gas chart. (EOG’s emerging <b>Utica oil window</b> is an exception.)",
+      crossBasin:"<b>ConocoPhillips</b> holds low-cost positions across the Permian, Eagle Ford and Bakken (FCF breakeven guided to the low-$30s/bbl by decade-end). <b>EOG</b> — the “godfather of shale” — models <b>~16 years</b> of inventory across its portfolio. <cite>ConocoPhillips investor materials; Novi Labs “EOG… 16 years of inventory,” Jun 2026.</cite>",
+      permian: {
+        headline:"The Permian is <b>~48% of all U.S. crude</b> and the majority of U.S. shale oil — so its staying power is the whole country’s story. <span class='prov sourced'>Sourced · Novi Labs / EIA · 2025–26</span>",
+        halves:{ midland:"<b>Midland (east):</b> older, more consolidated, more pressure-depleted — a larger share of remaining locations faces a productivity hit.",
+                 delaware:"<b>Delaware (west):</b> younger, thicker stacked rock, less depleted — more of its best locations are still intact." },
+        activity:"Drilling has crashed from the 2022 peak — <b>rigs down ~70%</b>, <b>frac crews down ~60%</b> by some 2025 counts.",
+        efficiency:"Efficiency masked the slowdown but is fading: more lateral feet per crew, but at today’s activity the basin adds fewer new feet/year than 2024, and productivity per foot has plateaued.",
+        inventory:"<b>~100,000 remaining locations</b>, ~55,000 of them break even below $50/bbl (Enverus, Apr 2026). About <b>7–10 years</b> at the current pace; basin “just over half drilled” (Novi Labs, May 2025).",
+        economics:"NPV25 breakevens ~$50 (Midland) / ~$52 (Delaware) (Novi Labs); new-well drill breakeven ~$61–62 (Dallas Fed Q1-2025). Most remaining inventory works below ~$70/bbl.",
+        economicsCaveat:"These are <b>half-cycle wellhead</b> breakevens. A company’s <i>full</i> breakeven (overhead, debt, dividends) is higher — why you hear “the Permian can’t survive at $60” even though many wells can.",
+        bottomLine:"Bottom line: the Permian is <b>not running out</b> (~20 yrs of inventory, most wells economic) but it <b>is maturing</b>. The era of relentless Permian-led U.S. growth is ending — it keeps taking share from costlier basins, but growing from here is hard.",
+        runway:{ start:2025, end:2045, today:2026, tier1End:2037, tier2End:2043 }
+      },
+      shortBasins: {
+        "Gulf of Mexico":{ color:"var(--gulf)", note:"<b>Federal offshore Gulf of Mexico</b> — <i>conventional</i> deepwater, not shale. Mature but long-lived: big multi-year projects (Whale, Anchor, Shenandoah) keep output near ~1.8M bbl/d. Long lead times, high upfront cost, low decline once online. <cite>EIA STEO regional series PAPRPGLF (live on the Production chart).</cite>" },
+        "Alaska":{ color:"var(--alaska)", note:"<b>Alaska (North Slope)</b> — <i>conventional</i>, in long structural decline from its 1988 peak (~2M bbl/d then, ~0.4M now). New projects (Willow, Pikka) aim to slow the decline rather than reverse it. <cite>EIA series PAPRPAK / MCRFPAK1 (live on the Production charts).</cite>" },
+        "Appalachia":{ color:"var(--appalachia)", note:"<b>Appalachia (Marcellus / Utica)</b> — the <b>largest U.S. natural-gas region</b> (~37 Bcf/d, ~31% of US gas), but barely a sliver of <i>crude</i>. Growth is capped by <b>pipeline constraints</b> out of the basin. See the Natural Gas tab for the real story. <cite>EIA (gas); STEO COPRAP (crude, live).</cite>" },
+        "Haynesville":{ color:"var(--haynesville)", note:"<b>Haynesville (LA / E. Texas)</b> — a <b>natural-gas</b> basin and the LNG <b>“swing” supplier</b> to the Gulf Coast (~15 Bcf/d). Tiny on a crude chart. It ramps up when LNG export demand and gas prices rise. <cite>EIA (gas); STEO COPRHA (crude, live).</cite>" }
+      }
+    };
+
+    // Citations table (Data & Sources panel) + needs-review list
+    const CITATIONS = [
+      { metric:"US crude production (history & latest)", type:"Live", source:"EIA — MCRFPUS2", as:"monthly, to latest" },
+      { metric:"Production by basin / region", type:"Live", source:"EIA STEO — COPRPM/BK/EF/AP/HA/R48, PAPRPGLF/PAK", as:"monthly" },
+      { metric:"State-level crude (proxy)", type:"Live", source:"EIA — MCRFPTX1/NM1/ND1/…", as:"annual, from 1981" },
+      { metric:"WTI price (monthly + daily spot)", type:"Live", source:"EIA — RWTC (= FRED DCOILWTICO)", as:"monthly + daily" },
+      { metric:"Real (inflation-adjusted) WTI", type:"Live", source:"BLS CPI CUSR0000SA0 (or FRED CPIAUCSL)", as:"monthly" },
+      { metric:"Natural gas production (marketed/dry)", type:"Live", source:"EIA — N9050US2 / N9070US2", as:"monthly" },
+      { metric:"Henry Hub gas price", type:"Live", source:"EIA — RNGWHHD", as:"monthly + daily" },
+      { metric:"S&P 500 (oil-vs-market chart)", type:"Live", source:"FRED — SP500", as:"monthly, ~10 yrs" },
+      { metric:"Drilling: rigs, wells drilled/completed, DUC, oil/rig", type:"Live", source:"EIA STEO Table 10a — RIGS/NWD/NWC/DUCS/CONWR ×6 regions", as:"monthly, by basin" },
+      { metric:"Basin shares (Permian 48%, Bakken/EF 9%)", type:"Sourced", source:"EIA Today in Energy id=67404 (Mar 2026)", as:"2025" },
+      { metric:"Basin breakevens (drill & shut-in)", type:"Sourced", source:"Dallas Fed Energy Survey Q1-2025 (dallasfed.org/research/energy11/permian)", as:"Q1 2025" },
+      { metric:"Permian inventory: ~100k locations, ~55k sub-$50/bbl", type:"Sourced", source:"Enverus IR via World Oil (Apr 15 2026) + Novi Labs (May 2025, “half drilled, 7–10 yrs”)", as:"2025–26" },
+      { metric:"Permian creaming curve (NPV25 breakeven vs locations)", type:"Sourced", source:"Enverus location counts + Novi Labs NPV25 breakevens (Delaware ~$52 / Midland ~$50)", as:"2026" },
+      { metric:"Bakken ~1,400 sub-$50 locations; mature", type:"Sourced", source:"Enverus (Aug 2024); RBN/Novi", as:"2024–25" },
+      { metric:"Eagle Ford operators; EOG 4.6-mi lateral", type:"Sourced", source:"EOG Q2-2025 call; SEC 10-Ks", as:"2025" },
+      { metric:"EOG ~16 yrs inventory; COP low-$30s breakeven", type:"Sourced", source:"Novi Labs (Jun 2026); ConocoPhillips IR", as:"2025–26" },
+      { metric:"Gas record 118 Bcf/d; LNG; data centers", type:"Sourced", source:"EIA TIE id=67345/67166/67484", as:"2025–26" },
+      { metric:"Henry Hub $7.72 Jan-2026 (polar vortex)", type:"Sourced", source:"EIA STEO press release (Feb 2026); NGI", as:"Jan 2026" },
+      { metric:"Outlook: oil plateau, gas growth, HH ~$3.80/2030", type:"Projection", source:"EIA STEO (Jun 2026) / AEO; bank forecasts", as:"forecast" }
+    ];
+    const NEEDS_REVIEW = [
+      "Permian inventory CORRECTED &amp; verified: ~100,000 remaining locations (~55,000 sub-$50/bbl), ~7–10 yrs runway — Enverus (Apr 2026, via World Oil) + Novi Labs (May 2025). The earlier “~200,000” was unsupported for the Permian alone (that scale is North-America-wide / all-tier).",
+      "Operator production shares are mostly boe/d (oil+gas+NGLs) on mixed gross/net bases — illustrative, not exact crude shares; a few EOG/Devon/APA basin-only splits are estimates.",
+      "“EOG largest in Delaware” softened to “leading position”; Bakken “3–4-mile laterals” confirmed directionally (long laterals + refracs), exact mileage not stated verbatim."
+    ];
+
+    // Top operators by approximate production (Mboe/d). SOURCED, 2024–25.
+    // boe/d (not crude) on mixed gross-operated / net bases — illustrative. (est)=estimate.
+    const OPERATORS = {
+      "Permian": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross-operated/net bases — illustrative, not exact crude shares.",
+        src:"Enverus & Rystad via Permian Basin O&G Magazine (Jan 2025); company filings (Diamondback, Permian Resources). EIA basin total ~6.6M bbl/d crude.",
+        data:[{n:"ExxonMobil",v:1960},{n:"Diamondback",v:915},{n:"Chevron",v:880},{n:"Occidental",v:820},{n:"ConocoPhillips",v:790},{n:"EOG",v:550,est:true}] },
+      "Bakken": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross/net — illustrative, not exact crude shares.",
+        src:"Company releases (Chord/Enerplus, Devon), Hart Energy, Rextag, AOGR (2024–25). EIA basin total ~1.2M bbl/d crude.",
+        data:[{n:"Chord Energy",v:287},{n:"Continental",v:210,est:true},{n:"Chevron (Hess)",v:200},{n:"ConocoPhillips",v:175,est:true},{n:"Devon",v:105}] },
+      "Eagle Ford": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross/net — illustrative, not exact crude shares.",
+        src:"SEC 8-Ks (ConocoPhillips, Crescent, Devon, Magnolia), Hart Energy (2024–25). EIA basin total ~1.2M bbl/d crude.",
+        data:[{n:"ConocoPhillips",v:390},{n:"Crescent",v:255},{n:"EOG",v:170,est:true},{n:"Devon",v:113},{n:"Magnolia",v:90},{n:"BPX",v:60,est:true}] },
+      "Gulf of Mexico": { unit:"kbbl/d oil", reviewed:"2026-06-26", note:"Operator totals (100% of operated-lease oil), so they overstate net economic share where fields are co-owned.",
+        src:"BSEE 'Production by Operator Ranked by Total Oil, 2024' (primary). Gulf total ~1.8M bbl/d.",
+        data:[{n:"Shell",v:483},{n:"BP",v:393},{n:"Chevron",v:213},{n:"Occidental",v:171},{n:"Murphy",v:107},{n:"Talos",v:91},{n:"LLOG",v:75}] },
+      "Alaska": { unit:"kbbl/d oil", reviewed:"2026-06-26", note:"Operated oil. Alaska is effectively a two-operator basin; Exxon & Chevron hold equity but operate little. Approximate.",
+        src:"AOGCC field data; Petroleum News; ConocoPhillips Alaska factsheet (2024–25). N. Slope total ~0.48M bbl/d.",
+        data:[{n:"Hilcorp",v:290,est:true},{n:"ConocoPhillips",v:195}] },
+      "Appalachia": { unit:"Bcf/d gas", reviewed:"2026-06-26", note:"Dry gas. Appalachia is a GAS basin (Marcellus/Utica) — tiny on a crude chart, a giant here.",
+        src:"NGI; Antero filings; company data via aggregators (2024–25). Region ~36.6 Bcf/d (EIA).",
+        data:[{n:"EQT",v:5.75},{n:"Antero",v:2.2},{n:"Coterra",v:2.0,est:true},{n:"Ascent",v:2.0,est:true},{n:"Range",v:1.9,est:true},{n:"CNX",v:1.3,est:true}] },
+      "Haynesville": { unit:"Bcf/d gas", reviewed:"2026-06-26", note:"Dry gas. Haynesville is a GAS basin (the LNG 'swing' supplier) — tiny on a crude chart.",
+        src:"Evaluate Energy; Novi Labs; NGI; AOGR (2025). Region ~14.9 Bcf/d (EIA).",
+        data:[{n:"Expand Energy",v:2.9},{n:"Aethon",v:2.1,est:true},{n:"TG Natural Res.",v:1.3,est:true},{n:"Comstock",v:1.23},{n:"BPX",v:0.76}] }
+    };
+    // top US oil producers (national), top US gas producers, and gas by region
+    const OIL_PRODUCERS = { unit:"k bbl/d or boe/d", reviewed:"2026-06-26",
+      note:"Supermajors (Exxon/Chevron/COP) are boe/d (oil+gas+NGLs) so their bars run high; independents are crude bbl/d. Net US production. (est)=estimate.",
+      src:"Company Q4/FY-2024 results (Exxon, Chevron, ConocoPhillips, Oxy, EOG, Diamondback, Devon, Permian Resources, APA, Coterra), Feb 2025.",
+      data:[{n:"Chevron",v:1599},{n:"ExxonMobil",v:1450,est:true},{n:"ConocoPhillips",v:1152},{n:"Occidental",v:571},{n:"EOG",v:485},{n:"Diamondback",v:480,est:true},{n:"Devon",v:325,est:true},{n:"Permian Res.",v:159},{n:"APA",v:140},{n:"Coterra",v:113}] };
+    const GAS_PRODUCERS = { unit:"Bcf/d gas", reviewed:"2026-06-26",
+      note:"US gas output. Expand, EQT and Antero are filing-based; others are order-of-magnitude estimates.",
+      src:"Expand & EQT filings; Antero 2Q24; secondary aggregators (2024–25).",
+      data:[{n:"Expand Energy",v:7.2},{n:"EQT",v:5.75},{n:"Coterra",v:2.7,est:true},{n:"ExxonMobil",v:2.6,est:true},{n:"Antero",v:2.2},{n:"Range",v:1.9,est:true},{n:"CNX",v:1.3,est:true},{n:"ConocoPhillips",v:1.2,est:true}] };
+    const GAS_BY_REGION = { unit:"Bcf/d", reviewed:"2026-06-26",
+      note:"Marketed gas by region, ~2025. Appalachia, Permian & Haynesville are firm (EIA); smaller regions are estimates (EIA buckets them into 'rest of L48').",
+      src:"EIA Today in Energy id=67345 (Mar 2026); EIA id=64984. US total ~118 Bcf/d.",
+      data:[{n:"Appalachia",v:36.6},{n:"Permian",v:27.7},{n:"Haynesville",v:14.9},{n:"Eagle Ford",v:6.9},{n:"Rockies/Niobrara",v:6.5,est:true},{n:"Anadarko",v:5.5,est:true},{n:"Bakken",v:3.5,est:true},{n:"Barnett",v:3.0,est:true},{n:"Gulf/Other",v:13.4,est:true}] };
+
+    // =====================================================================
+    // EVENTS (oil price markers) — unchanged content, red markers
+    // =====================================================================
+    const EVENTS = [
+      { id:"gulf90", date:"1990-08", title:"Gulf War — Iraq invades Kuwait",
+        what:"Iraq invaded Kuwait in August 1990, knocking ~4 million barrels/day off the market and threatening Saudi supply.",
+        why:"A sudden loss of Middle East supply plus fear of a wider war sent prices sharply higher until the U.S.-led coalition restored confidence in early 1991.",
+        price:"Spike: ~$17 → ~$36/bbl, then fell back through 1991.",
+        basin:"Pre-shale era — U.S. fields (Texas, California, Alaska) were in long decline. High prices gave brief relief but triggered no new basin boom." },
+      { id:"bust98", date:"1998-12", title:"1998 price collapse (~$11/bbl)",
+        what:"Oil fell to about $11 a barrel — one of the lowest real prices in modern history.",
+        why:"The Asian financial crisis crushed demand just as OPEC overproduced.",
+        price:"Crash: down to ~$11/bbl.",
+        basin:"Brutal for U.S. producers; thousands of marginal “stripper” wells were plugged." },
+      { id:"iraq03", date:"2003-03", title:"2003 Iraq War",
+        what:"The U.S.-led invasion of Iraq disrupted Iraqi exports and stoked supply fears.",
+        why:"Supply uncertainty added a risk premium; prices climbed through the mid-2000s as China’s demand surged.",
+        price:"Sustained rise: ~$30 → higher through the 2000s.",
+        basin:"U.S. production kept declining — shale hadn’t arrived; deepwater Gulf was the growth area." },
+      { id:"peak08", date:"2008-07", title:"2008 spike to ~$147, then the crash",
+        what:"Prices peaked near ~$147 in July 2008, then collapsed as the financial crisis hit.",
+        why:"Booming demand and tight supply drove the spike; the crisis then vaporized demand, sending prices to ~$30 by December.",
+        price:"Spike to ~$147, then crash to ~$30/bbl.",
+        basin:"Pivotal timing: the Bakken and Eagle Ford were just starting; the crash slowed early shale but proved the tech." },
+      { id:"boom1014", start:"2010-01", end:"2014-06", title:"2010–2014 Shale Boom",
+        what:"Horizontal drilling + fracking unlocked oil from dense rock. U.S. production roughly doubled.",
+        why:"Sustained ~$90–100 prices made shale hugely profitable, triggering a drilling rush.",
+        price:"Prices held high (~$90–110).",
+        basin:"The defining basin event: Permian, Bakken and Eagle Ford surged from minor to major, reversing 40 years of decline." },
+      { id:"opec1416", start:"2014-11", end:"2016-02", title:"2014–2016 OPEC price war & oversupply crash",
+        what:"OPEC refused to cut output and defended share against U.S. shale; prices crashed from ~$100 to ~$26.",
+        why:"Saudi Arabia bet low prices would bankrupt higher-cost shale faster than it hurt OPEC.",
+        price:"Crash: ~$100 → ~$26/bbl.",
+        basin:"Rig counts collapsed; higher-cost Bakken/Eagle Ford fell hardest; the low-cost <b>Permian</b> proved most resilient." },
+      { id:"covid20", date:"2020-04", title:"2020 COVID demand collapse — negative prices",
+        what:"Lockdowns erased demand; on April 20, 2020 WTI futures briefly went <b>negative</b> (~–$37).",
+        why:"With nowhere to store oil, sellers paid buyers to take it; a Saudi–Russia price war worsened the glut.",
+        price:"Historic crash: monthly avg ~$17; futures hit –$37 intraday.",
+        basin:"Producers shut in wells across every basin; U.S. output dropped 2–3 Mbbl/d before recovering." },
+      { id:"ukraine22", date:"2022-02", title:"2022 Russia invades Ukraine",
+        what:"Russia’s invasion and the sanctions that followed threatened to remove a major exporter.",
+        why:"Fear of losing Russian barrels plus a post-COVID rebound sent prices above $120.",
+        price:"Spike: above $120/bbl in spring 2022.",
+        basin:"U.S. producers (led by the Permian) raised output, but capital discipline kept the response measured." }
+    ];
+    const RECESSIONS = [ {start:"1990-07",end:"1991-03"}, {start:"2001-03",end:"2001-11"}, {start:"2007-12",end:"2009-06"}, {start:"2020-02",end:"2020-04"} ];
+
+    const TOTAL=window.TOTAL_US_DATA, BAS=window.BASINS_DATA, ST=window.STATES_DATA,
+          WTI=window.WTI_DATA, GAS=window.NATGAS_DATA, SP=window.SP500_DATA;
+    if (!WTI || !WTI.data || !WTI.data.length) { document.getElementById('empty').hidden=false; return; }
+
+    // ---- palette ----
+    const COLORS = { "Permian":"#c8102e","Bakken":"#33373d","Eagle Ford":"#4f7186","Appalachia":"#8d8a5e",
+      "Haynesville":"#b08968","Rest of L48 (Conventional)":"#9aa1ab","Federal Gulf":"#6f93ab","Alaska":"#7a5c8a" };
+    const STATE_COLORS = ["#c8102e","#4f7186","#8d8a5e","#b08968","#7a5c8a","#6f93ab","#33373d","#9aa1ab","#a0522d","#3f7d6e"];
+    const RED="#c8102e", STEEL="#4f7186";
+    Chart.defaults.font.family='"IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    Chart.defaults.color='#5b626d';
+
+    // ---- helpers (shared) ----
+    function clampLabel(t,set,dir){ if(set.has(t))return t; const a=Array.from(set).sort();
+      if(dir==='lo'){for(let i=0;i<a.length;i++)if(a[i]>=t)return a[i];return a[a.length-1];}
+      for(let i=a.length-1;i>=0;i--)if(a[i]<=t)return a[i];return a[0]; }
+    function hexA(hex,a){ const h=hex.replace('#','');
+      return 'rgba('+parseInt(h.slice(0,2),16)+','+parseInt(h.slice(2,4),16)+','+parseInt(h.slice(4,6),16)+','+a+')'; }
+    function xCat(){ return { type:'category', grid:{display:false},
+      ticks:{ maxTicksLimit:12, autoSkip:true, callback:function(v){const l=this.getLabelForValue(v);return l?String(l).slice(0,4):l;} } }; }
+    function eventAnnotations(set,opts){ const ann={};
+      RECESSIONS.forEach((r,i)=>{ if(!set.has(r.start)&&!set.has(r.end))return;
+        ann['rec'+i]={type:'box',xMin:clampLabel(r.start,set,'lo'),xMax:clampLabel(r.end,set,'hi'),backgroundColor:'rgba(91,98,109,0.10)',borderWidth:0}; });
+      EVENTS.forEach((e,i)=>{ const num=i+1;
+        if(e.date){ if(!set.has(e.date))return;
+          ann['ev'+e.id]={type:'line',xMin:e.date,xMax:e.date,borderColor:'rgba(200,16,46,0.55)',borderWidth:1.5,borderDash:[3,3],
+            label:{display:true,content:String(num),position:'start',backgroundColor:RED,color:'#fff',font:{size:10,weight:'bold'},padding:{top:1,bottom:1,left:5,right:5},borderRadius:9,yAdjust:2},
+            enter:()=>opts.onHover(e.id), click:()=>opts.onClick(e.id)};
+        } else if(e.start){ const lo=clampLabel(e.start,set,'lo'),hi=clampLabel(e.end,set,'hi'); if(!lo||!hi)return;
+          ann['ev'+e.id]={type:'box',xMin:lo,xMax:hi,backgroundColor:'rgba(200,16,46,0.07)',borderColor:'rgba(200,16,46,0.35)',borderWidth:1,
+            label:{display:true,content:String(num),position:{x:'center',y:'start'},backgroundColor:RED,color:'#fff',font:{size:10,weight:'bold'},padding:{top:1,bottom:1,left:5,right:5},borderRadius:9},
+            enter:()=>opts.onHover(e.id), click:()=>opts.onClick(e.id)}; }
+      }); return ann; }
+    function renderDetail(suffix,id){ const e=EVENTS.find(x=>x.id===id),p=document.getElementById('detail-'+suffix); if(!p||!e)return;
+      const num=EVENTS.indexOf(e)+1, when=e.date?e.date:(e.start+' → '+e.end);
+      p.querySelector('.ed-head').innerHTML='<span class="ed-title"><span style="color:var(--accent)">#'+num+'</span> '+e.title+'</span><span class="ed-date">'+when+'</span>';
+      const body=p.querySelector('.ed-body');
+      body.innerHTML='<div class="ed-label">What happened</div><p>'+e.what+'</p><div class="ed-label">Why the price moved</div><p>'+e.why+'</p><div class="ed-label">Price effect</div><p class="ed-price">'+e.price+'</p><div class="ed-label">Basin impact</div><p>'+e.basin+'</p>';
+      const mb=document.createElement('button'); mb.className='more-btn'; mb.type='button'; mb.textContent='🔍 More detail';
+      mb.addEventListener('click',()=>openEventModal(id)); body.appendChild(mb);
+      const row=document.getElementById('chips-'+suffix); if(row)row.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.ev===id)); }
+
+    // ---- event detail modal (quantifies the price move from live WTI data) ----
+    const WTI_MONTH={}; (window.WTI_DATA.data||[]).forEach(r=>WTI_MONTH[r.date]=r.price);
+    function addMonths(ym,n){ let y=+ym.slice(0,4), m=+ym.slice(5,7)-1+n; y+=Math.floor(m/12); m=((m%12)+12)%12; return y+'-'+String(m+1).padStart(2,'0'); }
+    function priceNear(ym){ for(let i=0;i<6;i++){ if(WTI_MONTH[ym]!=null)return {d:ym,p:WTI_MONTH[ym]}; ym=addMonths(ym,1);} return null; }
+    let evModalChart=null;
+    function openEventModal(id){
+      const e=EVENTS.find(x=>x.id===id); if(!e)return;
+      const num=EVENTS.indexOf(e)+1, when=e.date?e.date:(e.start+' → '+e.end);
+      document.getElementById('evm-title').textContent='#'+num+'  '+e.title;
+      document.getElementById('evm-when').textContent=when;
+      const anchor=e.date||e.start, endA=e.date?addMonths(e.date,6):e.end;
+      const p0=priceNear(anchor), p1=priceNear(endA);
+      let statHTML='';
+      if(p0&&p1){ const chg=(p1.p-p0.p)/p0.p*100, up=chg>=0;
+        statHTML='<div class="modal-stat">'+
+          '<div class="ms"><div class="v">$'+p0.p.toFixed(0)+'</div><div class="l">WTI at '+p0.d+'</div></div>'+
+          '<div class="ms"><div class="v">$'+p1.p.toFixed(0)+'</div><div class="l">WTI at '+p1.d+'</div></div>'+
+          '<div class="ms"><div class="v '+(up?'up':'down')+'">'+(up?'+':'')+chg.toFixed(0)+'%</div><div class="l">change</div></div></div>';
+      }
+      document.getElementById('evm-body').innerHTML=
+        '<div class="ed-label">What happened</div><p>'+e.what+'</p>'+
+        '<div class="ed-label">Why the price moved</div><p>'+e.why+'</p>'+
+        statHTML+
+        '<div class="ed-label">Price effect (analyst note)</div><p style="color:var(--accent-dk);font-weight:600">'+e.price+'</p>'+
+        '<div class="ed-label">How it hit the basins</div><p>'+e.basin+'</p>'+
+        '<div class="ed-label">WTI around this event (live EIA)</div><div class="modal-spark"><canvas id="evm-spark"></canvas></div>';
+      // sparkline window: anchor-15mo .. endA+15mo
+      const lo=addMonths(anchor,-15), hi=addMonths(endA,15);
+      const labels=(window.WTI_DATA.data||[]).map(r=>r.date).filter(d=>d>=lo&&d<=hi);
+      const vals=labels.map(d=>WTI_MONTH[d]);
+      if(evModalChart){ try{evModalChart.destroy();}catch(x){} }
+      evModalChart=new Chart(document.getElementById('evm-spark'),{ type:'line',
+        data:{ labels, datasets:[{ data:vals, borderColor:'#e63950', borderWidth:1.8, pointRadius:0, fill:true, backgroundColor:'rgba(230,57,80,0.10)', tension:0.15 }] },
+        options:{ responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>'$'+c.parsed.y.toFixed(2)}},
+            annotation:{ annotations:{ ev:{ type:'line', xMin:anchor, xMax:anchor, borderColor:'#ff7184', borderWidth:1.5, borderDash:[3,3] } } } },
+          scales:{ x:{ grid:{display:false}, ticks:{maxTicksLimit:6,callback:function(v){const l=this.getLabelForValue(v);return l?l.slice(0,7):l;}} },
+            y:{ grid:{color:'#e6e8eb'}, ticks:{callback:v=>'$'+v} } } } });
+      document.getElementById('ev-modal').classList.add('open');
+    }
+    function closeEventModal(){ document.getElementById('ev-modal').classList.remove('open'); if(evModalChart){try{evModalChart.destroy();}catch(x){} evModalChart=null;} }
+    document.getElementById('evm-close').addEventListener('click',closeEventModal);
+    document.getElementById('ev-modal').addEventListener('click',function(ev){ if(ev.target===this) closeEventModal(); });
+    document.addEventListener('keydown',function(ev){ if(ev.key==='Escape') closeEventModal(); });
+    function buildChips(suffix,onPick){ const row=document.getElementById('chips-'+suffix); if(!row||row.childElementCount)return;
+      EVENTS.forEach((e,i)=>{ const c=document.createElement('button'); c.className='chip'; c.dataset.ev=e.id;
+        c.innerHTML='<span class="num">'+(i+1)+'</span>'+e.title.split('—')[0].split('(')[0].trim(); c.addEventListener('click',()=>onPick(e.id)); row.appendChild(c); }); }
+    function buildRange(chart,labels,sel,presets){ const h=document.querySelector(sel); if(!h||h.childElementCount)return;
+      presets.forEach((p,idx)=>{ const b=document.createElement('button'); b.textContent=p.label; if(idx===presets.length-1)b.classList.add('active');
+        b.addEventListener('click',()=>{ h.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+          if(p.months==null){chart.options.scales.x.min=undefined;chart.options.scales.x.max=undefined;}
+          else{const s=Math.max(0,labels.length-p.months);chart.options.scales.x.min=labels[s];chart.options.scales.x.max=labels[labels.length-1];}
+          chart.update(); }); h.appendChild(b); }); }
+    function buildTypeToggle(chart,sel,idxs,def){ const h=document.querySelector(sel); if(!h||h.childElementCount)return;
+      [['Line','line'],['Area','area'],['Bar','bar']].forEach(([lab,m])=>{ const b=document.createElement('button'); b.textContent=lab; if(m===(def||'area'))b.classList.add('active');
+        b.addEventListener('click',()=>{ h.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+          idxs.forEach(i=>{const ds=chart.data.datasets[i]; if(!ds)return; if(m==='bar'){ds.type='bar';ds.fill=false;}else if(m==='area'){ds.type='line';ds.fill=true;}else{ds.type='line';ds.fill=false;}});
+          chart.update(); }); h.appendChild(b); }); }
+
+    // =====================================================================
+    // HEADLINE STATS + state-of-union
+    // =====================================================================
+    document.getElementById('headline-stats').hidden=false;
+    document.getElementById('foot').hidden=false;
+    const spot = WTI.spot_latest && WTI.spot_latest.price!=null ? WTI.spot_latest : null;
+    const currentWTI = spot ? spot.price : WTI.latest.price;
+    if (TOTAL && TOTAL.latest){
+      document.getElementById('hs-oil').innerHTML = TOTAL.latest.value.toFixed(2)+' <small>Mbbl/d</small>';
+      document.getElementById('hs-oil-sub').textContent = 'EIA · '+TOTAL.latest.date;
+    }
+    document.getElementById('hs-wti').innerHTML = '$'+currentWTI.toFixed(2);
+    document.getElementById('hs-wti-sub').textContent = spot ? ('spot · '+spot.date) : ('monthly · '+WTI.latest.date);
+    const hh = GAS && GAS.henry_hub ? GAS.henry_hub : null;
+    const hhSpot = hh && hh.spot_latest ? hh.spot_latest : (hh && hh.latest ? hh.latest : null);
+    if (hhSpot){ document.getElementById('hs-gas').innerHTML='$'+hhSpot.price.toFixed(2)+' <small>/MMBtu</small>';
+      document.getElementById('hs-gas-sub').textContent='Henry Hub · '+hhSpot.date; }
+    const gasMk = GAS && GAS.production && GAS.production.latest_marketed ? GAS.production.latest_marketed : null;
+    document.getElementById('state-of-union').innerHTML =
+      'The U.S. is the world’s top producer of both oil and gas. Crude output sits near a record <b>'+(TOTAL?TOTAL.latest.value.toFixed(1):'13.7')+
+      ' million bbl/d</b>, led by the Permian (~48%), but growth is flattening as the basin matures. Natural gas, by contrast, is <b>booming</b> — a record <b>'+
+      (gasMk?gasMk.value.toFixed(0):'~118')+' Bcf/d</b> marketed, pulled higher by LNG exports and AI data-center power demand. In short: <b>oil is maturing toward a plateau; gas is the growth engine.</b>';
+
+    if (TOTAL && TOTAL.latest){
+      const pools=Math.round(TOTAL.latest.value*1e6*42/660000);
+      document.getElementById('bignum').innerHTML='Right now the U.S. pumps <span class="n">'+TOTAL.latest.value.toFixed(1)+
+        ' million barrels of crude a day</span> — about <span class="n">'+pools.toLocaleString()+
+        ' Olympic pools’ worth daily</span> — plus <span class="n">'+(gasMk?gasMk.value.toFixed(0):'~118')+
+        ' Bcf/d of natural gas</span>, both world records. A barrel is 42 gallons.';
+    }
+    document.getElementById('updated').textContent='Page data last refreshed: '+(TOTAL?TOTAL.last_updated:WTI.last_updated);
+
+    const realNoteEl=document.getElementById('real-note');
+    let pNote = spot ? ('Headline is the <b>latest daily spot</b> ($'+spot.price.toFixed(2)+' on '+spot.date+'). This chart shows <b>monthly averages</b>, so its last point ($'+WTI.latest.price.toFixed(2)+' for '+WTI.latest.date+') is an average. ') : '';
+    realNoteEl.innerHTML = pNote + (WTI.real_available ? ('Lines: <b>nominal</b> (solid) and <b>inflation-adjusted</b> (dashed). '+(WTI.real_note||'')) : (WTI.real_note||''));
+
+    // =====================================================================
+    // SOURCES TABLE + needs-review
+    // =====================================================================
+    (function(){ const tb=document.getElementById('sources-tbody');
+      tb.innerHTML=CITATIONS.map(c=>{ const cls=c.type==='Sourced'?'sourced':(c.type==='Projection'?'proj':'live');
+        return '<tr><td>'+c.metric+'</td><td><span class="prov '+cls+'">'+c.type+'</span></td><td>'+c.source+'</td><td>'+c.as+'</td></tr>'; }).join('');
+      document.getElementById('needs-review-list').innerHTML = NEEDS_REVIEW.map(x=>x).join(' &nbsp;•&nbsp; ');
+    })();
+
+    // =====================================================================
+    // MAP (illustrative, clickable)
+    // =====================================================================
+    // marker coords are in the real US-map viewBox (192 9 1028 746), derived
+    // from actual state geometry in _buildmap.py.
+    const MAP_BASINS = [
+      { key:"Permian",     v:"--permian",     x:638, y:466, ldx:-22, ldy:5,  anchor:"end",    label:"Permian",     sub:"W. Texas / SE NM" },
+      { key:"Bakken",      v:"--bakken",      x:681, y:102, ldx:22,  ldy:5,  anchor:"start",  label:"Bakken",      sub:"ND / MT" },
+      { key:"Eagle Ford",  v:"--eagleford",   x:708, y:543, ldx:0,   ldy:30, anchor:"middle", label:"Eagle Ford",  sub:"S. Texas" },
+      { key:"Appalachia",  v:"--appalachia",  x:1039,y:242, ldx:22,  ldy:5,  anchor:"start",  label:"Appalachia",  sub:"PA / WV / OH" },
+      { key:"Haynesville", v:"--haynesville", x:821, y:443, ldx:22,  ldy:5,  anchor:"start",  label:"Haynesville", sub:"LA / E. Texas" }
+    ];
+    // secondary US basins/plays (informational; Gulf & Alaska are clickable to their notes)
+    const MAP_EXTRA = [
+      { key:"Anadarko",       x:694, y:369, dx:13,  anchor:"start",  label:"Anadarko" },
+      { key:"DJ / Niobrara",  x:632, y:263, dx:13,  anchor:"start",  label:"DJ / Niobrara" },
+      { key:"Powder River",   x:613, y:161, dx:13,  anchor:"start",  label:"Powder River" },
+      { key:"Uinta",          x:516, y:240, dx:-12, anchor:"end",    label:"Uinta" },
+      { key:"San Juan",       x:535, y:340, dx:-12, anchor:"end",    label:"San Juan" },
+      { key:"California",     x:369, y:305, dx:-12, anchor:"end",    label:"California" },
+      { key:"Gulf of Mexico", x:854, y:550, dx:13,  anchor:"start",  label:"Gulf of Mexico", click:true },
+      { key:"Alaska",         x:357, y:515, dx:13,  anchor:"start",  label:"Alaska", click:true }
+    ];
+    function buildMap(wrapId, legendId, onPick){
+      const wrap=document.getElementById(wrapId); if(!wrap||wrap.dataset.built||!window.US_MAP)return; wrap.dataset.built='1';
+      let mk=""; MAP_BASINS.forEach(b=>{
+        mk+='<g class="mk" data-basin="'+b.key+'"><circle cx="'+b.x+'" cy="'+b.y+'" r="13" fill="var('+b.v+')" stroke="#ffffff" stroke-width="3"/>'+
+          '<text class="mlabel" x="'+(b.x+b.ldx)+'" y="'+(b.y+b.ldy)+'" text-anchor="'+b.anchor+'">'+b.label+'</text>'+
+          '<text class="msub" x="'+(b.x+b.ldx)+'" y="'+(b.y+b.ldy+19)+'" text-anchor="'+b.anchor+'">'+b.sub+'</text></g>'; });
+      let mk2=""; MAP_EXTRA.forEach(b=>{
+        const cls = b.click ? 'mk mk2' : 'mk2';
+        mk2+='<g class="'+cls+'" data-basin="'+b.key+'"><circle cx="'+b.x+'" cy="'+b.y+'" r="6.5" fill="#7d8088" stroke="#ffffff" stroke-width="2"/>'+
+          '<text class="mlabel2" x="'+(b.x+b.dx)+'" y="'+(b.y+4)+'" text-anchor="'+b.anchor+'">'+b.label+'</text></g>'; });
+      wrap.innerHTML='<svg class="usmap" viewBox="'+US_MAP.viewBox+'" role="img" aria-label="Map of major US oil basins">'+
+        '<g class="states">'+US_MAP.states+'</g>'+mk2+mk+'</svg>';
+      wrap.querySelectorAll('.mk').forEach(g=>g.addEventListener('click',()=>onPick(g.dataset.basin)));
+      const lg=document.getElementById(legendId); if(lg){ lg.innerHTML=MAP_BASINS.map(b=>'<span data-basin="'+b.key+'"><i class="dot-sw" style="background:var('+b.v+')"></i>'+b.label+'</span>').join('')
+          + '<span style="color:var(--faint)"><i class="dot-sw" style="background:#7d8088"></i>other US basins</span>';
+        lg.querySelectorAll('span[data-basin]').forEach(s=>s.addEventListener('click',()=>onPick(s.dataset.basin))); }
+    }
+
+    // =====================================================================
+    // TAB CONTROLLER (lazy-build charts when a tab is first shown)
+    // =====================================================================
+    const TABS=['overview','primer','production','basins','inventory','prices','gas','outlook'];
+    const built={};
+    const BUILDERS={ overview:buildOverview, production:buildProduction, basins:buildBasins, inventory:buildInventory, prices:buildPrices, gas:buildGas, outlook:buildOutlook };
+    function showTab(name){
+      TABS.forEach(t=>{ const el=document.getElementById('tab-'+t); if(el) el.hidden=(t!==name); });
+      document.querySelectorAll('#tabbar a').forEach(a=>a.classList.toggle('active',a.dataset.tab===name));
+      if(!built[name]){ built[name]=true; try{ (BUILDERS[name]||function(){})(); }catch(err){ console.error('tab build error',name,err); } }
+      window.scrollTo(0,0);
+    }
+    document.querySelectorAll('#tabbar a').forEach(a=>a.addEventListener('click',()=>showTab(a.dataset.tab)));
+
+    let selectBasinExternal=null;
+    function openBasin(key){ showTab('basins'); if(selectBasinExternal) selectBasinExternal(key); }
+
+    // ===================== BUILD: OVERVIEW =====================
+    function buildOverview(){
+      buildMap('map-overview','legend-overview',openBasin);
+      if (BAS && BAS.regions){
+        const cutoff=BAS.actuals_through||(BAS.regions[0].data.slice(-1)[0]||{}).date;
+        const items=BAS.regions.map(r=>{ let v=0; for(let i=r.data.length-1;i>=0;i--){if(r.data[i].date<=cutoff){v=r.data[i].value;break;}} return {name:r.name,value:v}; })
+          .filter(x=>x.value>0).sort((a,b)=>b.value-a.value);
+        const total=items.reduce((s,x)=>s+x.value,0);
+        document.getElementById('snap-asof').textContent='Live · '+cutoff;
+        new Chart(document.getElementById('chartSnap'),{ type:'doughnut',
+          data:{ labels:items.map(x=>x.name), datasets:[{ data:items.map(x=>x.value), backgroundColor:items.map(x=>COLORS[x.name]||'#9aa1ab'), borderColor:'#ffffff', borderWidth:2 }] },
+          options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
+            plugins:{ legend:{position:'right',labels:{boxWidth:11,padding:7,font:{size:11.5}}},
+              tooltip:{callbacks:{label:c=>c.label+': '+c.parsed.toFixed(2)+' Mbbl/d ('+(c.parsed/total*100).toFixed(0)+'%)'}} } } });
+      }
+    }
+
+    // ===================== BUILD: PRODUCTION =====================
+    let chartB, chartC;
+    function buildProduction(){
+      // B total
+      if (TOTAL && TOTAL.data && TOTAL.data.length){
+        const labels=TOTAL.data.map(r=>r.date), set=new Set(labels);
+        document.getElementById('b-range').textContent=labels[0]+' – '+labels[labels.length-1];
+        document.getElementById('b-asof').textContent='Live · EIA · '+labels[labels.length-1];
+        const pick=id=>renderDetail('B',id); buildChips('B',pick);
+        chartB=new Chart(document.getElementById('chartB'),{ type:'line',
+          data:{labels,datasets:[{label:'US crude production',data:TOTAL.data.map(r=>r.value),borderColor:RED,borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:hexA(RED,0.08),tension:0.1}]},
+          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+            plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.parsed.y.toFixed(2)+' Mbbl/d'}},annotation:{annotations:eventAnnotations(set,{onHover:pick,onClick:pick})}},
+            scales:{x:xCat(),y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'million barrels / day',color:'#9aa1ab',font:{size:11}}}}}});
+        buildTypeToggle(chartB,'[data-type-for="chartB"]',[0],'area');
+        buildRange(chartB,labels,'[data-range-for="chartB"]',[{label:'5Y',months:60},{label:'10Y',months:120},{label:'25Y',months:300},{label:'All',months:null}]);
+      }
+      // D states
+      if (ST && ST.states && ST.states.length){
+        const years=ST.states.reduce((a,s)=>s.data.length>a.length?s.data.map(p=>p.year):a,[]);
+        const idx={}; years.forEach((y,i)=>idx[y]=i);
+        const ds=ST.states.map((s,i)=>{ const arr=new Array(years.length).fill(null); s.data.forEach(p=>{if(p.year in idx)arr[idx[p.year]]=p.value;});
+          const col=STATE_COLORS[i%STATE_COLORS.length]; return {label:s.name,data:arr,borderColor:col,backgroundColor:hexA(col,0.18),borderWidth:1.6,pointRadius:0,fill:false,tension:0.1}; });
+        document.getElementById('d-range').textContent=years[0]+' – '+years[years.length-1];
+        document.getElementById('d-asof').textContent='Live · EIA · '+years[years.length-1];
+        const chartD=new Chart(document.getElementById('chartD'),{type:'line',data:{labels:years,datasets:ds},
+          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+            plugins:{legend:{position:'bottom',labels:{boxWidth:12,boxHeight:12,padding:9,font:{size:11.5}}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+(c.parsed.y==null?'n/a':c.parsed.y.toFixed(3)+' Mbbl/d')}}},
+            scales:{x:{grid:{display:false},ticks:{maxTicksLimit:12,autoSkip:true}},y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'million bbl/day (annual avg)',color:'#9aa1ab',font:{size:11}}}}}});
+        buildTypeToggle(chartD,'[data-type-for="chartD"]',ST.states.map((s,i)=>i),'line');
+        buildRange(chartD,years,'[data-range-for="chartD"]',[{label:'10Y',months:10},{label:'25Y',months:25},{label:'All',months:null}]);
+      }
+      // C basins stacked
+      buildBasinStack();
+      // top US oil producers (national)
+      barChartH('chartOilCos', OIL_PRODUCERS, RED);
+      const oc=document.getElementById('oilcos-src'); if(oc)oc.textContent=OIL_PRODUCERS.note+' '+OIL_PRODUCERS.src+' · last reviewed '+OIL_PRODUCERS.reviewed;
+    }
+
+    let basinMode='amount';
+    function buildBasinStack(){
+      if (!(BAS && BAS.regions && BAS.regions.length)) return;
+      let commonStart='0000-00'; BAS.regions.forEach(r=>{if(r.data.length&&r.data[0].date>commonStart)commonStart=r.data[0].date;});
+      const labels=BAS.regions.find(r=>r.data.length&&r.data[0].date===commonStart).data.map(p=>p.date);
+      const set=new Set(labels), idx={}; labels.forEach((d,i)=>idx[d]=i);
+      const datasets=BAS.regions.map(r=>{ const arr=new Array(labels.length).fill(null); r.data.forEach(p=>{if(p.date in idx)arr[idx[p.date]]=p.value;});
+        const col=COLORS[r.name]||'#9aa1ab'; return {label:r.name,data:arr,borderColor:col,backgroundColor:hexA(col,0.6),borderWidth:1,pointRadius:0,fill:true,tension:0.1}; });
+      const N=labels.length, totals=new Array(N).fill(0);
+      datasets.forEach(ds=>ds.data.forEach((v,i)=>{totals[i]+=(v||0);}));
+      datasets.forEach(ds=>{ds._raw=ds.data.slice();ds._pct=ds.data.map((v,i)=>totals[i]?+(v/totals[i]*100).toFixed(3):null);});
+      document.getElementById('c-range').textContent=labels[0]+' – '+labels[labels.length-1];
+      document.getElementById('c-asof').textContent='Live · EIA · '+(BAS.actuals_through||labels[labels.length-1]);
+      if(BAS.actuals_through)document.getElementById('forecast-hint').textContent='Shaded right strip = STEO forecast after '+BAS.actuals_through+'.';
+      const pick=id=>renderDetail('C',id); buildChips('C',pick);
+      const ann=eventAnnotations(set,{onHover:pick,onClick:pick});
+      if(BAS.actuals_through){ ann['forecast']={type:'box',xMin:clampLabel(BAS.actuals_through,set,'lo'),xMax:labels[labels.length-1],backgroundColor:'rgba(91,98,109,0.07)',borderWidth:0,
+        label:{display:true,content:'forecast →',position:{x:'end',y:'start'},color:'#9aa1ab',font:{size:10,style:'italic'},backgroundColor:'transparent'}}; }
+      chartC=new Chart(document.getElementById('chartC'),{type:'line',data:{labels,datasets},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+          plugins:{legend:{position:'bottom',labels:{boxWidth:12,boxHeight:12,padding:12,font:{size:12}},
+            onClick:(e,item,legend)=>{const ci=legend.chart,all=ci.data.datasets;const only=all.every((d,i)=>i===item.datasetIndex?ci.isDatasetVisible(i):!ci.isDatasetVisible(i));
+              if(only)all.forEach((d,i)=>ci.setDatasetVisibility(i,true));else all.forEach((d,i)=>ci.setDatasetVisibility(i,i===item.datasetIndex));ci.update();}},
+            tooltip:{callbacks:{title:c=>c[0].label,label:c=>{const ds=c.dataset;if(basinMode==='share'){const raw=ds._raw[c.dataIndex];return ds.label+': '+(c.parsed.y==null?'n/a':c.parsed.y.toFixed(1)+'%')+(raw!=null?' ('+raw.toFixed(2)+' Mbbl/d)':'');}return ds.label+': '+(c.parsed.y==null?'n/a':c.parsed.y.toFixed(3)+' Mbbl/d');}}},
+            annotation:{annotations:ann}},
+          scales:{x:xCat(),y:{stacked:true,min:undefined,ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'million barrels / day',color:'#9aa1ab',font:{size:11}}}}}});
+      function setMode(mode){ basinMode=mode;
+        chartC.data.datasets.forEach(ds=>{ if(mode==='share'){ds.data=ds._pct;ds.fill=true;}else if(mode==='amount'){ds.data=ds._raw;ds.fill=true;}else{ds.data=ds._raw;ds.fill=false;} });
+        const y=chartC.options.scales.y;
+        if(mode==='compare'){y.stacked=false;y.min=undefined;y.max=undefined;y.title.text='million barrels / day';y.ticks.callback=v=>v;}
+        else if(mode==='share'){y.stacked=true;y.min=0;y.max=100;y.title.text='share of US total (%)';y.ticks.callback=v=>v+'%';}
+        else{y.stacked=true;y.min=undefined;y.max=undefined;y.title.text='million barrels / day';y.ticks.callback=v=>v;}
+        chartC.update(); }
+      const mh=document.querySelector('[data-mode-for="chartC"]');
+      if(mh && !mh.childElementCount)[['Amount','amount'],['Share %','share'],['Compare','compare']].forEach(([lab,m])=>{const b=document.createElement('button');b.textContent=lab;if(m==='amount')b.classList.add('active');
+        b.addEventListener('click',()=>{mh.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');setMode(m);});mh.appendChild(b);});
+      buildRange(chartC,labels,'[data-range-for="chartC"]',[{label:'5Y',months:60},{label:'10Y',months:120},{label:'All',months:null}]);
+    }
+
+    // ===================== BUILD: BASINS =====================
+    function buildBasins(){
+      buildMap('map-basins','legend-basins',selectBasin);
+      // selector buttons
+      const sel=document.getElementById('basinsel');
+      const order=["Permian","Bakken","Eagle Ford","Gulf of Mexico","Alaska","Appalachia","Haynesville"];
+      sel.innerHTML=order.map(k=>{ const col=COLORS[k]|| (ANALYST_FACTS.shortBasins[k]?'':'#9aa1ab');
+        const sw=COLORS[k]?('<i class="dot-sw" style="background:'+COLORS[k]+'"></i>'):''; return '<button data-b="'+k+'">'+sw+k+'</button>'; }).join('');
+      sel.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>selectBasin(b.dataset.b)));
+      // health cards + breakeven (sourced)
+      buildHealthCards(); buildBreakeven();
+      selectBasin('Permian');
+    }
+    selectBasinExternal=function(k){ selectBasin(k); };
+    function selectBasin(key){
+      const sel=document.getElementById('basinsel'); if(sel)sel.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.b===key));
+      renderBasinProfile(key);
+    }
+    // ===================== LIVE DRILLING DATA + PER-BASIN TEMPLATE =====================
+    const DRILL = window.DRILLING_DATA;
+    // SOURCED per-basin facts (live values come from basins.js + drilling.js)
+    const BASIN_PROFILE = {
+      "Permian":{ region:"W. Texas / SE New Mexico", status:"Growth engine · maturing", prodRegion:"Permian", drillRegion:"Permian",
+        breakeven:"$61–62", inventory:"~7–10 yrs",
+        economics:"New-well <b>drill</b> breakeven ~$61 (Midland) / ~$62 (Delaware) — Dallas Fed Energy Survey, Q1-2025. Operating (shut-in) breakevens are far lower — Delaware ~$33, Midland ~$35 — so wells keep pumping well below the drill price. On a returns basis, Novi Labs NPV25 breakevens run ~$50 (Midland) / ~$52 (Delaware). <b>Inventory:</b> ~100,000 remaining locations, of which ~55,000 break even below $50/bbl (Enverus, Apr 2026) — about <b>7–10 years</b> at the current pace, with the basin “just over half drilled” (Novi Labs, May 2025).",
+        creaming:true,
+        watch:["Permian-led U.S. growth is flattening — watch new-well oil/rig and rig count for the inflection.","At today’s WTI essentially all of the ~100k economic locations work; only a drop toward ~$50 would sideline the costlier tier (see creaming curve)."],
+        src:"EIA (live share/drilling); Dallas Fed Energy Survey Q1-2025 (drill breakevens); Enverus Apr-2026 via World Oil (locations); Novi Labs May-2025 (years) + public NPV25 breakevens" },
+      "Bakken":{ region:"North Dakota / Montana (Williston)", status:"Mature · peaked 2019", prodRegion:"Bakken", drillRegion:"Bakken",
+        breakeven:"~$63", inventory:"~10 yrs",
+        economics:"New-well breakeven ~$63 (Dallas Fed “Other US shale” proxy, Q1-2025). The DUC backlog is thin (~2 months’ supply), so output leans on active drilling. ~10 years of inventory at the majors; ~1,400 sub-$50 locations remain (Enverus). Most top-tier rock is drilled; long laterals & refracs extend life.",
+        creaming:false,
+        watch:["Thin DUC cushion: completions must keep pace with drilling to hold output.","Refracs and 3–4-mile laterals are the swing factor for the plateau."],
+        src:"EIA (live); Dallas Fed Q1-2025 (breakeven); Enverus / RBN (inventory)" },
+      "Eagle Ford":{ region:"South Texas", status:"Mature · disciplined", prodRegion:"Eagle Ford", drillRegion:"Eagle Ford",
+        breakeven:"~$62", inventory:"Tier-1 declining",
+        economics:"New-well breakeven ~$62 (Dallas Fed Q1-2025); operating/shut-in breakeven just ~$26 — among the lowest anywhere, so wells stay online far below the drill price. Tier-1 inventory declining; refracs rising. Advantaged by proximity to Gulf Coast refineries and export docks.",
+        creaming:false,
+        watch:["Thin DUC backlog — growth depends on sustained drilling.","Refrac economics and Gulf-Coast export pull are the key supports."],
+        src:"EIA (live); Dallas Fed Q1-2025 (breakevens); operator 10-Ks" },
+      "Gulf of Mexico":{ region:"Federal offshore", status:"Conventional · long-lived", prodRegion:"Federal Gulf", drillRegion:null,
+        breakeven:"n/a", inventory:"project-driven",
+        economics:"Conventional deepwater, not shale — so the rig / DUC / per-rig metrics don’t apply here. Big multi-year projects (Whale, Anchor, Shenandoah) keep output near ~1.8M bbl/d with low decline once online.",
+        creaming:false,
+        watch:["New deepwater startups — not rig counts — drive the trajectory.","Long lead times make output stable but slow to change."],
+        src:"EIA STEO PAPRPGLF (live production)" },
+      "Alaska":{ region:"North Slope", status:"Conventional · long decline", prodRegion:"Alaska", drillRegion:null,
+        breakeven:"n/a", inventory:"Willow / Pikka",
+        economics:"Conventional North Slope, in long structural decline from its 1988 peak. New projects (Willow, Pikka) aim to slow the decline rather than reverse it. Not a shale play, so drilling-productivity metrics don’t apply.",
+        creaming:false,
+        watch:["Willow and Pikka ramp vs. legacy-field decline.","Drilling-productivity metrics don’t apply to conventional fields."],
+        src:"EIA PAPRPAK / MCRFPAK1 (live production)" },
+      "Appalachia":{ region:"PA / WV / OH (Marcellus/Utica)", status:"Gas giant · sliver of crude", prodRegion:"Appalachia", drillRegion:"Appalachia",
+        breakeven:"n/a (gas)", inventory:"gas-focused",
+        economics:"Mainly a NATURAL-GAS basin (~37 Bcf/d, the largest US gas region) — barely a sliver of crude, so an oil breakeven isn’t meaningful. Crude growth is capped by pipeline constraints. See the Natural Gas tab for the real story.",
+        creaming:false,
+        watch:["Pipeline egress — not oil economics — is the constraint.","EOG’s emerging Utica oil window is the one to watch for crude."],
+        src:"EIA (live drilling & crude); Natural Gas tab for gas" },
+      "Haynesville":{ region:"LA / E. Texas", status:"Gas basin · LNG swing", prodRegion:"Haynesville", drillRegion:"Haynesville",
+        breakeven:"n/a (gas)", inventory:"gas-focused",
+        economics:"A NATURAL-GAS basin and the LNG “swing” supplier to the Gulf Coast (~15 Bcf/d) — negligible crude. Its rig count rises and falls with gas prices and LNG demand, not oil.",
+        creaming:false,
+        watch:["Gas price + LNG export demand drive its rigs.","Minimal crude — see the Natural Gas tab."],
+        src:"EIA (live drilling & crude); Natural Gas tab for gas" }
+    };
+    // SOURCED creaming-curve data — VERIFIED anchors: Enverus IR (Apr 2026) location counts + Novi Labs NPV25 breakevens
+    const CREAM = { total:100000, median:50, average:55,
+      anchors:[{p:32,n:0},{p:40,n:22000},{p:50,n:55000},{p:60,n:78000},{p:70,n:100000}],
+      src:"Enverus Intelligence Research (World Oil, Apr 15 2026; Enverus, Apr 30 2026): ~55,000 Permian locations break even below $50/bbl, ~100,000 total below ~$70/bbl incl. geologically-viable rock; cheapest zones ~$32 (Yeso). NPV25 breakevens cross-checked vs Novi Labs public corporate data (Delaware median ~$52, Midland ~$50). Curve interpolated between these verified anchors." };
+
+    const _profCharts={};
+    function destroyProfileCharts(){ for(const k in _profCharts){ try{_profCharts[k].destroy();}catch(e){} delete _profCharts[k]; } }
+    function profileLine(id,series,color,unit,dec){
+      const cv=document.getElementById(id); if(!cv||!series||!series.length)return;
+      const labels=series.map(p=>p.date), data=series.map(p=>p.value);
+      _profCharts[id]=new Chart(cv,{type:'line',
+        data:{labels,datasets:[{data,borderColor:color,borderWidth:1.6,pointRadius:0,fill:true,backgroundColor:hexA(color,0.08),tension:0.15,
+          segment:{borderDash:ctx=>(series[ctx.p1DataIndex]&&series[ctx.p1DataIndex].forecast)?[4,3]:undefined}}]},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+          plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c[0].label+(series[c[0].dataIndex].forecast?' (forecast)':''),label:c=>(dec?c.parsed.y.toFixed(dec):Math.round(c.parsed.y))+' '+unit}}},
+          scales:{x:{grid:{display:false},ticks:{maxTicksLimit:5,callback:function(v){const l=this.getLabelForValue(v);return l?l.slice(0,4):l;}}},y:{grid:{color:'#e6e8eb'},ticks:{maxTicksLimit:5}}}}});
+    }
+    function renderBasinProfile(key){
+      const host=document.getElementById('basin-dd'); if(!host)return;
+      destroyProfileCharts(); destroyOpChart();
+      const P=BASIN_PROFILE[key]||{}; const prodName=P.prodRegion||key, drillName=P.drillRegion;
+      const bregion=(BAS.regions||[]).find(r=>r.name===prodName);
+      let share='n/a', output='n/a';
+      if(bregion){ const act=bregion.data.filter(p=>!p.forecast); const last=act[act.length-1];
+        if(last){ output=last.value>=1?last.value.toFixed(1)+'M bbl/d':Math.round(last.value*1000)+'k bbl/d';
+          let tot=0; BAS.regions.forEach(r=>{const m=r.data.find(p=>p.date===last.date); if(m&&m.value!=null)tot+=m.value;}); if(tot)share='~'+Math.round(last.value/tot*100)+'%'; } }
+      let rigs='n/a',duc='n/a',perRig='n/a';
+      if(drillName&&DRILL&&DRILL.latest&&DRILL.latest[drillName]){ const s=DRILL.latest[drillName];
+        if(s.rigs)rigs=Math.round(s.rigs.value)+''; if(s.duc)duc=Math.round(s.duc.value).toLocaleString();
+        if(s.oil_per_rig)perRig=Math.round(s.oil_per_rig.value*1000).toLocaleString()+' bbl/d'; }
+      const kstat=(v,l,tag)=>'<div class="kstat"><div class="kv'+(v==='n/a'?' na':'')+'">'+v+'</div><div class="kl">'+l+'</div><div class="ktag '+tag[0]+'">'+tag[1]+'</div></div>';
+      let html='<div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><h2 style="margin:0;font-size:19px">'+key+'</h2>'+
+        '<span style="color:var(--muted);font-size:13px">'+(P.region||'')+'</span>'+(P.status?'<span class="basin-status">'+P.status+'</span>':'')+'</div>';
+      html+='<div class="kstats">'+kstat(share,'Share of US crude',['live','LIVE'])+kstat(output,'Output',['live','LIVE'])+
+        kstat(rigs,'Active rigs',['live','LIVE'])+kstat(duc,'DUC wells',['live','LIVE'])+kstat(perRig,'New-well oil/rig',['live','LIVE'])+
+        kstat(P.breakeven||'n/a','Breakeven',['src','SOURCED'])+kstat(P.inventory||'n/a','Inventory life',['src','SOURCED'])+'</div>';
+      const mh=(t,s)=>'<div class="mini-h">'+t+' <span class="prov live" style="font-size:8px;padding:2px 6px">LIVE</span></div><div class="mini-sub">'+s+'</div>';
+      html+='<div class="grid3" style="margin-top:14px">'+
+        '<div>'+mh('Production trend','crude, Mbbl/d')+'<div class="mini"><canvas id="bp-prod"></canvas></div></div>'+
+        '<div>'+mh('New-well oil / rig',drillName?'thousand bbl/d per rig':'— not a shale-drilling basin —')+'<div class="mini"><canvas id="bp-prr"></canvas></div></div>'+
+        '<div>'+mh('DUC trend',drillName?'drilled-but-uncompleted wells':'— not tracked —')+'<div class="mini"><canvas id="bp-duc"></canvas></div></div></div>';
+      html+='<div id="op-section" style="margin-top:18px"></div>';
+      html+='<div class="panel" style="margin-top:16px"><div class="panel-head"><h2 style="font-size:15px">Inventory &amp; economics</h2><span class="prov sourced">Sourced · 2025</span></div>'+
+        (P.economics?'<p class="caption" style="margin:0 0 8px">'+P.economics+'</p>':'')+
+        (P.creaming?'<div class="cream-wrap" id="bp-cream"></div>':'')+
+        '<cite>'+(P.src||'')+' · last reviewed '+ANALYST_FACTS.reviewed+'</cite></div>';
+      if(P.watch&&P.watch.length) html+='<div class="callout" style="margin-top:14px"><b>What to watch</b><ul style="margin:6px 0 0;padding-left:18px">'+P.watch.map(w=>'<li>'+w+'</li>').join('')+'</ul></div>';
+      host.innerHTML=html;
+      if(bregion) profileLine('bp-prod',bregion.data,COLORS[prodName]||'#c8102e','Mbbl/d',2);
+      if(drillName){ profileLine('bp-prr',DRILL.metrics.oil_per_rig[drillName],'#4f7186','k bbl/d/rig',2); profileLine('bp-duc',DRILL.metrics.duc[drillName],'#8d8a5e','DUC',0); }
+      renderOperators(key);
+      if(P.creaming) buildCreaming('bp-cream');
+    }
+
+    // ----- creaming curve (interactive) -----
+    const _creamCharts={};
+    function buildCreaming(hostId){
+      const host=document.getElementById(hostId); if(!host)return;
+      const wti=Math.round(currentWTI);
+      host.innerHTML='<div class="cream-controls"><span class="viewlabel">WTI price</span>'+
+        '<input type="range" id="'+hostId+'-sl" min="30" max="100" value="'+wti+'" step="1">'+
+        '<span class="cream-readout">at <b id="'+hostId+'-p">$'+wti+'</b>/bbl</span></div>'+
+        '<p class="caption" style="margin:0 0 6px"><span class="cream-big" id="'+hostId+'-c">—</span> locations economic <span id="'+hostId+'-pc" style="color:var(--muted)"></span> · of '+CREAM.total.toLocaleString()+' total Permian locations</p>'+
+        '<div class="cream-box"><canvas id="'+hostId+'-cv"></canvas></div>'+
+        '<p class="src" style="margin-top:6px">'+CREAM.src+'. Median ~$'+CREAM.median+', average ~$'+CREAM.average+'.</p>';
+      const pts=CREAM.anchors.map(a=>({x:a.n,y:a.p}));
+      if(_creamCharts[hostId]){try{_creamCharts[hostId].destroy();}catch(e){}}
+      const ch=new Chart(document.getElementById(hostId+'-cv'),{type:'line',
+        data:{datasets:[{data:pts,borderColor:'#c8102e',borderWidth:2.2,pointRadius:0,fill:true,backgroundColor:'rgba(200,16,46,0.06)',tension:0.25,parsing:false}]},
+        options:{responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false},tooltip:{callbacks:{title:()=>'',label:c=>'~'+Math.round(c.parsed.x).toLocaleString()+' locations work at ≤ $'+Math.round(c.parsed.y)}},
+            annotation:{annotations:{wti:{type:'line',yMin:wti,yMax:wti,borderColor:'#16181c',borderWidth:1.5,borderDash:[5,4],
+              label:{display:true,content:'WTI $'+wti,position:'start',backgroundColor:'#16181c',color:'#fff',font:{size:11},padding:4}}}}},
+          scales:{x:{type:'linear',min:0,max:CREAM.total,title:{display:true,text:'cumulative remaining locations (cheapest first)',color:'#9aa1ab',font:{size:11}},ticks:{callback:v=>Math.round(v/1000)+'k'}},
+            y:{type:'linear',min:25,max:90,title:{display:true,text:'NPV25 breakeven WTI ($/bbl)',color:'#9aa1ab',font:{size:11}},ticks:{callback:v=>'$'+v}}}}});
+      _creamCharts[hostId]=ch;
+      function countAt(price){ const a=CREAM.anchors; if(price<=a[0].p)return 0;
+        for(let i=1;i<a.length;i++){ if(price<=a[i].p){ const t=(price-a[i-1].p)/(a[i].p-a[i-1].p); return Math.round(a[i-1].n+t*(a[i].n-a[i-1].n)); } } return CREAM.total; }
+      function upd(price){ const cnt=countAt(price);
+        document.getElementById(hostId+'-p').textContent='$'+price;
+        document.getElementById(hostId+'-c').textContent='~'+cnt.toLocaleString();
+        document.getElementById(hostId+'-pc').textContent='('+Math.round(cnt/CREAM.total*100)+'%)';
+        const a=ch.options.plugins.annotation.annotations.wti; a.yMin=price; a.yMax=price; a.label.content='WTI $'+price; ch.update(); }
+      const sl=document.getElementById(hostId+'-sl'); sl.addEventListener('input',()=>upd(+sl.value)); upd(wti);
+    }
+
+    // ----- Inventory & Productivity tab -----
+    let dvcChart=null;
+    function buildDrillMulti(canvasId,metric,unit,dec,withType){
+      if(!(DRILL&&DRILL.metrics&&DRILL.metrics[metric]))return null;
+      const regions=DRILL.regions; let labels=[];
+      regions.forEach(r=>{ const s=DRILL.metrics[metric][r]||[]; if(s.length>labels.length)labels=s.map(p=>p.date); });
+      const idx={}; labels.forEach((d,i)=>idx[d]=i);
+      const datasets=regions.map(r=>{ const s=DRILL.metrics[metric][r]||[]; const arr=new Array(labels.length).fill(null); s.forEach(p=>{if(p.date in idx)arr[idx[p.date]]=p.value;});
+        const col=COLORS[r]||'#9aa1ab'; return {label:r.replace(' (Conventional)',''),data:arr,borderColor:col,backgroundColor:hexA(col,0.08),borderWidth:1.6,pointRadius:0,fill:false,tension:0.15}; });
+      const ch=new Chart(document.getElementById(canvasId),{type:'line',data:{labels,datasets},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+          plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:8,font:{size:11}}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+(c.parsed.y==null?'n/a':(dec?c.parsed.y.toFixed(dec):Math.round(c.parsed.y)))+' '+unit}}},
+          scales:{x:xCat(),y:{grid:{color:'#e6e8eb'},title:{display:true,text:unit,color:'#9aa1ab',font:{size:11}}}}}});
+      buildRange(ch,labels,'[data-range-for="'+canvasId+'"]',[{label:'3Y',months:36},{label:'5Y',months:60},{label:'All',months:null}]);
+      if(withType)buildTypeToggle(ch,'[data-type-for="'+canvasId+'"]',datasets.map((d,i)=>i),'line');
+      return ch;
+    }
+    function buildDucBar(){
+      const cv=document.getElementById('chartDucBar'); if(!cv)return;
+      const data=DRILL.regions.map(r=>({n:r.replace(' (Conventional)',''),k:r,v:(DRILL.latest[r]&&DRILL.latest[r].duc)?DRILL.latest[r].duc.value:0})).sort((a,b)=>b.v-a.v);
+      document.getElementById('duc-asof').textContent='Live · '+DRILL.actuals_through;
+      new Chart(cv,{type:'bar',data:{labels:data.map(d=>d.n),datasets:[{data:data.map(d=>d.v),backgroundColor:data.map(d=>COLORS[d.k]||'#9aa1ab'),borderRadius:4,barPercentage:0.8}]},
+        options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>Math.round(c.parsed.x).toLocaleString()+' DUC wells'}}},
+          scales:{x:{grid:{color:'#e6e8eb'},title:{display:true,text:'DUC wells',color:'#9aa1ab',font:{size:11}}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+    }
+    function buildDvC(region){
+      const cv=document.getElementById('chartDvC'); if(!cv)return; if(dvcChart){try{dvcChart.destroy();}catch(e){}}
+      const dr=DRILL.metrics.wells_drilled[region]||[], co=DRILL.metrics.wells_completed[region]||[];
+      const labels=dr.map(p=>p.date); const cm={}; co.forEach(p=>cm[p.date]=p.value);
+      dvcChart=new Chart(cv,{type:'line',data:{labels,datasets:[
+        {label:'Drilled',data:dr.map(p=>p.value),borderColor:'#33373d',borderWidth:1.6,pointRadius:0,tension:0.15},
+        {label:'Completed',data:labels.map(d=>cm[d]!=null?cm[d]:null),borderColor:'#c8102e',borderWidth:1.6,pointRadius:0,tension:0.15}]},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+          plugins:{legend:{position:'bottom',labels:{boxWidth:11,padding:8,font:{size:11}}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+Math.round(c.parsed.y)+' wells'}}},
+          scales:{x:xCat(),y:{grid:{color:'#e6e8eb'},title:{display:true,text:'wells / month',color:'#9aa1ab',font:{size:11}}}}}});
+    }
+    function buildInventory(){
+      if(!(DRILL&&DRILL.metrics&&DRILL.regions)){ const c=document.getElementById('inv-duc-callout'); if(c)c.textContent='Drilling data unavailable — run fetch_data.py.'; return; }
+      let natDuc=0; DRILL.regions.forEach(r=>{ const s=DRILL.latest[r]&&DRILL.latest[r].duc; if(s)natDuc+=s.value; });
+      document.getElementById('inv-duc-callout').innerHTML=
+        'The U.S. currently has <span class="n">'+Math.round(natDuc).toLocaleString()+' drilled-but-uncompleted (DUC) wells</span> — drilled but not yet fracked, a backlog producers can tap quickly — <span class="n">down from a peak of ~8,900 in mid-2020</span>. <span style="font-size:12px;opacity:.85">Live national total (sum of EIA regions) as of '+DRILL.actuals_through+'; peak: EIA Drilling Productivity Report, June 2020.</span>';
+      document.getElementById('prr-asof').textContent='Live · '+DRILL.actuals_through;
+      buildDrillMulti('chartPerRig','oil_per_rig','thousand bbl/d per rig',2,true);
+      buildDrillMulti('chartRigs','rigs','active rigs',0,false);
+      buildDrillMulti('chartDucTrend','duc','DUC wells',0,false);
+      buildDucBar();
+      const dsel=document.getElementById('dvc-basinsel');
+      if(dsel&&!dsel.childElementCount){ DRILL.regions.forEach((r,i)=>{ const b=document.createElement('button'); b.textContent=r.replace(' (Conventional)',''); if(i===0)b.classList.add('active');
+        b.addEventListener('click',()=>{dsel.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');buildDvC(r);}); dsel.appendChild(b); }); }
+      buildDvC(DRILL.regions[0]);
+      buildCreaming('cream-host');
+    }
+
+    let opChart=null;
+    function destroyOpChart(){ if(opChart){ try{opChart.destroy();}catch(e){} opChart=null; } }
+    function renderOperators(key){
+      destroyOpChart();
+      const sec=document.getElementById('op-section'); const O=OPERATORS[key]; if(!sec||!O)return;
+      const col=COLORS[key]||'#e63950';
+      sec.innerHTML='<h3 style="font-size:15px;margin:0 0 2px">Who operates here — top producers</h3>'+
+        '<p class="caption" style="margin:0 0 4px">Approximate production of the basin’s biggest operators. <span class="prov sourced">Sourced · 2025</span></p>'+
+        '<div class="op-box"><canvas id="opcanvas"></canvas></div>'+
+        '<p class="hint" style="margin-top:6px">Bars are <b>'+O.unit+'</b>. '+(O.note||'')+' “(est)” = estimate.</p>'+
+        '<cite>'+O.src+' · last reviewed '+O.reviewed+'</cite>';
+      const data=O.data.slice().sort((a,b)=>b.v-a.v);
+      opChart=new Chart(document.getElementById('opcanvas'),{ type:'bar',
+        data:{ labels:data.map(d=>d.n+(d.est?' (est)':'')), datasets:[{ data:data.map(d=>d.v), backgroundColor:col, borderRadius:4, barPercentage:0.78 }] },
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+          plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>'~'+c.parsed.x+' '+O.unit+(data[c.dataIndex].est?' (estimate)':'')}} },
+          scales:{ x:{ grid:{color:'#e6e8eb'}, ticks:{callback:v=>v}, title:{display:true,text:'approx. production ('+O.unit+')',color:'#9aa1ab',font:{size:11}} },
+            y:{ grid:{display:false}, ticks:{font:{size:12}} } } } });
+    }
+    // generic horizontal bar (companies) + gas-by-region donut
+    const _barCharts={};
+    function barChartH(canvasId,O,color){
+      const cv=document.getElementById(canvasId); if(!cv||!O)return;
+      if(_barCharts[canvasId]){try{_barCharts[canvasId].destroy();}catch(e){}}
+      const data=O.data.slice().sort((a,b)=>b.v-a.v);
+      _barCharts[canvasId]=new Chart(cv,{type:'bar',
+        data:{labels:data.map(d=>d.n+(d.est?' (est)':'')),datasets:[{data:data.map(d=>d.v),backgroundColor:color,borderRadius:4,barPercentage:0.82}]},
+        options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'~'+c.parsed.x+' '+O.unit+(data[c.dataIndex].est?' (estimate)':'')}}},
+          scales:{x:{grid:{color:'#e6e8eb'},title:{display:true,text:'approx. ('+O.unit+')',color:'#9aa1ab',font:{size:11}}},y:{grid:{display:false},ticks:{font:{size:12}}}}}});
+    }
+    let _gasDonut=null;
+    function gasRegionDonut(canvasId){
+      const cv=document.getElementById(canvasId); if(!cv)return; const O=GAS_BY_REGION;
+      const data=O.data.slice().sort((a,b)=>b.v-a.v), total=data.reduce((s,d)=>s+d.v,0);
+      const fb=["#bdb86e","#e63950","#cf9e74","#6fa8cc","#93b8d4","#a99cc0","#cbd0d7","#9aa1ab","#7d8088"];
+      const colors=data.map((d,i)=>COLORS[d.n]||fb[i%fb.length]);
+      if(_gasDonut){try{_gasDonut.destroy();}catch(e){}}
+      _gasDonut=new Chart(cv,{type:'doughnut',
+        data:{labels:data.map(d=>d.n+(d.est?' (est)':'')),datasets:[{data:data.map(d=>d.v),backgroundColor:colors,borderColor:'#ffffff',borderWidth:2}]},
+        options:{responsive:true,maintainAspectRatio:false,cutout:'56%',
+          plugins:{legend:{position:'right',labels:{boxWidth:11,padding:6,font:{size:11}}},
+            tooltip:{callbacks:{label:c=>c.label+': '+c.parsed.toFixed(1)+' Bcf/d ('+(c.parsed/total*100).toFixed(0)+'%)'}}}}});
+    }
+    function buildHealthCards(){
+      const host=document.getElementById('basin-cards'); if(!host||host.childElementCount)return;
+      ANALYST_FACTS.basins.forEach((b,i)=>{ const c=document.createElement('div'); c.className='hcard'; c.style.borderTopColor=b.color;
+        c.innerHTML='<h3><span class="dot-sw" style="background:'+b.color+'"></span>'+b.key+'</h3><div class="maturity">'+b.maturity+'</div>'+
+          '<div class="spark"><canvas id="spark-'+i+'"></canvas></div>'+
+          '<dl><dt>Share</dt><dd>'+b.share+'</dd><dt>Output</dt><dd>'+b.prod+'</dd><dt>Breakeven</dt><dd>'+b.breakevenLabel+'</dd><dt>Inventory</dt><dd>'+b.inventory+'</dd></dl>'+
+          '<div class="ops">'+b.operators+'</div><cite>'+b.src+'</cite>'; host.appendChild(c); });
+      ANALYST_FACTS.basins.forEach((b,i)=>{ const region=(BAS.regions||[]).find(r=>r.name===b.key), cv=document.getElementById('spark-'+i); if(!region||!cv)return;
+        const pts=region.data.filter(p=>!p.forecast);
+        new Chart(cv,{type:'line',data:{labels:pts.map(p=>p.date),datasets:[{data:pts.map(p=>p.value),borderColor:COLORS[b.key],borderWidth:1.6,pointRadius:0,fill:true,backgroundColor:hexA(COLORS[b.key],0.12),tension:0.2}]},
+          options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:false}}); });
+      document.getElementById('gas-note').innerHTML=ANALYST_FACTS.gasNote;
+      document.getElementById('cross-basin').innerHTML=ANALYST_FACTS.crossBasin;
+    }
+    function buildBreakeven(){
+      const cv=document.getElementById('chartBreakeven'); if(!cv||cv.dataset.built)return; cv.dataset.built='1';
+      const b=ANALYST_FACTS.basins, price=currentWTI;
+      new Chart(cv,{type:'bar',data:{labels:b.map(x=>x.key),datasets:[{label:'Breakeven ($/bbl)',data:b.map(x=>x.breakeven),backgroundColor:b.map(x=>COLORS[x.key]),borderRadius:5,barPercentage:0.6}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:c=>'breakeven '+b[c.dataIndex].breakevenLabel+'/bbl (estimate, 2025)'}},
+          annotation:price?{annotations:{wti:{type:'line',yMin:price,yMax:price,borderColor:RED,borderWidth:2,borderDash:[5,4],
+            label:{display:true,content:'WTI now ≈ $'+price.toFixed(0),position:'end',backgroundColor:RED,color:'#fff',font:{size:11,weight:'bold'},padding:4}}}}:{}},
+          scales:{x:{grid:{display:false}},y:{beginAtZero:true,suggestedMax:Math.max(price||0,70)+15,ticks:{callback:v=>'$'+v},grid:{color:'#e6e8eb'},title:{display:true,text:'US dollars / barrel',color:'#9aa1ab',font:{size:11}}}}}});
+    }
+
+    // ===================== BUILD: PRICES =====================
+    let chartE;
+    function buildPrices(){
+      const labels=WTI.data.map(r=>r.date), set=new Set(labels);
+      document.getElementById('e-range').textContent=labels[0]+' – '+labels[labels.length-1];
+      document.getElementById('e-asof').textContent='Live · EIA · '+(spot?spot.date:WTI.latest.date);
+      const datasets=[{label:'WTI (nominal $)',data:WTI.data.map(r=>r.price),borderColor:RED,borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:hexA(RED,0.07),tension:0.1}];
+      if(WTI.real_available)datasets.push({label:'WTI (real, today’s $)',data:WTI.data.map(r=>r.real==null?null:r.real),borderColor:STEEL,borderWidth:1.4,pointRadius:0,borderDash:[5,3],fill:false,tension:0.1});
+      const pick=id=>renderDetail('E',id); buildChips('E',pick);
+      chartE=new Chart(document.getElementById('chartE'),{type:'line',data:{labels,datasets},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+          plugins:{legend:{display:WTI.real_available,position:'bottom',labels:{boxWidth:12,padding:12}},
+            tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': $'+(c.parsed.y==null?'n/a':c.parsed.y.toFixed(2))}},
+            annotation:{annotations:eventAnnotations(set,{onHover:pick,onClick:pick})}},
+          scales:{x:xCat(),y:{ticks:{callback:v=>'$'+v},grid:{color:'#e6e8eb'},title:{display:true,text:'US dollars / barrel',color:'#9aa1ab',font:{size:11}}}}}});
+      buildTypeToggle(chartE,'[data-type-for="chartE"]',[0],'area');
+      buildRange(chartE,labels,'[data-range-for="chartE"]',[{label:'5Y',months:60},{label:'10Y',months:120},{label:'20Y',months:240},{label:'All',months:null}]);
+
+      // story
+      const story={idx:-1,timer:null}, playBtn=document.getElementById('story-play'),stepEl=document.getElementById('story-step'),dotsEl=document.getElementById('story-dots');
+      if(!dotsEl.childElementCount)EVENTS.forEach((e,i)=>{const d=document.createElement('button');d.className='dot';d.title=e.title;d.addEventListener('click',()=>{stop();go(i);});dotsEl.appendChild(d);});
+      function zoom(e){ const sY=parseInt((e.date||e.start).slice(0,4),10)-3,eY=parseInt((e.end||e.date).slice(0,4),10)+2; let mn=labels[0],mx=labels[labels.length-1];
+        for(let i=0;i<labels.length;i++){if(parseInt(labels[i].slice(0,4),10)>=sY){mn=labels[i];break;}} for(let i=labels.length-1;i>=0;i--){if(parseInt(labels[i].slice(0,4),10)<=eY){mx=labels[i];break;}}
+        chartE.options.scales.x.min=mn;chartE.options.scales.x.max=mx;chartE.update(); }
+      function go(i){ story.idx=(i+EVENTS.length)%EVENTS.length; const e=EVENTS[story.idx]; zoom(e); renderDetail('E',e.id);
+        stepEl.innerHTML='<b>Step '+(story.idx+1)+' of '+EVENTS.length+'</b> — '+e.title.split('—')[0].split('(')[0].trim();
+        dotsEl.querySelectorAll('.dot').forEach((d,k)=>d.classList.toggle('on',k===story.idx));
+        document.querySelectorAll('[data-range-for="chartE"] button').forEach(x=>x.classList.remove('active')); }
+      function stop(){ if(story.timer){clearInterval(story.timer);story.timer=null;} playBtn.textContent='▶ Play the story'; }
+      function play(){ if(story.timer){stop();return;} if(story.idx<0)go(0); playBtn.textContent='⏸ Pause'; story.timer=setInterval(()=>{if(story.idx>=EVENTS.length-1)stop();else go(story.idx+1);},5200); }
+      playBtn.addEventListener('click',play);
+      document.getElementById('story-next').addEventListener('click',()=>{stop();go(story.idx+1);});
+      document.getElementById('story-prev').addEventListener('click',()=>{stop();go((story.idx<=0?0:story.idx)-1);});
+      document.getElementById('story-exit').addEventListener('click',()=>{stop();story.idx=-1;chartE.options.scales.x.min=undefined;chartE.options.scales.x.max=undefined;chartE.update();stepEl.innerHTML='Guided tour — 8 events that shaped oil prices';dotsEl.querySelectorAll('.dot').forEach(d=>d.classList.remove('on'));});
+
+      buildSP();
+    }
+    function buildSP(){
+      const wrap=document.getElementById('sp-wrap'), srcEl=document.getElementById('sp-src'), prov=document.getElementById('sp-prov');
+      if(!(SP && SP.available && SP.data && SP.data.length)){
+        prov.className='prov sourced'; prov.textContent='needs FRED key';
+        wrap.innerHTML='<div class="note-inline" style="margin:0">📉 <b>S&amp;P 500 comparison is off.</b> '+(SP?SP.note:'Add a FRED key.')+' Add <code style="font-family:ui-monospace,monospace">FRED_API_KEY=yourkey</code> to <b>.env</b> and re-run <code style="font-family:ui-monospace,monospace">fetch_data.py</code> to enable it.</div>';
+        srcEl.textContent='S&P 500 source: FRED series SP500 (currently disabled — no key).'; return;
+      }
+      prov.className='prov live'; prov.textContent='Live · FRED';
+      const spMap={}; SP.data.forEach(d=>spMap[d.date]=d.value);
+      const wtiMap={}; WTI.data.forEach(d=>wtiMap[d.date]=d.price);
+      const labels=SP.data.map(d=>d.date).filter(d=>wtiMap[d]!=null);
+      if(!labels.length){ wrap.innerHTML='<div class="note-inline">No overlapping WTI/S&P months.</div>'; return; }
+      const sp0=spMap[labels[0]], w0=wtiMap[labels[0]];
+      const spIdx=labels.map(d=>+(spMap[d]/sp0*100).toFixed(1)), wIdx=labels.map(d=>+(wtiMap[d]/w0*100).toFixed(1));
+      new Chart(document.getElementById('chartSP'),{type:'line',data:{labels,datasets:[
+          {label:'WTI (indexed)',data:wIdx,borderColor:RED,borderWidth:1.6,pointRadius:0,tension:0.1},
+          {label:'S&P 500 (indexed)',data:spIdx,borderColor:STEEL,borderWidth:1.6,pointRadius:0,tension:0.1}]},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+          plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:12}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+c.parsed.y}}},
+          scales:{x:xCat(),y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'indexed to 100 at '+labels[0],color:'#9aa1ab',font:{size:11}}}}}});
+      srcEl.textContent='S&P 500 source: FRED series SP500 ('+labels[0]+'..'+labels[labels.length-1]+'). Both lines indexed to 100 at start.';
+    }
+
+    // ===================== BUILD: NATURAL GAS =====================
+    function buildGas(){
+      if (GAS && GAS.production && GAS.production.marketed && GAS.production.marketed.length){
+        const mk=GAS.production.marketed, dr=GAS.production.dry||[];
+        const labels=mk.map(p=>p.date); const drMap={}; dr.forEach(p=>drMap[p.date]=p.value);
+        document.getElementById('g-range').textContent=labels[0]+' – '+labels[labels.length-1];
+        document.getElementById('g-asof').textContent='Live · EIA · '+labels[labels.length-1];
+        const chartG=new Chart(document.getElementById('chartGasProd'),{type:'line',
+          data:{labels,datasets:[
+            {label:'Marketed',data:mk.map(p=>p.value),borderColor:RED,borderWidth:1.6,pointRadius:0,fill:true,backgroundColor:hexA(RED,0.07),tension:0.1},
+            {label:'Dry',data:labels.map(d=>drMap[d]!=null?drMap[d]:null),borderColor:STEEL,borderWidth:1.5,pointRadius:0,fill:false,tension:0.1}]},
+          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+            plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:12}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+(c.parsed.y==null?'n/a':c.parsed.y.toFixed(1)+' Bcf/d')}}},
+            scales:{x:xCat(),y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'billion cubic feet / day',color:'#9aa1ab',font:{size:11}}}}}});
+        buildTypeToggle(chartG,'[data-type-for="chartGasProd"]',[0,1],'area');
+        buildRange(chartG,labels,'[data-range-for="chartGasProd"]',[{label:'10Y',months:120},{label:'25Y',months:300},{label:'All',months:null}]);
+      }
+      if (GAS && GAS.henry_hub && GAS.henry_hub.monthly && GAS.henry_hub.monthly.length){
+        const hhm=GAS.henry_hub.monthly, labels=hhm.map(p=>p.date), set=new Set(labels);
+        document.getElementById('hh-range').textContent=labels[0]+' – '+labels[labels.length-1];
+        const hhspot=GAS.henry_hub.spot_latest;
+        document.getElementById('hh-asof').textContent='Live · EIA · '+(hhspot?hhspot.date:labels[labels.length-1]);
+        // annotate Jan-2026 spike if present
+        const ann={}; const spikeDate='2026-01';
+        if(set.has(spikeDate)){ ann['vortex']={type:'line',xMin:spikeDate,xMax:spikeDate,borderColor:'rgba(200,16,46,0.6)',borderWidth:1.5,borderDash:[3,3],
+          label:{display:true,content:'polar vortex',position:'start',backgroundColor:RED,color:'#fff',font:{size:10,weight:'bold'},padding:3,borderRadius:6}}; }
+        const chartHH=new Chart(document.getElementById('chartHH'),{type:'line',
+          data:{labels,datasets:[{label:'Henry Hub',data:hhm.map(p=>p.price),borderColor:'#33373d',borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:'rgba(51,55,61,0.06)',tension:0.1}]},
+          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+            plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c[0].label,label:c=>'$'+c.parsed.y.toFixed(2)+' /MMBtu'}},annotation:{annotations:ann}},
+            scales:{x:xCat(),y:{ticks:{callback:v=>'$'+v},grid:{color:'#e6e8eb'},title:{display:true,text:'$ / MMBtu',color:'#9aa1ab',font:{size:11}}}}}});
+        buildTypeToggle(chartHH,'[data-type-for="chartHH"]',[0],'area');
+        buildRange(chartHH,labels,'[data-range-for="chartHH"]',[{label:'5Y',months:60},{label:'10Y',months:120},{label:'All',months:null}]);
+      }
+      document.getElementById('gas-content').innerHTML=
+        '<h4>The gas basins</h4>'+
+        '<p><b>Appalachia (Marcellus/Utica)</b> — the largest U.S. gas region (~31% of output, ~37 Bcf/d), but growth is limited by <b>pipeline constraints</b> out of the region. '+
+        '<b>Haynesville (LA/E. Texas)</b> — the <b>“swing” supplier</b>: close to Gulf Coast LNG, it ramps up when export demand and prices rise. '+
+        '<b>Permian</b> — produces huge volumes of <b>associated gas</b> as a byproduct of its oil, so gas keeps flowing even when gas prices are low.</p>'+
+        '<h4>Demand driver 1 — LNG exports</h4>'+
+        '<p>U.S. LNG exports hit a record (~15 Bcf/d in 2025, heading to ~17–18 Bcf/d) as new terminals ramp — <b>Plaquemines</b>, <b>Golden Pass</b>, <b>Corpus Christi Stage 3</b>. EIA expects U.S. LNG export capacity to <b>nearly double by 2031</b>.</p>'+
+        '<h4>Demand driver 2 — AI &amp; data centers</h4>'+
+        '<p>Electricity demand from data centers is rising fast; EIA estimates it could add on the order of <b>~+3 Bcf/d</b> of gas demand by 2030 (the low end of a wide 3–20 Bcf/d range of analyst views).</p>'+
+        '<h4>Tie back to oil</h4>'+
+        '<p>This is why Appalachia and Haynesville barely register on the crude chart but dominate here: they are <b>gas</b> basins. As oil matures, gas is where the growth is.</p>'+
+        '<cite>Sourced: EIA Today in Energy id=67345 (record production), id=67166 (basins), id=67484 (LNG); EIA STEO. As of 2025–26 · last reviewed '+ANALYST_FACTS.reviewed+'.</cite>';
+      // where-gas-comes-from donut + who-produces-it bar
+      gasRegionDonut('chartGasRegion');
+      barChartH('chartGasCos', GAS_PRODUCERS, '#33373d');
+      const gr=document.getElementById('gasreg-src'); if(gr)gr.textContent=GAS_BY_REGION.note+' '+GAS_BY_REGION.src;
+      const gc=document.getElementById('gascos-src'); if(gc)gc.textContent=GAS_PRODUCERS.note+' '+GAS_PRODUCERS.src+' · last reviewed '+GAS_PRODUCERS.reviewed;
+    }
+
+    // ===================== BUILD: OUTLOOK =====================
+let outlookChart=null;
+    function buildOutlook(){
+      const actualsThrough=(BAS&&BAS.actuals_through)||(TOTAL&&TOTAL.latest&&TOTAL.latest.date)||'2026-03';
+      let usTot=[];
+      if(BAS&&BAS.regions){ const sums={},counts={},nreg=BAS.regions.length;
+        BAS.regions.forEach(r=>r.data.forEach(p=>{ if(p.value!=null){ sums[p.date]=(sums[p.date]||0)+p.value; counts[p.date]=(counts[p.date]||0)+1; }}));
+        usTot=Object.keys(sums).filter(d=>counts[d]===nreg).sort().map(d=>({date:d,value:+sums[d].toFixed(3),forecast:d>actualsThrough})); }
+      const projPoint=usTot.length?usTot[usTot.length-1]:null;
+      const nowCrude=TOTAL&&TOTAL.latest?TOTAL.latest.value:null, nowCrudeDate=TOTAL&&TOTAL.latest?TOTAL.latest.date:actualsThrough;
+      const smap=(arr,key)=>{const m={};arr.forEach(p=>m[p.date]=p[key]);return m;};
+      let crudeYoY=null;
+      if(TOTAL&&TOTAL.data&&nowCrude!=null){const m=smap(TOTAL.data,'value'),prev=m[addMonths(nowCrudeDate,-12)];if(prev!=null)crudeYoY=nowCrude-prev;}
+      const gasNow=gasMk?gasMk.value:null, gasNowDate=gasMk?gasMk.date:null;
+      let gasYoY=null;
+      if(GAS&&GAS.production&&GAS.production.marketed&&gasNow!=null){const m=smap(GAS.production.marketed,'value'),prev=m[addMonths(gasNowDate,-12)];if(prev!=null)gasYoY=gasNow-prev;}
+      const wtiNow=currentWTI, wtiDate=spot?spot.date:(WTI.latest?WTI.latest.date:'');
+      let wtiHigh=null; if(WTI.data){const tail=WTI.data.slice(-12);wtiHigh=Math.max.apply(null,tail.map(r=>r.price));}
+      const hhNow=hhSpot?hhSpot.price:null, hhDate=hhSpot?hhSpot.date:'';
+      const dir=(v,u)=>v==null?'':'<span style="color:'+(v>=0?'#2c7a4d':'#c8102e')+';font-size:11px">'+(v>=0?'▲ +':'▼ ')+Math.abs(v).toFixed(2)+' '+u+' YoY</span>';
+
+      document.getElementById('outlook-headline').innerHTML=
+        '<span class="n">The big picture:</span> U.S. <b>oil is near a plateau</b> — about <span class="n">'+(nowCrude?nowCrude.toFixed(1):'13.7')+' Mbbl/d</span> now'+
+        (projPoint?(', and EIA STEO projects ~<span class="n">'+projPoint.value.toFixed(1)+' Mbbl/d</span> by '+projPoint.date.slice(0,4)):'')+
+        ' — while <b>natural gas is the growth engine</b> at <span class="n">'+(gasNow?gasNow.toFixed(0):'~118')+' Bcf/d</span> and climbing.';
+
+      const stat=(v,l,extra)=>'<div class="ms"><div class="v">'+v+'</div><div class="l">'+l+'</div>'+(extra?'<div style="margin-top:3px">'+extra+'</div>':'')+'</div>';
+      document.getElementById('outlook-snapshot').innerHTML=
+        '<div class="panel-head"><h2>Live snapshot</h2><span class="prov live">Live · EIA</span></div>'+
+        '<p class="caption">The current readings the outlook is built on — these recompute on every data refresh.</p>'+
+        '<div class="modal-stat" style="margin:0">'+
+          stat((nowCrude?nowCrude.toFixed(2):'—')+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','US crude · '+nowCrudeDate,dir(crudeYoY,'Mbbl/d'))+
+          stat((gasNow?gasNow.toFixed(0):'—')+' <small style="font-size:11px;color:var(--faint)">Bcf/d</small>','Natural gas · '+(gasNowDate||''),dir(gasYoY,'Bcf/d'))+
+          stat('$'+(wtiNow?wtiNow.toFixed(2):'—'),'WTI spot · '+wtiDate,(wtiHigh&&wtiNow?'<span style="font-size:11px;color:var(--faint)">12-mo high $'+wtiHigh.toFixed(0)+'</span>':''))+
+          stat('$'+(hhNow?hhNow.toFixed(2):'—'),'Henry Hub · '+(hhDate||''),'')+
+        '</div>';
+
+      if(usTot.length){
+        const labels=usTot.map(p=>p.date), data=usTot.map(p=>p.value);
+        const ann={ fc:{type:'box',xMin:clampLabel(actualsThrough,new Set(labels),'lo'),xMax:labels[labels.length-1],backgroundColor:'rgba(143,192,224,0.10)',borderWidth:0,
+          label:{display:true,content:'STEO forecast →',position:{x:'end',y:'start'},color:'#4f7186',font:{size:10,style:'italic'},backgroundColor:'transparent'}} };
+        if(outlookChart){try{outlookChart.destroy();}catch(x){}}
+        outlookChart=new Chart(document.getElementById('chartOutlook'),{type:'line',
+          data:{labels,datasets:[{data,borderColor:RED,borderWidth:1.8,pointRadius:0,fill:true,backgroundColor:hexA(RED,0.07),tension:0.15}]},
+          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+            plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.parsed.y.toFixed(2)+' Mbbl/d'+(usTot[c.dataIndex].forecast?' (forecast)':'')}},annotation:{annotations:ann}},
+            scales:{x:xCat(),y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'million barrels / day',color:'#9aa1ab',font:{size:11}}}}}});
+        if(projPoint)document.getElementById('outlook-proj-tag').textContent='Projection · STEO through '+projPoint.date;
+      }
+
+      const cards=[
+        {h:"Oil — near plateau",b:"U.S. crude hit a record <b>~13.6M bbl/d in 2025</b>"+(projPoint?'; EIA STEO now carries it to <b>~'+projPoint.value.toFixed(1)+'M bbl/d by '+projPoint.date.slice(0,4)+'</b>':'; EIA sees it holding then easing slightly')+'. The Permian drives most remaining growth but is maturing (Tier-1 ~2037).',t:"Live current + EIA STEO projection (id=67404)"},
+        {h:"Gas — the growth story",b:"At <b>~"+(gasNow?gasNow.toFixed(0):'118')+" Bcf/d</b> now and rising. LNG + data-center demand lift the floor: EIA projects Henry Hub <b>~$3.80/MMBtu by 2030</b> (some banks $5+), and LNG export capacity <b>nearly doubles by 2031</b>.",t:"Live current + EIA AEO/STEO; bank forecasts"}
+      ];
+      document.getElementById('outlook-cards').innerHTML=cards.map(c=>'<div class="panel" style="margin-top:0"><div class="panel-head"><h2>'+c.h+'</h2><span class="prov proj">Projection</span></div><p class="caption" style="margin:0">'+c.b+'</p><cite>'+c.t+' · refreshed '+(TOTAL?TOTAL.last_updated:'')+'</cite></div>').join('');
+
+      document.getElementById('outlook-detail').innerHTML=
+        '<div class="panel-head"><h2>What to watch</h2><span class="prov proj">Projections</span></div>'+
+        '<div class="prose"><ul>'+
+        '<li><b>The Permian plateau.</b> Most U.S. oil growth rides on one maturing basin. When its growth flattens (Production tab), national growth flattens too.</li>'+
+        '<li><b>LNG build-out.</b> Plaquemines, Golden Pass, Corpus Christi Stage 3 — then more by 2031 — pull more gas into exports, tightening the domestic market.</li>'+
+        '<li><b>Data-center demand.</b> The wild card: ~3–20 Bcf/d by 2030 across estimates; even the low end tightens balances.</li>'+
+        '<li><b>Price risk.</b> Oil to Middle East supply shocks; gas to winter spikes (Jan-2026) and the LNG ramp pace.</li>'+
+        '</ul><cite>Projections: EIA STEO (June 2026) & AEO; analyst forecasts (Deloitte, ICF). Live figures refresh when fetch_data.py runs · last reviewed '+ANALYST_FACTS.reviewed+'.</cite></div>';
+    }
+
+    
+    // ---- start ----
+    showTab('overview');
+  })();
+  </script>
+</body>
+</html>

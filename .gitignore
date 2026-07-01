@@ -1,0 +1,6 @@
+# Never commit your real key
+.env
+
+# Python cache
+__pycache__/
+*.pyc

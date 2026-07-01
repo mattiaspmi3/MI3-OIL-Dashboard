@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212 56" role="img" aria-label="MI3 Energy">
+  <rect x="2" y="6" width="44" height="44" rx="10" fill="#e63950"/>
+  <rect x="12.5" y="31" width="6" height="11" rx="1.5" fill="#fff"/>
+  <rect x="21.5" y="25" width="6" height="17" rx="1.5" fill="#fff"/>
+  <rect x="30.5" y="18" width="6" height="24" rx="1.5" fill="#fff"/>
+  <text x="58" y="31" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="23" fill="#16181c" letter-spacing="0.5">MI3</text>
+  <text x="59" y="47" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="11" fill="#5b626d" letter-spacing="3.4">ENERGY</text>
+</svg>
