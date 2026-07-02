@@ -1,12 +1,12 @@
 {
   "available": true,
-  "last_updated": "2026-06-30 15:43",
+  "last_updated": "2026-07-02 15:59",
   "source": "FRED series SP500 (S&P 500 index, monthly)",
   "note": "FRED series SP500, monthly, 2016-07..2026-06 (FRED history ~10 years).",
   "data": [
     {
       "date": "2016-07",
-      "value": 2148.9
+      "value": 2151.32
     },
     {
       "date": "2016-08",
@@ -482,7 +482,7 @@
     },
     {
       "date": "2026-06",
-      "value": 7447.57
+      "value": 7450.03
     }
   ]
 }

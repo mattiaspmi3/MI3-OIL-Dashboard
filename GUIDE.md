@@ -93,19 +93,21 @@ North-America-wide / all-tier figure, not Permian-only.
 
 | Data | Source (feed) | Refreshes |
 |------|---------------|-----------|
-| US crude production (history + latest) | EIA series `MCRFPUS2` | ✅ weekly |
-| Production by basin/region | EIA STEO regional series | ✅ weekly |
-| State-level crude (deep history) | EIA state series | ✅ weekly |
-| WTI oil price (monthly + daily spot) | EIA series `RWTC` | ✅ weekly |
-| Inflation-adjusted ("real") WTI | BLS CPI (`CUSR0000SA0`) / FRED | ✅ weekly |
-| Natural gas production (marketed + dry) | EIA `N9050US2` / `N9070US2` | ✅ weekly |
-| Henry Hub gas price | EIA series `RNGWHHD` | ✅ weekly |
-| S&amp;P 500 (oil-vs-market chart) | FRED series `SP500` | ✅ weekly |
-| Rigs, wells drilled/completed, DUC, oil-per-rig (by basin) | EIA STEO **Table 10a** | ✅ weekly |
+| US crude production (history + latest) | EIA series `MCRFPUS2` | ✅ daily |
+| Production by basin/region | EIA STEO regional series | ✅ daily |
+| State-level crude (deep history) | EIA state series | ✅ daily |
+| WTI oil price (monthly + daily spot) | EIA series `RWTC` | ✅ daily |
+| Inflation-adjusted ("real") WTI | BLS CPI (`CUSR0000SA0`) / FRED | ✅ daily |
+| Natural gas production (marketed + dry) | EIA `N9050US2` / `N9070US2` | ✅ daily |
+| Henry Hub gas price | EIA series `RNGWHHD` | ✅ daily |
+| S&amp;P 500 (oil-vs-market chart) | FRED series `SP500` | ✅ daily |
+| Rigs, wells drilled/completed, DUC, oil-per-rig (by basin) | EIA STEO **Table 10a** | ✅ daily |
 
-All the live data refreshes **every Sunday at 6 AM** via a scheduled task on the PC
-(runs `fetch_data.py`, then rebuilds the shareable file). EIA/BLS/FRED are free, so
-this costs nothing.
+All the live data refreshes **every day at 6 AM** via a scheduled task on the PC
+(runs `fetch_data.py`, then rebuilds the shareable file). This keeps the **daily WTI
+spot price and daily Henry Hub gas price** fresh each day; the monthly series (like
+production) simply re-check and update whenever EIA posts a new month. EIA/BLS/FRED
+are free, so this costs nothing.
 
 ### 🔴 SOURCED (hand-checked analyst figures — refresh on a schedule, see §6)
 
@@ -133,9 +135,10 @@ not measured data.
 
 ## 6. Does it update over time? Yes — two automatic loops
 
-1. **Live data → weekly.** A Windows scheduled task ("MI3 Oil Dashboard Refresh")
-   runs every Sunday 6 AM: it pulls the latest EIA/BLS/FRED data and rebuilds the
-   shareable file. Fully automatic, on the PC.
+1. **Live data → daily.** A Windows scheduled task ("MI3 Oil Dashboard Refresh")
+   runs every day at 6 AM: it pulls the latest EIA/BLS/FRED data — including the
+   **daily WTI and Henry Hub spot prices** — and rebuilds the shareable file.
+   Fully automatic, on the PC.
 
 2. **Sourced figures → quarterly.** A cloud agent runs on **Jan 1, Apr 1, Jul 1,
    and Oct 1**. It reads `SOURCES.md`, re-checks each analyst source on the web,
