@@ -20,9 +20,11 @@ Legend: **Cadence** = how often the source publishes something new worth checkin
 | 7 | Top US oil producers | Chevron/Exxon/COP/Oxy/EOG… kbbl/d or boe/d | Company Q4/FY results | (company IR) | Quarterly | `OIL_PRODUCERS` | 2026-06-26 |
 | 8 | Top US gas producers | Expand/EQT/Antero… Bcf/d | Company results + EIA | (company IR) | Quarterly | `GAS_PRODUCERS` | 2026-06-26 |
 | 9 | US gas by region | Appalachia 36.6 · Permian 27.7 · Haynesville 14.9 Bcf/d | EIA Today in Energy | https://www.eia.gov/todayinenergy/ | Periodic (EIA articles) | `GAS_BY_REGION` | 2026-06-26 |
-| 10 | Basin shares of US crude | Permian ~48% · Bakken/Eagle Ford ~9% | EIA Today in Energy (id=67404) | https://www.eia.gov/todayinenergy/ | Periodic | `ANALYST_FACTS.basins[].share` (also computed live in the donut) | 2026-06-26 |
+| 10 | Basin shares of US crude + US share of world crude | Permian ~48% · Bakken/Eagle Ford ~9% · **US ~16% of world crude (~20% incl. all liquids), largest of any nation** | EIA Today in Energy (id=67404) | https://www.eia.gov/todayinenergy/ | Periodic | `ANALYST_FACTS.basins[].share` (donut, live) + Overview `#bignum` world-share line | 2026-07-06 |
 | 11 | Outlook projections | oil plateau; Henry Hub ~$3.80/2030; LNG ~2x by 2031 | EIA STEO/AEO; bank forecasts | https://www.eia.gov/outlooks/steo/ | Monthly (STEO) | Outlook-tab card text | 2026-06-26 |
 | 12 | Events narrative | 8 oil-price events | history (stable) | — | Rarely | `EVENTS` | 2026-06-26 |
+| 13 | Simulator basin inventory & breakevens | **Bakken** ~1,400 sub-$50 · ~6,100 economic (RBN) · Dallas-Fed "Other US shale" $63 proxy · **Eagle Ford** $62 breakeven · ~5,500 total *(estimate — ⚠ unverified, no public creaming curve)* | Enverus · RBN Energy · Dallas Fed | https://rbnenergy.com · https://www.dallasfed.org/research/surveys/des | Periodic | `SIMS.bakken` / `SIMS.eagleford` (tiers + methodology panels) | 2026-07-06 |
+| 14 | US crude exports / imports / Canada share | **LIVE** — exports `MCREXUS2` · imports `MCRIMUS2` · Canada `MCRIMUSCA2` (share computed) | EIA petroleum/move | https://www.eia.gov/petroleum/ | *(auto — via `fetch_data.py`)* | Overview `#bignum`; `data/trade.js` | live |
 
 ## How the refresh works
 

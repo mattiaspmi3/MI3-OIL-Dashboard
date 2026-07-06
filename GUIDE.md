@@ -51,9 +51,16 @@ Two golden rules run through the whole thing:
   computed from the live data, with a mini price chart.
 - **Permian creaming curve** — drag a WTI-price slider to see how many Permian
   drilling locations are economic at that price (built on verified Enverus + Novi figures).
-- **Permian production simulator** — a simplified planning model: move the oil-price,
-  drilling-pace, and per-tier-productivity sliders and watch the 20-year production
-  curve reshape, with a sensitivity band. It has its own "How to read this" guide.
+- **Multi-basin production simulator** — a simplified planning model for the three
+  shale-**oil** basins (Permian, Bakken, Eagle Ford). Pick a basin; every basin has the
+  **identical** controls — WTI price, drilling pace, a per-tier productivity slider for
+  each tier, a well-decline-rate slider, and Base/Upside/Downside scenario presets — and
+  the 20-year curve reshapes with a sensitivity band. The starting production is **live
+  from EIA**. Each basin shows a **"How this simulation was built"** panel that tags every
+  input **Live / Sourced / Derived / Assumption** with its source and date (e.g. Permian
+  inventory from Enverus/Novi; Bakken from Enverus + RBN with the Dallas-Fed "Other US
+  shale" breakeven as proxy; Eagle Ford breakeven from the Dallas Fed, with its total
+  location count flagged as an unverified estimate). It has its own "How to read this" guide.
 
 ---
 
@@ -102,6 +109,7 @@ North-America-wide / all-tier figure, not Permian-only.
 | Henry Hub gas price | EIA series `RNGWHHD` | ✅ daily |
 | S&amp;P 500 (oil-vs-market chart) | FRED series `SP500` | ✅ daily |
 | Rigs, wells drilled/completed, DUC, oil-per-rig (by basin) | EIA STEO **Table 10a** | ✅ daily |
+| US crude exports / imports / % from Canada (Overview trade line) | EIA `MCREXUS2` / `MCRIMUS2` / `MCRIMUSCA2` | ✅ daily |
 
 All the live data refreshes **every day at 6 AM** via a scheduled task on the PC
 (runs `fetch_data.py`, then rebuilds the shareable file). This keeps the **daily WTI

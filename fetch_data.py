@@ -599,6 +599,49 @@ except NameError:
 
 
 # ===========================================================================
+# 9. CRUDE TRADE  (exports, imports, imports-from-Canada)  -- all LIVE
+#    Feeds the Overview summary's trade/refinery paragraph. Canada's share of
+#    crude imports is computed live from the two series (no hardcoding).
+# ===========================================================================
+try:
+    def _pull_trade(path, sid):
+        rows = eia_series(path, "series", sid, "monthly")
+        pts = [{"date": r["period"], "value": float(r["value"])}
+               for r in rows if r.get("value") is not None]
+        pts.sort(key=lambda x: x["date"])
+        return pts
+
+    ex = _pull_trade("petroleum/move/exp", "MCREXUS2")       # US crude exports
+    im = _pull_trade("petroleum/move/imp", "MCRIMUS2")       # US crude imports
+    ca = _pull_trade("petroleum/move/impcus", "MCRIMUSCA2")  # crude imports from Canada
+    trade = {
+        "last_updated": NOW,
+        "units": "thousand barrels per day",
+        "source": "EIA petroleum/move: exports MCREXUS2, imports MCRIMUS2, "
+                  "Canada imports MCRIMUSCA2",
+        "exports": {"series_id": "MCREXUS2", "latest": ex[-1] if ex else None,
+                    "data": ex[-60:]},
+        "imports": {"series_id": "MCRIMUS2", "latest": im[-1] if im else None,
+                    "data": im[-60:]},
+        "canada_imports": {"series_id": "MCRIMUSCA2", "latest": ca[-1] if ca else None,
+                           "data": ca[-60:]},
+    }
+    if im and ca:
+        imap = {p["date"]: p["value"] for p in im}
+        d = ca[-1]["date"]
+        if d in imap and imap[d]:
+            trade["canada_share_pct"] = round(ca[-1]["value"] / imap[d] * 100, 1)
+            trade["canada_share_date"] = d
+    save("trade", "TRADE_DATA", trade)
+    report.append(("Crude trade (EIA)",
+                   f"exports {ex[-1]['date']}={ex[-1]['value']:.0f}, "
+                   f"imports {im[-1]['value']:.0f}, "
+                   f"Canada {trade.get('canada_share_pct', '?')}% (MBBL/D)"))
+except Exception as e:
+    failures.append(("Crude trade (EIA)", str(e)))
+
+
+# ===========================================================================
 # Plain-English summary
 # ===========================================================================
 print("\n" + "=" * 64)

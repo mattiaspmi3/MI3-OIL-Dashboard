@@ -262,6 +262,21 @@
   .sim-stat .v { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 700; line-height: 1.05; }
   .sim-stat .l { font-size: 10px; color: var(--faint); text-transform: uppercase; letter-spacing: .04em; margin-top: 4px; line-height: 1.2; }
   .sim-reset { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 7px; }
+  .sim-basins { display: flex; gap: 8px; flex-wrap: wrap; margin: 2px 0 6px; }
+  .sim-basins button { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 12.5px; font-weight: 700; padding: 7px 15px; border-radius: 8px; }
+  .sim-basins button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .sim-scen { display: flex; gap: 6px; align-items: center; }
+  .sim-scen .sl { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin-right: 2px; }
+  .sim-scen button { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 7px; }
+  .sim-scen button.active { background: #16181c; color: #fff; border-color: #16181c; }
+  .sim-method { border: 1px solid var(--line); border-radius: 9px; padding: 14px 16px; margin: 14px 0; background: var(--panel2); font-size: 13px; line-height: 1.55; }
+  .sim-method h3 { margin: 0 0 3px; font-size: 14.5px; } .sim-method .msub { color: var(--muted); font-size: 12px; margin: 0 0 8px; }
+  .sim-method .ml { display: flex; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); align-items: flex-start; }
+  .sim-method .mlab { font-weight: 700; color: var(--ink); min-width: 168px; }
+  .sim-method .mtxt { color: #2b2f36; flex: 1; }
+  .pill { display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: .04em; padding: 2px 6px; border-radius: 5px; text-transform: uppercase; white-space: nowrap; margin-right: 7px; vertical-align: 1px; }
+  .pill.live { background: #e3f4ea; color: #1c6b3f; } .pill.src { background: #fdeaea; color: #a01824; }
+  .pill.der { background: #fdf3e3; color: #8a5a12; } .pill.asm { background: #eceef1; color: #4a5058; }
 
   @media (max-width: 800px) {
     .wrap { padding: 0 16px 48px; } .masthead-inner { padding: 14px 16px; } .tabbar-inner { padding: 0 10px; }
@@ -498,26 +513,31 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><h2>Permian production simulator</h2><span class="prov proj" id="sim-tag">Model · Novi + EIA inputs</span></div>
+        <div class="panel-head"><h2>Production simulator</h2><span class="prov proj" id="sim-tag">Model · EIA (live) + analyst inputs</span></div>
         <div class="sim-guide">
           <h3>How to read this</h3>
-          <p>This tool projects how much oil the Permian Basin might produce in the years ahead — and lets you test what happens if the assumptions change.</p>
+          <p>This tool projects how much oil a shale basin might produce in the years ahead — and lets you test what happens if the assumptions change. <b>Pick a basin</b> below; every basin uses the <b>same controls</b> and shows exactly <b>how it was built and sourced</b>.</p>
           <p><b>The basics:</b> shale wells produce a lot at first, then drop off fast. So to keep total production up, companies must keep drilling new wells to replace the old ones that are fading. Whether production grows or shrinks depends on whether new wells are added faster than old ones decline.</p>
           <p>Companies drill their best rock first (Tier&nbsp;1), then move to steadily worse rock (Tier&nbsp;2,&nbsp;3,&nbsp;4) — each tier produces a bit less per well. As they run out of the good rock, total production peaks and then declines. That rise-and-fall shape is the “type curve.”</p>
-          <p><b>Try the sliders:</b></p>
+          <p><b>The sliders (identical for every basin):</b></p>
           <ul>
-            <li><b>Oil price</b> — sets how much rock is worth drilling. Higher price unlocks more (and worse) tiers; lower price limits drilling to only the best rock.</li>
+            <li><b>Oil price (WTI)</b> — sets how much rock is worth drilling. Higher price unlocks more (and worse) tiers; lower price limits drilling to only the best rock.</li>
             <li><b>Drilling pace</b> — how many new wells per year. More drilling holds production up longer; less lets it fall sooner.</li>
-            <li><b>Tier productivity</b> — dial each tier up or down to test “what if the rock performs worse (or better) than expected.”</li>
+            <li><b>Per-tier productivity</b> — one slider per tier: dial each up or down to test “what if the rock performs worse (or better) than expected.”</li>
+            <li><b>Well decline rate</b> — how fast each well fades after year one. Steeper decline = harder to hold production up.</li>
+            <li><b>Scenario preset</b> — jump to a <b>Base</b>, <b>Upside</b>, or <b>Downside</b> combination of all the above in one click.</li>
           </ul>
           <p>Watch the curve reshape as you change them. The band around the line shows how much the answer swings — that range is the whole point of a sensitivity report: not one prediction, but how the future shifts when the assumptions do.</p>
-          <p style="color:var(--muted)"><b>Note:</b> this is a simplified planning model built on public Novi Labs and EIA figures, not an exact reservoir forecast. Every assumption is listed below so you can see what’s driving the result.</p>
+          <p style="color:var(--muted)"><b>Note:</b> this is a simplified planning model, not an exact reservoir forecast. The starting production is <b>live from EIA</b>; the “How this simulation was built” panel below lists every input and whether it’s sourced, derived, or an assumption.</p>
         </div>
-        <div class="controls" style="justify-content:space-between"><span class="viewlabel">Adjust the assumptions ↓</span><button class="sim-reset" id="sim-reset">↺ Reset to base case</button></div>
+        <div class="sim-basins" id="sim-basins"></div>
+        <p class="caption" id="sim-basin-note" style="margin:-2px 0 12px">Simulator covers the three shale-<b>oil</b> basins with public inventory &amp; breakeven data. Gas &amp; conventional plays (Appalachia, Haynesville, Federal Gulf, Alaska) don’t use a shale-oil tier model, so they have no creaming simulator.</p>
+        <div class="controls" style="justify-content:space-between"><span class="viewlabel">Adjust the assumptions ↓</span><span class="sim-scen" id="sim-scen"></span></div>
         <div class="sim-controls" id="sim-controls"></div>
         <div class="sim-stats" id="sim-stats"></div>
         <div class="chart-box tall"><canvas id="chartSim"></canvas></div>
-        <details class="learn"><summary>Assumptions driving this model</summary><div class="learn-body" id="sim-assump"></div></details>
+        <div class="sim-method" id="sim-method"></div>
+        <details class="learn"><summary>Model mechanics &amp; tier table (for this basin)</summary><div class="learn-body" id="sim-assump"></div></details>
       </div>
     </section>
 
@@ -647,6 +667,7 @@
   <script src="data/natgas.js"></script>
   <script src="data/sp500.js"></script>
   <script src="data/drilling.js"></script>
+  <script src="data/trade.js"></script>
   <script src="data/usmap.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
@@ -818,7 +839,7 @@
     const RECESSIONS = [ {start:"1990-07",end:"1991-03"}, {start:"2001-03",end:"2001-11"}, {start:"2007-12",end:"2009-06"}, {start:"2020-02",end:"2020-04"} ];
 
     const TOTAL=window.TOTAL_US_DATA, BAS=window.BASINS_DATA, ST=window.STATES_DATA,
-          WTI=window.WTI_DATA, GAS=window.NATGAS_DATA, SP=window.SP500_DATA;
+          WTI=window.WTI_DATA, GAS=window.NATGAS_DATA, SP=window.SP500_DATA, TRADE=window.TRADE_DATA;
     if (!WTI || !WTI.data || !WTI.data.length) { document.getElementById('empty').hidden=false; return; }
 
     // ---- palette ----
@@ -936,17 +957,37 @@
     if (hhSpot){ document.getElementById('hs-gas').innerHTML='$'+hhSpot.price.toFixed(2)+' <small>/MMBtu</small>';
       document.getElementById('hs-gas-sub').textContent='Henry Hub · '+hhSpot.date; }
     const gasMk = GAS && GAS.production && GAS.production.latest_marketed ? GAS.production.latest_marketed : null;
+    // ---- Overview summary (OIL ONLY): analyst summary + trade/refinery point ----
+    const _prod=(TOTAL&&TOTAL.latest)?TOTAL.latest.value.toFixed(1):'13.9';
+    const _prodDate=(TOTAL&&TOTAL.latest)?TOTAL.latest.date:'';
     document.getElementById('state-of-union').innerHTML =
-      'The U.S. is the world’s top producer of both oil and gas. Crude output sits near a record <b>'+(TOTAL?TOTAL.latest.value.toFixed(1):'13.7')+
-      ' million bbl/d</b>, led by the Permian (~48%), but growth is flattening as the basin matures. Natural gas, by contrast, is <b>booming</b> — a record <b>'+
-      (gasMk?gasMk.value.toFixed(0):'~118')+' Bcf/d</b> marketed, pulled higher by LNG exports and AI data-center power demand. In short: <b>oil is maturing toward a plateau; gas is the growth engine.</b>';
+      'The U.S. is the world’s top oil producer. Crude output sits near a record <b>'+_prod+
+      ' million bbl/d</b>, led by the Permian (~48%), but growth is flattening as multiple unconventional plays mature and '+
+      'completion-technology gains no longer offset controlled rig activity, capital discipline, shrinking DUC inventory, '+
+      'pressure depletion around remaining Tier-1 locations, and geologic deterioration of Tier-2 and Tier-3 rock.'+
+      '<br><span class="prov live" style="margin-top:6px;display:inline-block">Live · US production · EIA MCRFPUS2 · '+_prodDate+
+      '</span> <span class="prov sourced">Sourced · Permian ~48% · EIA · 2025</span>';
 
-    if (TOTAL && TOTAL.latest){
-      const pools=Math.round(TOTAL.latest.value*1e6*42/660000);
-      document.getElementById('bignum').innerHTML='Right now the U.S. pumps <span class="n">'+TOTAL.latest.value.toFixed(1)+
-        ' million barrels of crude a day</span> — about <span class="n">'+pools.toLocaleString()+
-        ' Olympic pools’ worth daily</span> — plus <span class="n">'+(gasMk?gasMk.value.toFixed(0):'~118')+
-        ' Bcf/d of natural gas</span>, both world records. A barrel is 42 gallons.';
+    // Trade / refinery paragraph — live exports, imports & Canada share; sourced world share
+    if (TRADE && TRADE.exports && TRADE.exports.latest){
+      const _exp=(TRADE.exports.latest.value/1000).toFixed(1);
+      const _imp=(TRADE.imports.latest.value/1000).toFixed(1);
+      const _ca =(TRADE.canada_share_pct!=null)?Math.round(TRADE.canada_share_pct):66;
+      const _td =TRADE.exports.latest.date;
+      document.getElementById('bignum').innerHTML=
+        'U.S. crude production is about <span class="n">~16%</span> of worldwide crude output — the largest of any nation. '+
+        'The U.S. exports roughly <span class="n">'+_exp+' million</span> barrels of crude per day, yet still imports about '+
+        '<span class="n">'+_imp+' million</span> barrels per day of heavier grades (about <span class="n">'+_ca+
+        '% from Canada</span>) to feed Gulf Coast refineries built for a heavier crude slate than U.S. shale provides.'+
+        '<br><span class="prov live" style="margin-top:6px;display:inline-block">Live · exports MCREXUS2 · imports MCRIMUS2 · Canada MCRIMUSCA2 · EIA · '+_td+
+        '</span> <span class="prov sourced">Sourced · world share ~16% crude (≈20% incl. all liquids) · EIA · 2025</span>';
+    } else {
+      document.getElementById('bignum').innerHTML=
+        'U.S. crude production is about <span class="n">~16%</span> of worldwide crude output — the largest of any nation. '+
+        'The U.S. exports roughly <span class="n">5.6 million</span> barrels of crude per day, yet still imports about '+
+        '<span class="n">6.3 million</span> barrels per day of heavier grades (about <span class="n">~66% from Canada</span>) '+
+        'to feed Gulf Coast refineries built for a heavier crude slate than U.S. shale provides.'+
+        '<br><span class="prov sourced" style="margin-top:6px;display:inline-block">Sourced · EIA · 2025</span>';
     }
     document.getElementById('updated').textContent='Page data last refreshed: '+(TOTAL?TOTAL.last_updated:WTI.last_updated);
 
@@ -1304,70 +1345,141 @@
           scales:{x:xCat(),y:{grid:{color:'#e6e8eb'},title:{display:true,text:'wells / month',color:'#9aa1ab',font:{size:11}}}}}});
     }
     // ----- Permian production simulator (simplified cohort/tier model) -----
-    const SIM = {
-      startYear:2026, N:20, base:6600, legacyDecline:0.37, ipBase:0.44,
-      decline:[1.0,0.42,0.26,0.18,0.13,0.10,0.08,0.065,0.055,0.046,0.039,0.033,0.028,0.024,0.02,0.017,0.014,0.012,0.01,0.009],
-      tiers:[{name:"Tier 1",loc:22000,be:40,mult:1.20},{name:"Tier 2",loc:30000,be:52,mult:1.00},{name:"Tier 3",loc:28000,be:65,mult:0.82},{name:"Tier 4",loc:20000,be:80,mult:0.65}],
-      def:{price:70,pace:5500,pm:[100,100,100,100]}
+    // Generic shale per-well decline (year-1 = 1.0, then fraction of year-1 rate each year)
+    const SHALE_DECLINE=[1.0,0.42,0.26,0.18,0.13,0.10,0.08,0.065,0.055,0.046,0.039,0.033,0.028,0.024,0.02,0.017,0.014,0.012,0.01,0.009];
+    // Every basin uses the IDENTICAL control set; only the sourced inputs differ.
+    const SIMS = {
+      permian:{ name:"Permian", color:"#c8102e", band:"rgba(200,16,46,0.10)", series:"COPRPM",
+        startYear:2026, N:20, base:6550, baseDate:"", legacyDecline:0.37, ipBase:0.50,
+        priceMin:40, priceMax:100, paceMin:2000, paceMax:8000, decline:SHALE_DECLINE,
+        tiers:[{name:"Tier 1",loc:25000,be:40,mult:1.20},{name:"Tier 2",loc:30000,be:50,mult:1.00},{name:"Tier 3",loc:28000,be:60,mult:0.85},{name:"Tier 4",loc:17000,be:70,mult:0.68}],
+        def:{price:70,pace:4200},
+        method:[
+          {lab:"Remaining inventory", tag:"src", txt:"~100,000 remaining horizontal locations; ~55,000 break even below $50/bbl (NPV25). — Enverus Intelligence Research, Apr 2026 (via World Oil)."},
+          {lab:"Breakeven cross-check", tag:"src", txt:"Corporate NPV25 breakevens ~$50–52 (Delaware ~$52, Midland ~$50). — Novi Labs public data, 2025."},
+          {lab:"New-well breakeven", tag:"src", txt:"Midland $61 / Delaware $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
+          {lab:"Tier structure (4 bands)", tag:"der", txt:"The ~100k locations are split into 4 breakeven bands interpolated between the verified Enverus anchors (55k sub-$50, 100k sub-$70). Individual band counts are derived, not separately published."},
+          {lab:"Productivity & decline", tag:"asm", txt:"Per-tier productivity multipliers, the well decline curve, and the ~37%/yr legacy base decline are modeling assumptions — adjust them with the sliders."}
+        ] },
+      bakken:{ name:"Bakken", color:"#33373d", band:"rgba(51,55,61,0.10)", series:"COPRBK",
+        startYear:2026, N:20, base:1177, baseDate:"", legacyDecline:0.35, ipBase:1.68,
+        priceMin:40, priceMax:100, paceMin:80, paceMax:600, decline:SHALE_DECLINE,
+        tiers:[{name:"Tier 1",loc:1400,be:48,mult:1.15},{name:"Tier 2",loc:1900,be:58,mult:1.00},{name:"Tier 3",loc:1700,be:66,mult:0.85},{name:"Tier 4",loc:1100,be:75,mult:0.70}],
+        def:{price:68,pace:220},
+        method:[
+          {lab:"Sub-$50 inventory", tag:"src", txt:"~1,400 locations break even below $50/bbl. — Enverus, Aug 2024."},
+          {lab:"Total economic inventory", tag:"src", txt:"~6,100 well sites still economic at recent prices (majors cite ~10 yrs of inventory). — RBN Energy, 2024."},
+          {lab:"New-well breakeven", tag:"der", txt:"The Dallas Fed does not break out the Bakken; its “Other U.S. shale” ~$63 (Q1 2025) is used as the basin proxy — derived, not Bakken-specific."},
+          {lab:"Tier structure (4 bands)", tag:"der", txt:"No public Bakken creaming curve exists. The 4 tiers are derived from the two verified anchors above (1,400 sub-$50; ~6,100 total) with an assumed breakeven spread."},
+          {lab:"Productivity & decline", tag:"asm", txt:"Per-tier multipliers, well decline curve, and ~35%/yr legacy decline are adjustable modeling assumptions."}
+        ] },
+      eagleford:{ name:"Eagle Ford", color:"#4f7186", band:"rgba(79,113,134,0.12)", series:"COPREF",
+        startYear:2026, N:20, base:1174, baseDate:"", legacyDecline:0.37, ipBase:1.85,
+        priceMin:40, priceMax:100, paceMin:80, paceMax:600, decline:SHALE_DECLINE,
+        tiers:[{name:"Tier 1",loc:1200,be:50,mult:1.10},{name:"Tier 2",loc:1800,be:60,mult:1.00},{name:"Tier 3",loc:1600,be:68,mult:0.85},{name:"Tier 4",loc:900,be:78,mult:0.70}],
+        def:{price:70,pace:200},
+        method:[
+          {lab:"New-well breakeven", tag:"src", txt:"Eagle Ford $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
+          {lab:"Inventory quality", tag:"src", txt:"Mature play — Tier-1 inventory thinning, refracs & redevelopment rising. — Enverus, 2025 (qualitative)."},
+          {lab:"Total economic inventory", tag:"asm", txt:"~5,500 remaining economic locations — no public Eagle Ford creaming curve exists, so this total is an estimate. ⚠ Unverified — needs review."},
+          {lab:"Tier structure (4 bands)", tag:"der", txt:"Derived from the Dallas Fed $62 breakeven with an assumed spread; not a published distribution."},
+          {lab:"Productivity & decline", tag:"asm", txt:"Per-tier multipliers, well decline curve, and ~37%/yr legacy decline are adjustable modeling assumptions."}
+        ] }
     };
-    function simRun(price,pace,pm){
-      const T=SIM.tiers,N=SIM.N,rem=T.map(t=>t.loc),cohorts=[];
+    // Scenario presets (identical logic for every basin)
+    const SCEN = {
+      Base:     S=>({price:S.def.price, pace:S.def.pace, pm:S.tiers.map(_=>100), dec:100}),
+      Upside:   S=>({price:Math.min(S.priceMax,S.def.price+15), pace:Math.min(S.paceMax,Math.round(S.def.pace*1.25)), pm:S.tiers.map(_=>110), dec:90}),
+      Downside: S=>({price:Math.max(S.priceMin,S.def.price-15), pace:Math.max(S.paceMin,Math.round(S.def.pace*0.7)), pm:S.tiers.map(_=>90), dec:115})
+    };
+    function simLiveBase(S){ try{ if(window.BASINS_DATA&&BASINS_DATA.regions){ const r=BASINS_DATA.regions.find(x=>x.series_id===S.series);
+      if(r&&r.data){ const acts=r.data.filter(p=>p&&p.value!=null&&!p.forecast); if(acts.length){ const last=acts[acts.length-1]; S.base=+(last.value*1000).toFixed(0); S.baseDate=last.date; } } } }catch(e){} }
+    function methodHTML(S){ const P={live:'LIVE',src:'SOURCED',der:'DERIVED',asm:'ASSUMPTION'};
+      const rows=[{lab:"Production baseline", tag:"live", txt:"Simulation starts at the live EIA figure — "+(S.base/1000).toFixed(2)+"M bbl/d ("+S.series+", "+(S.baseDate||"latest")+"). — EIA STEO, auto-updates daily."}].concat(S.method);
+      return '<h3>How this '+S.name+' simulation was built</h3>'+
+        '<p class="msub">Each input is tagged <span class="pill live">Live</span> (auto data feed) · <span class="pill src">Sourced</span> (published analyst figure) · <span class="pill der">Derived</span> (built from sourced anchors) · <span class="pill asm">Assumption</span> (adjustable model input).</p>'+
+        rows.map(r=>'<div class="ml"><div class="mlab"><span class="pill '+r.tag+'">'+P[r.tag]+'</span>'+r.lab+'</div><div class="mtxt">'+r.txt+'</div></div>').join('');
+    }
+    function simRun(S,price,pace,pm,decPct){
+      const T=S.tiers,N=S.N,rem=T.map(t=>t.loc),cohorts=[];
+      const dp=(decPct||100)/100;                              // well decline-rate control
+      const dcurve=S.decline.map(f=> f>=1?1:Math.pow(f,dp));   // steeper >100%, gentler <100%
+      const legacy=Math.min(0.9, S.legacyDecline*dp);
       for(let y=0;y<N;y++){ if(y===0){cohorts.push({w:0,ip:0});continue;}
         let toD=pace,w=0,wip=0;
         for(let ti=0;ti<T.length&&toD>0;ti++){ if(T[ti].be>price)continue; const take=Math.min(toD,rem[ti]); if(take<=0)continue;
-          w+=take; wip+=take*SIM.ipBase*T[ti].mult*(pm[ti]/100); rem[ti]-=take; toD-=take; }
+          w+=take; wip+=take*S.ipBase*T[ti].mult*(pm[ti]/100); rem[ti]-=take; toD-=take; }
         cohorts.push({w,ip:w?wip/w:0}); }
       const out=[];
-      for(let y=0;y<N;y++){ let p=SIM.base*Math.pow(1-SIM.legacyDecline,y);
-        for(let c=1;c<=y;c++){ const co=cohorts[c],age=y-c; if(age<SIM.decline.length)p+=co.w*co.ip*SIM.decline[age]; }
+      for(let y=0;y<N;y++){ let p=S.base*Math.pow(1-legacy,y);
+        for(let c=1;c<=y;c++){ const co=cohorts[c],age=y-c; if(age<dcurve.length)p+=co.w*co.ip*dcurve[age]; }
         out.push(+p.toFixed(1)); }
       return out;
     }
-    let simChart=null;
+    let simChart=null, simBasin='permian';
     function buildSimulator(){
-      const cont=document.getElementById('sim-controls'); if(!cont||cont.dataset.built)return; cont.dataset.built='1';
-      const st={price:SIM.def.price,pace:SIM.def.pace,pm:SIM.def.pm.slice()};
+      const host=document.getElementById('sim-basins'); if(!host||host.dataset.built)return; host.dataset.built='1';
+      host.innerHTML=Object.keys(SIMS).map(k=>'<button data-b="'+k+'">'+SIMS[k].name+'</button>').join('');
+      host.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>renderSim(b.dataset.b)));
+      renderSim(simBasin);
+    }
+    function renderSim(key){
+      const S=SIMS[key]; simBasin=key; simLiveBase(S);
+      document.querySelectorAll('#sim-basins button').forEach(b=>b.classList.toggle('active',b.dataset.b===key));
+      const st=SCEN.Base(S);
       const ctrl=(id,label,min,max,val,step,fmt)=>'<div class="sim-ctrl"><label>'+label+' <b id="'+id+'-v">'+fmt(val)+'</b></label><input type="range" id="'+id+'" min="'+min+'" max="'+max+'" value="'+val+'" step="'+step+'"></div>';
-      let tierHTML='<div class="sim-tiers"><div class="tt">Tier productivity — what if the rock performs better / worse (100% = base)</div><div class="sim-tiergrid">';
-      SIM.tiers.forEach((t,i)=>{ tierHTML+='<div class="sim-ctrl"><label>'+t.name+' <b id="pm'+i+'-v">100%</b></label><input type="range" id="pm'+i+'" min="50" max="150" value="100" step="5"></div>'; });
+      let tierHTML='<div class="sim-tiers"><div class="tt">Per-tier productivity — what if the rock performs better / worse (100% = base)</div><div class="sim-tiergrid">';
+      S.tiers.forEach((t,i)=>{ tierHTML+='<div class="sim-ctrl"><label>'+t.name+' <b id="pm'+i+'-v">'+st.pm[i]+'%</b></label><input type="range" id="pm'+i+'" min="50" max="150" value="'+st.pm[i]+'" step="5"></div>'; });
       tierHTML+='</div></div>';
-      cont.innerHTML=ctrl('sim-price','Oil price (WTI)',40,100,st.price,1,v=>'$'+v)+
-        ctrl('sim-pace','Drilling pace (new wells / yr)',2000,8000,st.pace,100,v=>(+v).toLocaleString())+tierHTML;
-      const years=[]; for(let y=0;y<SIM.N;y++)years.push(SIM.startYear+y);
+      document.getElementById('sim-controls').innerHTML=
+        ctrl('sim-price','Oil price (WTI)',S.priceMin,S.priceMax,st.price,1,v=>'$'+v)+
+        ctrl('sim-pace','Drilling pace (new wells / yr)',S.paceMin,S.paceMax,st.pace,(S.paceMax>2000?100:10),v=>(+v).toLocaleString())+
+        ctrl('sim-dec','Well decline rate (higher = faster fade)',70,130,st.dec,5,v=>v+'%')+
+        tierHTML;
+      const scen=document.getElementById('sim-scen');
+      scen.innerHTML='<span class="sl">Scenario</span>'+['Base','Upside','Downside'].map(n=>'<button data-s="'+n+'">'+n+'</button>').join('');
+      document.getElementById('sim-method').innerHTML=methodHTML(S);
+      const years=[]; for(let y=0;y<S.N;y++)years.push(S.startYear+y);
       const toM=a=>a.map(v=>+(v/1000).toFixed(3));
       const stat=(v,l)=>'<div class="sim-stat"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';
       const statc=(v,c,l)=>'<div class="sim-stat"><div class="v" style="color:'+c+'">'+v+'</div><div class="l">'+l+'</div></div>';
+      if(simChart){ simChart.destroy(); simChart=null; }
       function draw(){
-        const med=simRun(st.price,st.pace,st.pm), lo=simRun(st.price,st.pace,st.pm.map(x=>x*0.85)), hi=simRun(st.price,st.pace,st.pm.map(x=>x*1.15));
-        const peak=Math.max.apply(null,med), pk=med.indexOf(peak), econ=SIM.tiers.filter(t=>t.be<=st.price).reduce((s,t)=>s+t.loc,0);
-        const last=med[SIM.N-1], pct=(last-SIM.base)/SIM.base*100;
+        const med=simRun(S,st.price,st.pace,st.pm,st.dec), lo=simRun(S,st.price,st.pace,st.pm.map(x=>x*0.85),st.dec), hi=simRun(S,st.price,st.pace,st.pm.map(x=>x*1.15),st.dec);
+        const peak=Math.max.apply(null,med), pk=med.indexOf(peak), econ=S.tiers.filter(t=>t.be<=st.price).reduce((s,t)=>s+t.loc,0);
+        const last=med[S.N-1], pct=(last-S.base)/S.base*100;
         document.getElementById('sim-stats').innerHTML=
-          stat((peak/1000).toFixed(1)+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','Peak output · '+(SIM.startYear+pk))+
-          stat((last/1000).toFixed(1)+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','Output in '+years[SIM.N-1])+
-          statc((pct>=0?'+':'')+pct.toFixed(0)+'%',(pct>=0?'#2c7a4d':'#c8102e'),'vs today, by '+years[SIM.N-1])+
+          stat((peak/1000).toFixed(2)+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','Peak output · '+(S.startYear+pk))+
+          stat((last/1000).toFixed(2)+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','Output in '+years[S.N-1])+
+          statc((pct>=0?'+':'')+pct.toFixed(0)+'%',(pct>=0?'#2c7a4d':'#c8102e'),'vs today, by '+years[S.N-1])+
           stat(econ.toLocaleString(),'Drillable locations at $'+st.price);
         if(simChart){ simChart.data.datasets[0].data=toM(hi); simChart.data.datasets[1].data=toM(lo); simChart.data.datasets[2].data=toM(med); simChart.update(); }
         else simChart=new Chart(document.getElementById('chartSim'),{type:'line',
           data:{labels:years,datasets:[
-            {label:'high',data:toM(hi),borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:'rgba(200,16,46,0.10)'},
+            {label:'high',data:toM(hi),borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:S.band},
             {label:'low',data:toM(lo),borderColor:'transparent',pointRadius:0,fill:false},
-            {label:'projected',data:toM(med),borderColor:'#c8102e',borderWidth:2.4,pointRadius:0,tension:0.2,fill:false}]},
+            {label:'projected',data:toM(med),borderColor:S.color,borderWidth:2.4,pointRadius:0,tension:0.2,fill:false}]},
           options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
             plugins:{legend:{display:false},tooltip:{filter:i=>i.datasetIndex===2,callbacks:{title:c=>c[0].label,label:c=>'~'+c.parsed.y.toFixed(2)+' Mbbl/d  (±15% sensitivity band)'}}},
-            scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},title:{display:true,text:'Permian crude (million bbl/day)',color:'#9aa1ab',font:{size:11}}}}}});
+            scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},title:{display:true,text:S.name+' crude (million bbl/day)',color:'#9aa1ab',font:{size:11}}}}}});
       }
-      const price=document.getElementById('sim-price'), pace=document.getElementById('sim-pace');
-      price.addEventListener('input',()=>{st.price=+price.value;document.getElementById('sim-price-v').textContent='$'+price.value;draw();});
-      pace.addEventListener('input',()=>{st.pace=+pace.value;document.getElementById('sim-pace-v').textContent=(+pace.value).toLocaleString();draw();});
-      SIM.tiers.forEach((t,i)=>{ const el=document.getElementById('pm'+i); el.addEventListener('input',()=>{st.pm[i]=+el.value;document.getElementById('pm'+i+'-v').textContent=el.value+'%';draw();}); });
-      document.getElementById('sim-reset').addEventListener('click',()=>{ st.price=SIM.def.price;st.pace=SIM.def.pace;st.pm=SIM.def.pm.slice();
-        price.value=st.price;document.getElementById('sim-price-v').textContent='$'+st.price; pace.value=st.pace;document.getElementById('sim-pace-v').textContent=st.pace.toLocaleString();
-        SIM.tiers.forEach((t,i)=>{document.getElementById('pm'+i).value=100;document.getElementById('pm'+i+'-v').textContent='100%';}); draw(); });
+      const price=document.getElementById('sim-price'), pace=document.getElementById('sim-pace'), dec=document.getElementById('sim-dec');
+      function clearScen(){ scen.querySelectorAll('button').forEach(x=>x.classList.remove('active')); }
+      function apply(){ price.value=st.price; document.getElementById('sim-price-v').textContent='$'+st.price;
+        pace.value=st.pace; document.getElementById('sim-pace-v').textContent=(+st.pace).toLocaleString();
+        dec.value=st.dec; document.getElementById('sim-dec-v').textContent=st.dec+'%';
+        S.tiers.forEach((t,i)=>{ document.getElementById('pm'+i).value=st.pm[i]; document.getElementById('pm'+i+'-v').textContent=st.pm[i]+'%'; }); }
+      price.addEventListener('input',()=>{st.price=+price.value;document.getElementById('sim-price-v').textContent='$'+price.value;clearScen();draw();});
+      pace.addEventListener('input',()=>{st.pace=+pace.value;document.getElementById('sim-pace-v').textContent=(+pace.value).toLocaleString();clearScen();draw();});
+      dec.addEventListener('input',()=>{st.dec=+dec.value;document.getElementById('sim-dec-v').textContent=dec.value+'%';clearScen();draw();});
+      S.tiers.forEach((t,i)=>{ const el=document.getElementById('pm'+i); el.addEventListener('input',()=>{st.pm[i]=+el.value;document.getElementById('pm'+i+'-v').textContent=el.value+'%';clearScen();draw();}); });
+      scen.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ Object.assign(st,SCEN[b.dataset.s](S)); clearScen(); b.classList.add('active'); apply(); draw(); }));
+      scen.querySelector('[data-s="Base"]').classList.add('active');
       document.getElementById('sim-assump').innerHTML=
-        '<p>A simplified cohort model: each year, new wells are drilled from the cheapest tier still economic at the chosen price; every well then follows a generic shale decline curve, and the basin total = a legacy base declining ~'+Math.round(SIM.legacyDecline*100)+'%/yr, plus all new-well cohorts.</p>'+
+        '<p>A simplified cohort model: each year, new wells are drilled from the cheapest tier still economic at the chosen price; every well then follows a shale decline curve, and the basin total = a legacy base declining ~'+Math.round(S.legacyDecline*100)+'%/yr, plus all new-well cohorts. Starting production is <b>live from EIA</b> ('+(S.base/1000).toFixed(2)+'M bbl/d, '+(S.baseDate||'')+').</p>'+
         '<table class="sources"><thead><tr><th>Tier</th><th>Locations</th><th>Breakeven</th><th>Rel. productivity</th></tr></thead><tbody>'+
-        SIM.tiers.map(t=>'<tr><td>'+t.name+'</td><td>'+t.loc.toLocaleString()+'</td><td>~$'+t.be+'/bbl</td><td>'+t.mult.toFixed(2)+'×</td></tr>').join('')+'</tbody></table>'+
-        '<p style="margin-top:8px">Start ≈ '+(SIM.base/1000).toFixed(1)+'M bbl/d ('+SIM.startYear+', EIA). Tier location counts &amp; breakevens from Enverus/Novi (~100k total, ~55k sub-$50). Per-well decline is a generic shale type curve; the ±15% band varies well productivity to show sensitivity. <b>Illustrative planning model — not a reservoir forecast.</b></p>';
+        S.tiers.map(t=>'<tr><td>'+t.name+'</td><td>'+t.loc.toLocaleString()+'</td><td>~$'+t.be+'/bbl</td><td>'+t.mult.toFixed(2)+'×</td></tr>').join('')+'</tbody></table>'+
+        '<p style="margin-top:8px">Total modeled inventory ≈ '+S.tiers.reduce((s,t)=>s+t.loc,0).toLocaleString()+' locations. Per-well decline is a generic shale type curve; the ±15% band varies well productivity to show sensitivity. <b>Illustrative planning model — not a reservoir forecast.</b> Full sourcing is in the “How this simulation was built” panel above.</p>';
       draw();
     }
 
