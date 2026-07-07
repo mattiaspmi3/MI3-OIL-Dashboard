@@ -32,7 +32,8 @@ Two golden rules run through the whole thing:
 | **Oil &amp; Gas 101** | A primer for newcomers: upstream/midstream/downstream, conventional vs. shale, horizontal drilling &amp; fracking, "lateral feet," rock tiers, and why any of it matters to an investor. |
 | **Production** | How much crude the U.S. pumps — a full century of history (from 1920), a deeper state-by-state view, the by-basin stacked chart, and a "who produces the most US oil" company ranking. |
 | **Basins** | The heart of the tool. Click any basin on the map to open its **deep-dive** — every basin uses the *same* layout: a status badge, a 7-metric stat row, three live mini-charts (production, new-well oil per rig, DUC wells), the top operators, inventory &amp; economics, and "what to watch." Plus basin-health cards and a breakeven-vs-price chart. |
-| **Inventory &amp; Productivity** | The live drilling engine: rigs, new wells drilled vs. completed, drilled-but-uncompleted (DUC) wells, and how much oil each rig brings on — all by basin. Also the interactive **Permian creaming curve** (drag a price slider to see how many locations are economic) and the **Permian production simulator** (below). |
+| **Inventory &amp; Productivity** | The live drilling engine: rigs, new wells drilled vs. completed, drilled-but-uncompleted (DUC) wells, and how much oil each rig brings on — all by basin. Also the interactive **Permian creaming curve** (drag a price slider to see how many locations are economic). |
+| **Production Simulator** | One hub for every projection. A selector switches between **US Total** and each region, all in the *same* layout. Three model types: **Inventory** (Permian, Bakken, Eagle Ford — tier-cascade from remaining drilling inventory), **Trend** (Federal Gulf, Rest of L48, Alaska, Appalachia, Haynesville — extrapolate the live 3–5-yr EIA rate), and **Combined** (US Total — sums all eight into one national line with a stacked breakdown). Every view carries a method badge and a "how it was built" sourcing panel; controls that don't apply are shown disabled with an "N/A" note. |
 | **Prices &amp; Markets** | WTI oil price since 1986, inflation-adjusted ("real") vs. nominal, a guided "▶ Play the story" tour of the 8 world events that moved prices, an event-detail pop-up that quantifies each move, and WTI vs. the S&amp;P 500. |
 | **Natural Gas** | The parallel gas story: production (marketed &amp; dry), the Henry Hub price with the Jan-2026 polar-vortex spike, where the gas comes from (by region), who produces it, and the LNG / data-center demand drivers. |
 | **Outlook** | Forward-looking projections (clearly labelled): oil near a plateau, gas as the growth engine. It recomputes from the live data + EIA's forecast each time the data refreshes. |
@@ -51,16 +52,29 @@ Two golden rules run through the whole thing:
   computed from the live data, with a mini price chart.
 - **Permian creaming curve** — drag a WTI-price slider to see how many Permian
   drilling locations are economic at that price (built on verified Enverus + Novi figures).
-- **Multi-basin production simulator** — a simplified planning model for the three
-  shale-**oil** basins (Permian, Bakken, Eagle Ford). Pick a basin; every basin has the
-  **identical** controls — WTI price, drilling pace, a per-tier productivity slider for
-  each tier, a well-decline-rate slider, and Base/Upside/Downside scenario presets — and
-  the 20-year curve reshapes with a sensitivity band. The starting production is **live
-  from EIA**. Each basin shows a **"How this simulation was built"** panel that tags every
-  input **Live / Sourced / Derived / Assumption** with its source and date (e.g. Permian
-  inventory from Enverus/Novi; Bakken from Enverus + RBN with the Dallas-Fed "Other US
-  shale" breakeven as proxy; Eagle Ford breakeven from the Dallas Fed, with its total
-  location count flagged as an unverified estimate). It has its own "How to read this" guide.
+- **Production Simulator hub** — one tab holding every projection, with a selector for
+  **US Total** plus all eight regions in an **identical** layout (title + method badge on
+  top, chart in the middle, sliders always in the same spot, sourcing panel at the bottom).
+  Three model types:
+  - **Inventory** (Permian, Bakken, Eagle Ford) — a tier-cascade from remaining drilling
+    inventory. Controls: WTI price, drilling pace, a per-tier productivity slider each,
+    well-decline rate, and Base/Upside/Downside presets. Sourced from Enverus/Novi
+    (Permian), Enverus + RBN + Dallas-Fed proxy (Bakken), Dallas Fed + estimate (Eagle Ford).
+  - **Trend** (Federal Gulf, Rest of L48, Alaska, Appalachia, Haynesville) — projects each
+    region forward at its **own live 3–5-yr EIA growth/decline rate**. Controls: a forward
+    growth/decline slider (defaults to the observed rate), a trend-persistence (taper)
+    slider, WTI sensitivity, and presets. A momentum projection — reliable near-term,
+    weaker long-term; the only data source is live EIA, the forward rate is an assumption.
+  - **Combined** (US Total) — sums all eight regional projections into one national crude
+    line with a **stacked-area breakdown** beneath, flexed by master WTI-price and
+    global-intensity sliders. It plainly states it *mixes* methods and inherits every
+    basin's assumptions.
+
+  The starting production for every view is **live from EIA**, and each carries a
+  **"How this simulation was built"** panel tagging inputs **Live / Sourced / Derived /
+  Assumption**. Controls that don't apply to a given model (e.g. per-tier sliders on a
+  trend region) are shown **disabled with an "N/A" note** rather than hidden, so the panel
+  feels identical everywhere. The hub opens on **US Total** so the big picture greets you first.
 
 ---
 

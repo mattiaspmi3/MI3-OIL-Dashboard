@@ -265,6 +265,14 @@
   .sim-basins { display: flex; gap: 8px; flex-wrap: wrap; margin: 2px 0 6px; }
   .sim-basins button { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 12.5px; font-weight: 700; padding: 7px 15px; border-radius: 8px; }
   .sim-basins button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .sim-basins button.ustotal { border-color: #16181c; color: #16181c; font-weight: 800; }
+  .sim-basins button.ustotal.active { background: #16181c; color: #fff; border-color: #16181c; }
+  .sim-basins .sep { width: 1px; align-self: stretch; background: var(--line); margin: 2px 4px; }
+  .sim-ctrl.off { opacity: .5; }
+  .sim-ctrl input:disabled { cursor: not-allowed; }
+  .sim-ctrl .na, .sim-tiers .na { display: block; font-size: 10.5px; color: var(--faint); font-style: italic; margin-top: 3px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+  .sim-tiers.off { opacity: .5; }
+  .sim-badge-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .sim-scen { display: flex; gap: 6px; align-items: center; }
   .sim-scen .sl { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin-right: 2px; }
   .sim-scen button { font-family: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 7px; }
@@ -316,6 +324,7 @@
       <a data-tab="production">Production</a>
       <a data-tab="basins">Basins</a>
       <a data-tab="inventory">Inventory &amp; Productivity</a>
+      <a data-tab="simulator">Production Simulator</a>
       <a data-tab="prices">Prices &amp; Markets</a>
       <a data-tab="gas">Natural Gas</a>
       <a data-tab="outlook">Outlook</a>
@@ -513,31 +522,25 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><h2>Production simulator</h2><span class="prov proj" id="sim-tag">Model · EIA (live) + analyst inputs</span></div>
-        <div class="sim-guide">
-          <h3>How to read this</h3>
-          <p>This tool projects how much oil a shale basin might produce in the years ahead — and lets you test what happens if the assumptions change. <b>Pick a basin</b> below; every basin uses the <b>same controls</b> and shows exactly <b>how it was built and sourced</b>.</p>
-          <p><b>The basics:</b> shale wells produce a lot at first, then drop off fast. So to keep total production up, companies must keep drilling new wells to replace the old ones that are fading. Whether production grows or shrinks depends on whether new wells are added faster than old ones decline.</p>
-          <p>Companies drill their best rock first (Tier&nbsp;1), then move to steadily worse rock (Tier&nbsp;2,&nbsp;3,&nbsp;4) — each tier produces a bit less per well. As they run out of the good rock, total production peaks and then declines. That rise-and-fall shape is the “type curve.”</p>
-          <p><b>The sliders (identical for every basin):</b></p>
-          <ul>
-            <li><b>Oil price (WTI)</b> — sets how much rock is worth drilling. Higher price unlocks more (and worse) tiers; lower price limits drilling to only the best rock.</li>
-            <li><b>Drilling pace</b> — how many new wells per year. More drilling holds production up longer; less lets it fall sooner.</li>
-            <li><b>Per-tier productivity</b> — one slider per tier: dial each up or down to test “what if the rock performs worse (or better) than expected.”</li>
-            <li><b>Well decline rate</b> — how fast each well fades after year one. Steeper decline = harder to hold production up.</li>
-            <li><b>Scenario preset</b> — jump to a <b>Base</b>, <b>Upside</b>, or <b>Downside</b> combination of all the above in one click.</li>
-          </ul>
-          <p>Watch the curve reshape as you change them. The band around the line shows how much the answer swings — that range is the whole point of a sensitivity report: not one prediction, but how the future shifts when the assumptions do.</p>
-          <p style="color:var(--muted)"><b>Note:</b> this is a simplified planning model, not an exact reservoir forecast. The starting production is <b>live from EIA</b>; the “How this simulation was built” panel below lists every input and whether it’s sourced, derived, or an assumption.</p>
-        </div>
+        <div class="panel-head"><h2>Production simulators →</h2><span class="prov proj">Model</span></div>
+        <p class="caption" style="margin:0">The interactive production projections now live in their own <b><a href="#" onclick="document.querySelector('#tabbar a[data-tab=simulator]').click();return false;">Production Simulator</a></b> tab — every basin plus a US-Total roll-up, all in one place.</p>
+      </div>
+    </section>
+
+    <!-- ===================== PRODUCTION SIMULATOR ===================== -->
+    <section class="tab" id="tab-simulator" hidden>
+      <h2 class="tab-title">Production Simulator</h2>
+      <p class="tab-intro">One hub for every projection. Pick a region — or start with <b>US&nbsp;Total</b> — and flex the assumptions. Each view shows its method (<b>Inventory</b>, <b>Trend</b>, or <b>Combined</b>), the projection with a sensitivity band, and a full sourcing panel. Layout is identical everywhere; only the data and the applicable controls change. <span class="prov proj">Model · EIA (live) inputs</span></p>
+      <div class="panel">
         <div class="sim-basins" id="sim-basins"></div>
-        <p class="caption" id="sim-basin-note" style="margin:-2px 0 12px">Simulator covers the three shale-<b>oil</b> basins with public inventory &amp; breakeven data. Gas &amp; conventional plays (Appalachia, Haynesville, Federal Gulf, Alaska) don’t use a shale-oil tier model, so they have no creaming simulator.</p>
+        <div class="panel-head sim-badge-row" style="margin-top:8px"><h2 id="sim-title">US Total oil production</h2><span class="prov proj" id="sim-badge">Combined model</span></div>
+        <div class="sim-guide" id="sim-guide"></div>
         <div class="controls" style="justify-content:space-between"><span class="viewlabel">Adjust the assumptions ↓</span><span class="sim-scen" id="sim-scen"></span></div>
         <div class="sim-controls" id="sim-controls"></div>
         <div class="sim-stats" id="sim-stats"></div>
         <div class="chart-box tall"><canvas id="chartSim"></canvas></div>
         <div class="sim-method" id="sim-method"></div>
-        <details class="learn"><summary>Model mechanics &amp; tier table (for this basin)</summary><div class="learn-body" id="sim-assump"></div></details>
+        <details class="learn"><summary>Model mechanics &amp; details (for this view)</summary><div class="learn-body" id="sim-assump"></div></details>
       </div>
     </section>
 
@@ -1075,9 +1078,9 @@ window.US_MAP={"viewBox": "192 9 1028 746", "states": "<path d=\"M456.18,521.82l
     // =====================================================================
     // TAB CONTROLLER (lazy-build charts when a tab is first shown)
     // =====================================================================
-    const TABS=['overview','primer','production','basins','inventory','prices','gas','outlook'];
+    const TABS=['overview','primer','production','basins','inventory','simulator','prices','gas','outlook'];
     const built={};
-    const BUILDERS={ overview:buildOverview, production:buildProduction, basins:buildBasins, inventory:buildInventory, prices:buildPrices, gas:buildGas, outlook:buildOutlook };
+    const BUILDERS={ overview:buildOverview, production:buildProduction, basins:buildBasins, inventory:buildInventory, simulator:buildSimulatorTab, prices:buildPrices, gas:buildGas, outlook:buildOutlook };
     function showTab(name){
       TABS.forEach(t=>{ const el=document.getElementById('tab-'+t); if(el) el.hidden=(t!==name); });
       document.querySelectorAll('#tabbar a').forEach(a=>a.classList.toggle('active',a.dataset.tab===name));
@@ -1414,18 +1417,80 @@ window.US_MAP={"viewBox": "192 9 1028 746", "states": "<path d=\"M456.18,521.82l
         ] }
     };
     // Scenario presets (identical logic for every basin)
-    const SCEN = {
-      Base:     S=>({price:S.def.price, pace:S.def.pace, pm:S.tiers.map(_=>100), dec:100}),
-      Upside:   S=>({price:Math.min(S.priceMax,S.def.price+15), pace:Math.min(S.paceMax,Math.round(S.def.pace*1.25)), pm:S.tiers.map(_=>110), dec:90}),
-      Downside: S=>({price:Math.max(S.priceMin,S.def.price-15), pace:Math.max(S.paceMin,Math.round(S.def.pace*0.7)), pm:S.tiers.map(_=>90), dec:115})
+    // ---- Trend-model regions (no inventory data): project the live 3-5yr EIA rate ----
+    const TREND_ELAST=0.0004;   // WTI sensitivity: per $ above/below $70, add to annual rate
+    const TRENDS = {
+      gulf:{        name:"Federal Gulf",              color:"#6f93ab", series:"PAPRPGLF" },
+      restl48:{     name:"Rest of L48 (Conventional)", color:"#9aa1ab", series:"COPRR48" },
+      alaska:{      name:"Alaska",                    color:"#7a5c8a", series:"PAPRPAK" },
+      appalachia:{  name:"Appalachia",               color:"#8d8a5e", series:"COPRAP", tiny:true },
+      haynesville:{ name:"Haynesville",              color:"#b08968", series:"COPRHA", tiny:true }
     };
+    const N_SIM=20, START_SIM=2026;
+    // Measure a region's average annual growth/decline over the last `yrs` years of LIVE actuals.
+    function trendStats(series,yrs){ yrs=yrs||4;
+      try{ const r=BASINS_DATA.regions.find(x=>x.series_id===series); if(!r||!r.data) return null;
+        const acts=r.data.filter(p=>p&&p.value!=null&&!p.forecast); if(acts.length<6) return null;
+        const last=acts[acts.length-1], idx=Math.max(0,acts.length-1-yrs*12), first=acts[idx];
+        const m=(parseInt(last.date.slice(0,4))*12+parseInt(last.date.slice(5,7)))-(parseInt(first.date.slice(0,4))*12+parseInt(first.date.slice(5,7)));
+        if(m<=0||first.value<=0) return null;
+        return {v0:+(last.value*1000).toFixed(1), rate:Math.pow(last.value/first.value,12/m)-1, date:last.date, fromDate:first.date, yrs:+(m/12).toFixed(1)};
+      }catch(e){ return null; }
+    }
+    // Momentum projection: compound the (optionally tapering) annual rate forward.
+    function trendRun(v0,baseRate,decay,N){ const out=[v0];
+      for(let y=1;y<N;y++){ const r=baseRate*Math.pow(decay,y-1); out.push(Math.max(0,out[y-1]*(1+r))); }
+      return out.map(v=>+v.toFixed(1));
+    }
     function simLiveBase(S){ try{ if(window.BASINS_DATA&&BASINS_DATA.regions){ const r=BASINS_DATA.regions.find(x=>x.series_id===S.series);
       if(r&&r.data){ const acts=r.data.filter(p=>p&&p.value!=null&&!p.forecast); if(acts.length){ const last=acts[acts.length-1]; S.base=+(last.value*1000).toFixed(0); S.baseDate=last.date; } } } }catch(e){} }
-    function methodHTML(S){ const P={live:'LIVE',src:'SOURCED',der:'DERIVED',asm:'ASSUMPTION'};
-      const rows=[{lab:"Production baseline", tag:"live", txt:"Simulation starts at the live EIA figure — "+(S.base/1000).toFixed(2)+"M bbl/d ("+S.series+", "+(S.baseDate||"latest")+"). — EIA STEO, auto-updates daily."}].concat(S.method);
-      return '<h3>How this '+S.name+' simulation was built</h3>'+
-        '<p class="msub">Each input is tagged <span class="pill live">Live</span> (auto data feed) · <span class="pill src">Sourced</span> (published analyst figure) · <span class="pill der">Derived</span> (built from sourced anchors) · <span class="pill asm">Assumption</span> (adjustable model input).</p>'+
-        rows.map(r=>'<div class="ml"><div class="mlab"><span class="pill '+r.tag+'">'+P[r.tag]+'</span>'+r.lab+'</div><div class="mtxt">'+r.txt+'</div></div>').join('');
+    function hexA(h,a){ const n=parseInt(h.slice(1),16); return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'; }
+    // ---- Scenario presets, per model type ----
+    const PRESETS = {
+      inventory:{
+        Base:     S=>({price:S.def.price, pace:S.def.pace, pm:S.tiers.map(_=>100), dec:100}),
+        Upside:   S=>({price:Math.min(S.priceMax,S.def.price+15), pace:Math.min(S.paceMax,Math.round(S.def.pace*1.25)), pm:S.tiers.map(_=>110), dec:90}),
+        Downside: S=>({price:Math.max(S.priceMin,S.def.price-15), pace:Math.max(S.paceMin,Math.round(S.def.pace*0.7)), pm:S.tiers.map(_=>90), dec:115})
+      },
+      trend:{
+        Base:     r=>({price:70, rate:r, taper:100}),
+        Upside:   r=>({price:85, rate:r+0.02, taper:100}),
+        Downside: r=>({price:55, rate:r-0.03, taper:92})
+      },
+      combined:{
+        Base:     ()=>({price:70, intensity:0}),
+        Upside:   ()=>({price:85, intensity:20}),
+        Downside: ()=>({price:55, intensity:-20})
+      }
+    };
+    // ---- Methodology panel builder (shared) ----
+    const PILL={live:'LIVE',src:'SOURCED',der:'DERIVED',asm:'ASSUMPTION'};
+    function methodRender(title,rows){
+      return '<h3>'+title+'</h3>'+
+        '<p class="msub">Each input is tagged <span class="pill live">Live</span> (auto data feed) · <span class="pill src">Sourced</span> (published analyst figure) · <span class="pill der">Derived</span> (built from live/sourced data) · <span class="pill asm">Assumption</span> (adjustable model input).</p>'+
+        rows.map(r=>'<div class="ml"><div class="mlab"><span class="pill '+r.tag+'">'+PILL[r.tag]+'</span>'+r.lab+'</div><div class="mtxt">'+r.txt+'</div></div>').join('');
+    }
+    function methodHTML(S){
+      const rows=[{lab:"Production baseline", tag:"live", txt:"Starts at the live EIA figure — "+(S.base/1000).toFixed(2)+"M bbl/d ("+S.series+", "+(S.baseDate||"latest")+"). — EIA STEO, auto-updates daily."}].concat(S.method);
+      return methodRender('How this '+S.name+' simulation was built (inventory model)',rows);
+    }
+    function trendMethodHTML(TS){ const s=TS.stats;
+      const rows=[
+        {lab:"Production baseline", tag:"live", txt:"Starts at the live EIA figure — "+(s?(s.v0/1000).toFixed(3):'?')+"M bbl/d ("+TS.series+", "+(s?s.date:'')+"). — EIA STEO, auto-updates daily."},
+        {lab:"Observed trend", tag:"der", txt:"Average "+(s?s.yrs:4)+"-yr growth/decline of "+(s?(s.rate*100).toFixed(1):'?')+"%/yr, measured directly from the live EIA series ("+(s?s.fromDate:'')+" → "+(s?s.date:'')+")."},
+        {lab:"Forward projection", tag:"asm", txt:"The base case extrapolates that rate forward (adjustable, with an optional taper). A momentum projection — reliable near-term, weaker long-term; not an inventory model, so it ignores remaining drilling locations."}
+      ];
+      if(TS.tiny) rows.push({lab:"Scale note", tag:"asm", txt:"This region produces little crude (a small oil line is expected) — it is mainly a natural-gas play."});
+      return methodRender('How this '+TS.name+' simulation was built (trend model)',rows);
+    }
+    function combinedMethodHTML(){
+      const rows=[
+        {lab:"How the total is built", tag:"der", txt:"US total = the sum of all eight regional projections at each year. It deliberately MIXES methods and inherits every basin's own assumptions."},
+        {lab:"Permian · Bakken · Eagle Ford", tag:"src", txt:"Inventory (tier-cascade) models — sourced inventory & breakevens (Enverus, RBN, Novi Labs, Dallas Fed). Open each basin's own view for its full sourcing."},
+        {lab:"Gulf · Rest of L48 · Alaska · Appalachia · Haynesville", tag:"asm", txt:"Trend (momentum) models — each extrapolates its own live 3–5-yr EIA rate. Reliable near-term, weaker long-term."},
+        {lab:"Production baselines", tag:"live", txt:"Every basin starts at its own live EIA production (STEO, auto-updates daily); the master sliders flex all of them together."}
+      ];
+      return methodRender('How the US-Total simulation was built (combined model)',rows);
     }
     function simRun(S,price,pace,pm,decPct){
       const T=S.tiers,N=S.N,rem=T.map(t=>t.loc),cohorts=[];
@@ -1443,75 +1508,161 @@ window.US_MAP={"viewBox": "192 9 1028 746", "states": "<path d=\"M456.18,521.82l
         out.push(+p.toFixed(1)); }
       return out;
     }
-    let simChart=null, simBasin='permian';
-    function buildSimulator(){
+    function simGuide(type,TS){
+      if(type==='inventory') return '<h3>How to read this — inventory model</h3><p>Projects a shale basin from its <b>remaining drilling inventory</b>. Companies drill their best rock first (Tier&nbsp;1), then worse tiers — each a bit less productive. New wells offset the fast decline of old ones; when the good rock runs low, output peaks and falls. Move <b>price</b> (unlocks more/worse tiers), <b>drilling pace</b>, <b>per-tier productivity</b> and <b>well decline</b>; the band shows a ±15% sensitivity range.</p>';
+      if(type==='trend') return '<h3>How to read this — trend model</h3><p>'+(TS?TS.name:'This region')+' has no public drilling-inventory data, so it’s projected by <b>extrapolating its own last 3–5 years of EIA production</b>. The <b>forward rate</b> slider defaults to that observed rate; <b>trend persistence</b> lets the trend taper over time; <b>WTI price</b> nudges it. <b>A momentum projection — reliable near-term, weaker long-term; not an inventory model.</b></p>';
+      return '<h3>How to read this — combined model</h3><p>The <b>US total</b> sums every region’s projection into one national crude line, with a <b>stacked breakdown</b> beneath so each basin’s contribution is visible. The three shale basins use their <b>inventory</b> models; the rest use <b>trend</b> models. Master sliders — <b>WTI price</b>, <b>global drilling &amp; growth intensity</b> and the scenario preset — flex the whole system at once; each basin keeps its own default behaviour.</p>';
+    }
+    function simAssump(type,S,TS){
+      if(type==='inventory'){
+        return '<p>A simplified cohort model: each year, new wells are drilled from the cheapest tier still economic at the chosen price; every well then follows a shale decline curve, and the basin total = a legacy base declining ~'+Math.round(S.legacyDecline*100)+'%/yr, plus all new-well cohorts. Starting production is <b>live from EIA</b> ('+(S.base/1000).toFixed(2)+'M bbl/d, '+(S.baseDate||'')+').</p>'+
+          '<table class="sources"><thead><tr><th>Tier</th><th>Locations</th><th>Breakeven</th><th>Rel. productivity</th></tr></thead><tbody>'+
+          S.tiers.map(t=>'<tr><td>'+t.name+'</td><td>'+t.loc.toLocaleString()+'</td><td>~$'+t.be+'/bbl</td><td>'+t.mult.toFixed(2)+'×</td></tr>').join('')+'</tbody></table>'+
+          '<p style="margin-top:8px">Total modeled inventory ≈ '+S.tiers.reduce((s,t)=>s+t.loc,0).toLocaleString()+' locations. Per-well decline is a generic shale type curve; the ±15% band varies well productivity. <b>Illustrative planning model — not a reservoir forecast.</b></p>';
+      }
+      if(type==='trend'){ const s=TS.stats;
+        return '<p>Momentum projection: production in year <i>n</i> = last actual × (1 + rate)<sup>n</sup>, where <b>rate</b> defaults to the observed '+(s?s.yrs:4)+'-yr EIA change of <b>'+(s?(s.rate*100).toFixed(1):'?')+'%/yr</b> ('+(s?s.fromDate:'')+' → '+(s?s.date:'')+'). The persistence slider multiplies the rate a little each year so the trend can taper. WTI price nudges the rate by ~±'+(TREND_ELAST*100*30).toFixed(1)+'% at ±$30. The shaded band is ±2%/yr around the chosen rate.</p><p style="margin-top:6px"><b>Only data source: live EIA production. The forward rate is an assumption.</b> Reliable near-term, weaker toward 2040+.</p>';
+      }
+      return '<p>The US total is the <b>sum of all eight regional projections</b> at each year: Permian, Bakken and Eagle Ford from their inventory (tier-cascade) models; Federal Gulf, Rest of L48, Alaska, Appalachia and Haynesville from their trend (momentum) models. The stacked areas show each basin; the bold line is the sum. The master <b>price</b> and <b>intensity</b> sliders flex every basin together (intensity scales shale drilling pace and nudges trend rates). It inherits every basin’s assumptions — open each basin’s own view for its full sourcing.</p>';
+    }
+    let simChart=null, simView='ustotal';
+    function buildSimulatorTab(){
       const host=document.getElementById('sim-basins'); if(!host||host.dataset.built)return; host.dataset.built='1';
-      host.innerHTML=Object.keys(SIMS).map(k=>'<button data-b="'+k+'">'+SIMS[k].name+'</button>').join('');
+      let html='<button class="ustotal" data-b="ustotal">US Total</button><span class="sep"></span>';
+      html+=Object.keys(SIMS).map(k=>'<button data-b="'+k+'">'+SIMS[k].name+'</button>').join('');
+      html+='<span class="sep"></span>';
+      html+=Object.keys(TRENDS).map(k=>'<button data-b="'+k+'">'+TRENDS[k].name+'</button>').join('');
+      host.innerHTML=html;
       host.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>renderSim(b.dataset.b)));
-      renderSim(simBasin);
+      renderSim(simView);
     }
     function renderSim(key){
-      const S=SIMS[key]; simBasin=key; simLiveBase(S);
+      simView=key;
+      const isInv=!!SIMS[key], isTrend=!!TRENDS[key], isTot=(key==='ustotal');
+      const type=isInv?'inventory':(isTrend?'trend':'combined');
       document.querySelectorAll('#sim-basins button').forEach(b=>b.classList.toggle('active',b.dataset.b===key));
-      const st=SCEN.Base(S);
-      const ctrl=(id,label,min,max,val,step,fmt)=>'<div class="sim-ctrl"><label>'+label+' <b id="'+id+'-v">'+fmt(val)+'</b></label><input type="range" id="'+id+'" min="'+min+'" max="'+max+'" value="'+val+'" step="'+step+'"></div>';
-      let tierHTML='<div class="sim-tiers"><div class="tt">Per-tier productivity — what if the rock performs better / worse (100% = base)</div><div class="sim-tiergrid">';
-      S.tiers.forEach((t,i)=>{ tierHTML+='<div class="sim-ctrl"><label>'+t.name+' <b id="pm'+i+'-v">'+st.pm[i]+'%</b></label><input type="range" id="pm'+i+'" min="50" max="150" value="'+st.pm[i]+'" step="5"></div>'; });
-      tierHTML+='</div></div>';
-      document.getElementById('sim-controls').innerHTML=
-        ctrl('sim-price','Oil price (WTI)',S.priceMin,S.priceMax,st.price,1,v=>'$'+v)+
-        ctrl('sim-pace','Drilling pace (new wells / yr)',S.paceMin,S.paceMax,st.pace,(S.paceMax>2000?100:10),v=>(+v).toLocaleString())+
-        ctrl('sim-dec','Well decline rate (higher = faster fade)',70,130,st.dec,5,v=>v+'%')+
-        tierHTML;
-      const scen=document.getElementById('sim-scen');
-      scen.innerHTML='<span class="sl">Scenario</span>'+['Base','Upside','Downside'].map(n=>'<button data-s="'+n+'">'+n+'</button>').join('');
-      document.getElementById('sim-method').innerHTML=methodHTML(S);
-      const years=[]; for(let y=0;y<S.N;y++)years.push(S.startYear+y);
+      const years=[]; for(let y=0;y<N_SIM;y++)years.push(START_SIM+y);
       const toM=a=>a.map(v=>+(v/1000).toFixed(3));
       const stat=(v,l)=>'<div class="sim-stat"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';
       const statc=(v,c,l)=>'<div class="sim-stat"><div class="v" style="color:'+c+'">'+v+'</div><div class="l">'+l+'</div></div>';
+      const mb='<small style="font-size:11px;color:var(--faint)">Mbbl/d</small>';
+
+      let S=null, TS=null, color='#16181c', band='rgba(22,24,28,0.08)', title='US Total oil production', badge='Combined model', v0=0;
+      if(isInv){ S=SIMS[key]; simLiveBase(S); color=S.color; band=S.band; title=S.name+' oil production'; badge='Inventory model'; v0=S.base; }
+      else if(isTrend){ TS=TRENDS[key]; TS.stats=trendStats(TS.series,4); color=TS.color; band=hexA(color,0.14); title=TS.name+' oil production'; badge='Trend model'; v0=TS.stats?TS.stats.v0:0; }
+      else { let t=0; ['permian','bakken','eagleford'].forEach(k=>{simLiveBase(SIMS[k]); t+=SIMS[k].base;}); Object.keys(TRENDS).forEach(k=>{TRENDS[k].stats=trendStats(TRENDS[k].series,4); t+=TRENDS[k].stats?TRENDS[k].stats.v0:0;}); v0=t; }
+      document.getElementById('sim-title').textContent=title;
+      const bd=document.getElementById('sim-badge'); bd.textContent=badge; bd.className='prov '+(isInv?'sourced':'proj');
+      document.getElementById('sim-guide').innerHTML=simGuide(type,TS);
+
+      let st;
+      if(isInv) st={price:S.def.price,pace:S.def.pace,dec:100,pm:S.tiers.map(_=>100),rate:0,taper:100,intensity:0};
+      else if(isTrend) st={price:70,pace:0,dec:100,pm:[100,100,100,100],rate:(TS.stats?TS.stats.rate:0),taper:100,intensity:0};
+      else st={price:70,pace:0,dec:100,pm:[100,100,100,100],rate:0,taper:100,intensity:0};
+
+      const A={price:true,pace:isInv,dec:isInv,rate:isTrend,taper:isTrend,intensity:isTot,tiers:isInv};
+      const cc=(id,label,min,max,val,step,fmt,active,na)=>{ const off=active?'':' off', dis=active?'':' disabled', nn=active?'':'<span class="na">'+na+'</span>';
+        return '<div class="sim-ctrl'+off+'"><label>'+label+' <b id="'+id+'-v">'+(active?fmt(val):'—')+'</b></label><input type="range" id="'+id+'" min="'+min+'" max="'+max+'" value="'+val+'" step="'+step+'"'+dis+'>'+nn+'</div>'; };
+      const paceMin=isInv?S.paceMin:80, paceMax=isInv?S.paceMax:8000, paceStep=(isInv&&S.paceMax<=600)?10:100;
+      let ctrlsHTML='';
+      ctrlsHTML+=cc('sim-price','Oil price (WTI)',40,100,st.price,1,v=>'$'+v,A.price,'');
+      ctrlsHTML+=cc('sim-pace','Drilling pace (new wells / yr)',paceMin,paceMax,st.pace,paceStep,v=>(+v).toLocaleString(),A.pace,'N/A — inventory-model control');
+      ctrlsHTML+=cc('sim-dec','Well decline rate (higher = faster fade)',70,130,st.dec,5,v=>v+'%',A.dec,'N/A — inventory-model control');
+      ctrlsHTML+=cc('sim-rate','Forward growth / decline (%/yr)',-20,20,+(st.rate*100).toFixed(1),0.1,v=>((+v)>0?'+':'')+(+v).toFixed(1)+'%',A.rate,'N/A — trend-model control');
+      ctrlsHTML+=cc('sim-taper','Trend persistence (100% = holds, lower = fades)',85,100,st.taper,1,v=>v+'%',A.taper,'N/A — trend-model control');
+      ctrlsHTML+=cc('sim-intensity','Global drilling & growth intensity',-30,30,st.intensity,5,v=>((+v)>0?'+':'')+v+'%',A.intensity,'N/A — US-Total master (adjust per basin here)');
+      const tOff=A.tiers?'':' off', tlist=isInv?S.tiers:[{name:'Tier 1'},{name:'Tier 2'},{name:'Tier 3'},{name:'Tier 4'}];
+      let tg='<div class="sim-tiers'+tOff+'"><div class="tt">Per-tier productivity — what if the rock performs better / worse (100% = base)'+(A.tiers?'':' <span class="na">N/A — '+type+' model has no tier structure</span>')+'</div><div class="sim-tiergrid">';
+      tlist.forEach((t,i)=>{ tg+='<div class="sim-ctrl'+tOff+'"><label>'+t.name+' <b id="pm'+i+'-v">'+(A.tiers?st.pm[i]+'%':'—')+'</b></label><input type="range" id="pm'+i+'" min="50" max="150" value="'+st.pm[i]+'" step="5"'+(A.tiers?'':' disabled')+'></div>'; });
+      tg+='</div></div>'; ctrlsHTML+=tg;
+      document.getElementById('sim-controls').innerHTML=ctrlsHTML;
+
+      const scen=document.getElementById('sim-scen');
+      scen.innerHTML='<span class="sl">Scenario</span>'+['Base','Upside','Downside'].map(n=>'<button data-s="'+n+'">'+n+'</button>').join('');
+      document.getElementById('sim-method').innerHTML=isInv?methodHTML(S):(isTrend?trendMethodHTML(TS):combinedMethodHTML());
+      document.getElementById('sim-assump').innerHTML=simAssump(type,S,TS);
       if(simChart){ simChart.destroy(); simChart=null; }
-      function draw(){
-        const med=simRun(S,st.price,st.pace,st.pm,st.dec), lo=simRun(S,st.price,st.pace,st.pm.map(x=>x*0.85),st.dec), hi=simRun(S,st.price,st.pace,st.pm.map(x=>x*1.15),st.dec);
-        const peak=Math.max.apply(null,med), pk=med.indexOf(peak), econ=S.tiers.filter(t=>t.be<=st.price).reduce((s,t)=>s+t.loc,0);
-        const last=med[S.N-1], pct=(last-S.base)/S.base*100;
-        document.getElementById('sim-stats').innerHTML=
-          stat((peak/1000).toFixed(2)+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','Peak output · '+(S.startYear+pk))+
-          stat((last/1000).toFixed(2)+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','Output in '+years[S.N-1])+
-          statc((pct>=0?'+':'')+pct.toFixed(0)+'%',(pct>=0?'#2c7a4d':'#c8102e'),'vs today, by '+years[S.N-1])+
-          stat(econ.toLocaleString(),'Drillable locations at $'+st.price);
-        if(simChart){ simChart.data.datasets[0].data=toM(hi); simChart.data.datasets[1].data=toM(lo); simChart.data.datasets[2].data=toM(med); simChart.update(); }
-        else simChart=new Chart(document.getElementById('chartSim'),{type:'line',
-          data:{labels:years,datasets:[
-            {label:'high',data:toM(hi),borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:S.band},
-            {label:'low',data:toM(lo),borderColor:'transparent',pointRadius:0,fill:false},
-            {label:'projected',data:toM(med),borderColor:S.color,borderWidth:2.4,pointRadius:0,tension:0.2,fill:false}]},
+
+      function combParts(stt){ const parts=[];
+        ['permian','bakken','eagleford'].forEach(k=>{const Sx=SIMS[k];simLiveBase(Sx); parts.push({name:Sx.name,color:Sx.color,data:simRun(Sx,stt.price,Math.max(1,Math.round(Sx.def.pace*(1+stt.intensity/100))),Sx.tiers.map(_=>100),100)});});
+        Object.keys(TRENDS).forEach(k=>{const Tx=TRENDS[k];const s=Tx.stats||trendStats(Tx.series,4); const eff=(s?s.rate:0)+TREND_ELAST*(stt.price-70)+(stt.intensity/100)*0.10; parts.push({name:Tx.name,color:Tx.color,data:trendRun(s?s.v0:0,eff,1.0,N_SIM)});});
+        return parts; }
+      function sumParts(parts){ const t=[]; for(let y=0;y<N_SIM;y++){let s=0;parts.forEach(p=>s+=p.data[y]);t.push(+s.toFixed(1));} return t; }
+
+      function drawBand(hi,lo,med){
+        const ds=[{label:'high',data:hi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:band},
+          {label:'low',data:lo,borderColor:'transparent',pointRadius:0,fill:false},
+          {label:'projected',data:med,borderColor:color,borderWidth:2.4,pointRadius:0,tension:0.2,fill:false}];
+        if(simChart){ simChart.data.datasets[0].data=hi;simChart.data.datasets[1].data=lo;simChart.data.datasets[2].data=med;simChart.update(); }
+        else simChart=new Chart(document.getElementById('chartSim'),{type:'line',data:{labels:years,datasets:ds},
           options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-            plugins:{legend:{display:false},tooltip:{filter:i=>i.datasetIndex===2,callbacks:{title:c=>c[0].label,label:c=>'~'+c.parsed.y.toFixed(2)+' Mbbl/d  (±15% sensitivity band)'}}},
-            scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},title:{display:true,text:S.name+' crude (million bbl/day)',color:'#9aa1ab',font:{size:11}}}}}});
+            plugins:{legend:{display:false},tooltip:{filter:i=>i.datasetIndex===2,callbacks:{title:c=>c[0].label,label:c=>'~'+c.parsed.y.toFixed(isTrend?3:2)+' Mbbl/d'}}},
+            scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},title:{display:true,text:title.replace(' oil production','')+' crude (million bbl/day)',color:'#9aa1ab',font:{size:11}}}}}});
       }
-      const price=document.getElementById('sim-price'), pace=document.getElementById('sim-pace'), dec=document.getElementById('sim-dec');
+      function draw(){
+        if(isTot){
+          const parts=combParts(st), total=sumParts(parts);
+          const peak=Math.max.apply(null,total),pk=total.indexOf(peak),y35=total[9],y40=total[14],pct=(y40-v0)/v0*100;
+          document.getElementById('sim-stats').innerHTML=
+            stat((peak/1000).toFixed(2)+' '+mb,'US peak · '+(START_SIM+pk))+
+            stat((y35/1000).toFixed(2)+' '+mb,'US output · 2035')+
+            stat((y40/1000).toFixed(2)+' '+mb,'US output · 2040')+
+            statc((pct>=0?'+':'')+pct.toFixed(0)+'%',(pct>=0?'#2c7a4d':'#c8102e'),'vs today, by 2040');
+          const ds=parts.map(p=>({label:p.name,data:toM(p.data),backgroundColor:hexA(p.color,0.82),borderColor:hexA(p.color,0.9),borderWidth:0,pointRadius:0,fill:true,stack:'a',order:3,tension:0.15}));
+          ds.push({label:'US total',data:toM(total),borderColor:'#16181c',borderWidth:2.6,pointRadius:0,fill:false,stack:'tot',order:0,tension:0.15});
+          if(simChart){ simChart.data.datasets=ds; simChart.update(); }
+          else simChart=new Chart(document.getElementById('chartSim'),{type:'line',data:{labels:years,datasets:ds},
+            options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+              plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:10}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(2)+' Mbbl/d'}}},
+              scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'#e6e8eb'},title:{display:true,text:'US crude (million bbl/day)',color:'#9aa1ab',font:{size:11}}}}}});
+        } else if(isTrend){
+          const eff=st.rate+TREND_ELAST*(st.price-70);
+          const med=trendRun(v0,eff,st.taper/100,N_SIM),hi=trendRun(v0,eff+0.02,st.taper/100,N_SIM),lo=trendRun(v0,eff-0.02,st.taper/100,N_SIM);
+          const peak=Math.max.apply(null,med),pk=med.indexOf(peak),y35=med[9],y40=med[14],pct=(y40-v0)/v0*100;
+          document.getElementById('sim-stats').innerHTML=
+            stat((peak/1000).toFixed(3)+' '+mb,'Peak · '+(START_SIM+pk))+
+            stat((y35/1000).toFixed(3)+' '+mb,'Output · 2035')+
+            stat((y40/1000).toFixed(3)+' '+mb,'Output · 2040')+
+            statc((pct>=0?'+':'')+pct.toFixed(0)+'%',(pct>=0?'#2c7a4d':'#c8102e'),'vs today, by 2040');
+          drawBand(toM(hi),toM(lo),toM(med));
+        } else {
+          const med=simRun(S,st.price,st.pace,st.pm,st.dec),lo=simRun(S,st.price,st.pace,st.pm.map(x=>x*0.85),st.dec),hi=simRun(S,st.price,st.pace,st.pm.map(x=>x*1.15),st.dec);
+          const peak=Math.max.apply(null,med),pk=med.indexOf(peak),econ=S.tiers.filter(t=>t.be<=st.price).reduce((s,t)=>s+t.loc,0),last=med[N_SIM-1],pct=(last-S.base)/S.base*100;
+          document.getElementById('sim-stats').innerHTML=
+            stat((peak/1000).toFixed(2)+' '+mb,'Peak output · '+(START_SIM+pk))+
+            stat((last/1000).toFixed(2)+' '+mb,'Output in 2045')+
+            statc((pct>=0?'+':'')+pct.toFixed(0)+'%',(pct>=0?'#2c7a4d':'#c8102e'),'vs today, by 2045')+
+            stat(econ.toLocaleString(),'Drillable locations at $'+st.price);
+          drawBand(toM(hi),toM(lo),toM(med));
+        }
+      }
+
       function clearScen(){ scen.querySelectorAll('button').forEach(x=>x.classList.remove('active')); }
-      function apply(){ price.value=st.price; document.getElementById('sim-price-v').textContent='$'+st.price;
-        pace.value=st.pace; document.getElementById('sim-pace-v').textContent=(+st.pace).toLocaleString();
-        dec.value=st.dec; document.getElementById('sim-dec-v').textContent=st.dec+'%';
-        S.tiers.forEach((t,i)=>{ document.getElementById('pm'+i).value=st.pm[i]; document.getElementById('pm'+i+'-v').textContent=st.pm[i]+'%'; }); }
-      price.addEventListener('input',()=>{st.price=+price.value;document.getElementById('sim-price-v').textContent='$'+price.value;clearScen();draw();});
-      pace.addEventListener('input',()=>{st.pace=+pace.value;document.getElementById('sim-pace-v').textContent=(+pace.value).toLocaleString();clearScen();draw();});
-      dec.addEventListener('input',()=>{st.dec=+dec.value;document.getElementById('sim-dec-v').textContent=dec.value+'%';clearScen();draw();});
-      S.tiers.forEach((t,i)=>{ const el=document.getElementById('pm'+i); el.addEventListener('input',()=>{st.pm[i]=+el.value;document.getElementById('pm'+i+'-v').textContent=el.value+'%';clearScen();draw();}); });
-      scen.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ Object.assign(st,SCEN[b.dataset.s](S)); clearScen(); b.classList.add('active'); apply(); draw(); }));
+      function bindC(id,k2,fmt){ const el=document.getElementById(id); if(!el||el.disabled)return;
+        el.addEventListener('input',()=>{ st[k2]=+el.value; document.getElementById(id+'-v').textContent=fmt(el.value); clearScen(); draw(); }); }
+      bindC('sim-price','price',v=>'$'+v);
+      bindC('sim-pace','pace',v=>(+v).toLocaleString());
+      bindC('sim-dec','dec',v=>v+'%');
+      (function(){ const el=document.getElementById('sim-rate'); if(el&&!el.disabled) el.addEventListener('input',()=>{ st.rate=(+el.value)/100; document.getElementById('sim-rate-v').textContent=((+el.value)>0?'+':'')+(+el.value).toFixed(1)+'%'; clearScen(); draw(); }); })();
+      bindC('sim-taper','taper',v=>v+'%');
+      bindC('sim-intensity','intensity',v=>((+v)>0?'+':'')+v+'%');
+      if(A.tiers) S.tiers.forEach((t,i)=>{ const el=document.getElementById('pm'+i); el.addEventListener('input',()=>{ st.pm[i]=+el.value; document.getElementById('pm'+i+'-v').textContent=el.value+'%'; clearScen(); draw(); }); });
+
+      function applyState(){ const set=(id,val,txt)=>{ const el=document.getElementById(id); if(el){ el.value=val; const b=document.getElementById(id+'-v'); if(b)b.textContent=txt; } };
+        set('sim-price',st.price,'$'+st.price);
+        if(isInv){ set('sim-pace',st.pace,(+st.pace).toLocaleString()); set('sim-dec',st.dec,st.dec+'%'); S.tiers.forEach((t,i)=>set('pm'+i,st.pm[i],st.pm[i]+'%')); }
+        if(isTrend){ set('sim-rate',+(st.rate*100).toFixed(1),(st.rate>0?'+':'')+(st.rate*100).toFixed(1)+'%'); set('sim-taper',st.taper,st.taper+'%'); }
+        if(isTot){ set('sim-intensity',st.intensity,(st.intensity>0?'+':'')+st.intensity+'%'); }
+      }
+      scen.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+        let p; if(isInv)p=PRESETS.inventory[b.dataset.s](S); else if(isTrend)p=PRESETS.trend[b.dataset.s](TS.stats?TS.stats.rate:0); else p=PRESETS.combined[b.dataset.s]();
+        Object.assign(st,p); clearScen(); b.classList.add('active'); applyState(); draw();
+      }));
       scen.querySelector('[data-s="Base"]').classList.add('active');
-      document.getElementById('sim-assump').innerHTML=
-        '<p>A simplified cohort model: each year, new wells are drilled from the cheapest tier still economic at the chosen price; every well then follows a shale decline curve, and the basin total = a legacy base declining ~'+Math.round(S.legacyDecline*100)+'%/yr, plus all new-well cohorts. Starting production is <b>live from EIA</b> ('+(S.base/1000).toFixed(2)+'M bbl/d, '+(S.baseDate||'')+').</p>'+
-        '<table class="sources"><thead><tr><th>Tier</th><th>Locations</th><th>Breakeven</th><th>Rel. productivity</th></tr></thead><tbody>'+
-        S.tiers.map(t=>'<tr><td>'+t.name+'</td><td>'+t.loc.toLocaleString()+'</td><td>~$'+t.be+'/bbl</td><td>'+t.mult.toFixed(2)+'×</td></tr>').join('')+'</tbody></table>'+
-        '<p style="margin-top:8px">Total modeled inventory ≈ '+S.tiers.reduce((s,t)=>s+t.loc,0).toLocaleString()+' locations. Per-well decline is a generic shale type curve; the ±15% band varies well productivity to show sensitivity. <b>Illustrative planning model — not a reservoir forecast.</b> Full sourcing is in the “How this simulation was built” panel above.</p>';
       draw();
     }
 
     function buildInventory(){
-      buildSimulator();
       if(!(DRILL&&DRILL.metrics&&DRILL.regions)){ const c=document.getElementById('inv-duc-callout'); if(c)c.textContent='Drilling data unavailable — run fetch_data.py.'; return; }
       let natDuc=0; DRILL.regions.forEach(r=>{ const s=DRILL.latest[r]&&DRILL.latest[r].duc; if(s)natDuc+=s.value; });
       document.getElementById('inv-duc-callout').innerHTML=
