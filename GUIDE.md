@@ -76,6 +76,19 @@ Two golden rules run through the whole thing:
   trend region) are shown **disabled with an "N/A" note** rather than hidden, so the panel
   feels identical everywhere. The hub opens on **US Total** so the big picture greets you first.
 
+  **The existing base always declines (two-segment decline).** In every model, today's
+  production is *not* held flat — it fades. Recent wells decline steeply (front-loaded
+  hyperbolic: ~80% of a shale well's output comes in its first ~2 years, per SPE/JPT);
+  mature wells settle into a slow **terminal decline that never stops** (default ~6%/yr
+  shale, ~5%/yr conventional — an *assumption*, adjustable). New drilling is layered on
+  top and must out-run that decline for a basin to grow. Every chart makes this visible as
+  **stacked bands — a grey "legacy" band (declining) beneath a coloured "new wells" band** —
+  plus two new sliders in every view: **terminal-decline rate** and **young-well steepness**.
+  For the trend regions, the observed EIA trend is *decomposed* into (base decline + new
+  drilling) rather than extrapolated as net growth, so mature regions are visibly
+  terminal-decline-driven; the **US Total** national decline then emerges bottom-up from
+  the sum of the corrected basin curves.
+
 ---
 
 ## 4. How it was built (the plumbing)
