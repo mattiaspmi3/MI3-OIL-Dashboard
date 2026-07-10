@@ -76,18 +76,28 @@ Two golden rules run through the whole thing:
   trend region) are shown **disabled with an "N/A" note** rather than hidden, so the panel
   feels identical everywhere. The hub opens on **US Total** so the big picture greets you first.
 
-  **The existing base always declines (two-segment decline).** In every model, today's
-  production is *not* held flat — it fades. Recent wells decline steeply (front-loaded
-  hyperbolic: ~80% of a shale well's output comes in its first ~2 years, per SPE/JPT);
-  mature wells settle into a slow **terminal decline that never stops** (default ~6%/yr
-  shale, ~5%/yr conventional — an *assumption*, adjustable). New drilling is layered on
-  top and must out-run that decline for a basin to grow. Every chart makes this visible as
-  **stacked bands — a grey "legacy" band (declining) beneath a coloured "new wells" band** —
-  plus two new sliders in every view: **terminal-decline rate** and **young-well steepness**.
-  For the trend regions, the observed EIA trend is *decomposed* into (base decline + new
-  drilling) rather than extrapolated as net growth, so mature regions are visibly
-  terminal-decline-driven; the **US Total** national decline then emerges bottom-up from
-  the sum of the corrected basin curves.
+  **Three production streams (the core mechanics).** Every chart is a stacked area showing
+  the three things that actually drive output:
+  1. **Legacy** (grey) — today's production, *always declining*. Two-segment decline:
+     recent wells fade steeply (~80% of a shale well's output is in its first ~2 years, per
+     SPE/JPT), older wells settle into a slow **terminal decline that never stops**
+     (~6%/yr shale, ~5%/yr conventional — an assumption, adjustable).
+  2. **New drilled wells** (colour) — driven by the **active rig count** (default = live
+     from EIA Table 10a). Rigs × drilling efficiency = wells drilled per year; a
+     **completion rate** decides how many get completed now vs banked.
+  3. **DUC completions** (tan) — DUCs are wells already drilled but never fracked;
+     completing them adds oil *without drilling*. Each basin's **DUC backlog** is live from
+     EIA and depletes over the forecast (shown as a dashed line on the chart's right axis).
+     A **DUC completion rate** controls the drawdown.
+
+  Every new well and completed DUC follows an explicit **type curve** (ramp to a peak,
+  then hyperbolic decline into the terminal tail — editable peak & steepness). Controls are
+  identical across every view — **rig count, completion rate, DUC drawdown, type-curve peak,
+  terminal decline, young-well steepness, per-tier productivity, WTI price, and the
+  scenario preset** — with anything that doesn't apply shown disabled ("N/A", e.g. rigs/DUCs
+  for offshore Gulf & Alaska, which have no EIA rig data and stay on the trend method). The
+  **US Total** sums the corrected basin curves, so the national picture is bottom-up. Sanity-
+  checked: set rigs = 0 and DUC completions = 0 and every basin declines smoothly toward zero.
 
 ---
 
