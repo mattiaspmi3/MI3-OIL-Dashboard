@@ -36,7 +36,7 @@ Two golden rules run through the whole thing:
 | **Production Simulator** | One hub for every projection. A selector switches between **US Total** and each region, all in the *same* layout. Three model types: **Inventory** (Permian, Bakken, Eagle Ford — tier-cascade from remaining drilling inventory), **Trend** (Federal Gulf, Rest of L48, Alaska, Appalachia, Haynesville — extrapolate the live 3–5-yr EIA rate), and **Combined** (US Total — sums all eight into one national line with a stacked breakdown). Every view carries a method badge and a "how it was built" sourcing panel; controls that don't apply are shown disabled with an "N/A" note. |
 | **Prices &amp; Markets** | WTI oil price since 1986, inflation-adjusted ("real") vs. nominal, a guided "▶ Play the story" tour of the 8 world events that moved prices, an event-detail pop-up that quantifies each move, and WTI vs. the S&amp;P 500. |
 | **Natural Gas** | The parallel gas story: production (marketed &amp; dry), the Henry Hub price with the Jan-2026 polar-vortex spike, where the gas comes from (by region), who produces it, and the LNG / data-center demand drivers. |
-| **Outlook** | Forward-looking projections (clearly labelled): oil near a plateau, gas as the growth engine. It recomputes from the live data + EIA's forecast each time the data refreshes. |
+| **Outlook** | Forward-looking projections (clearly labelled): oil near a plateau, gas as the growth engine. It recomputes from the live data + EIA's forecast each time the data refreshes. Also a **Capital & Consolidation** panel — two sourced charts (upstream capex from IEA, and US upstream M&A deal value from Enverus, inflation-adjusted) that show the "capital discipline" story; these update on a report cycle, not with the daily refresh. |
 
 ---
 
@@ -90,8 +90,13 @@ Two golden rules run through the whole thing:
      EIA and depletes over the forecast (shown as a dashed line on the chart's right axis).
      A **DUC completion rate** controls the drawdown.
 
-  Every new well and completed DUC follows an explicit **type curve** (ramp to a peak,
-  then hyperbolic decline into the terminal tail — editable peak & steepness). Controls are
+  Every new well and completed DUC follows an explicit **modified-hyperbolic type curve**
+  (ramp to a peak, high early b-factor, then a switch to exponential at the terminal rate —
+  editable peak, b-factor, months-to-peak & steepness). The decline defaults are calibrated
+  to published benchmarks — **Petropt "Permian Basin Decline Curve Benchmarks" (Mar 2026)**,
+  from Texas RRC / New Mexico OCD / TGS / Enverus data: Year-1 ~70% decline from peak,
+  **terminal ~13%/yr for shale** (~5%/yr conventional), and a steeper tier EUR step-down
+  (Tier 2 ~27% below Tier 1, Tier 3 ~45% below). Controls are
   identical across every view — **rig count, completion rate, DUC drawdown, type-curve peak,
   terminal decline, young-well steepness, per-tier productivity, WTI price, and the
   scenario preset** — with anything that doesn't apply shown disabled ("N/A", e.g. rigs/DUCs

@@ -634,6 +634,23 @@
       </div>
       <div class="grid2" style="margin-top:18px" id="outlook-cards"></div>
       <div class="panel" id="outlook-detail"></div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Capital &amp; Consolidation</h2><span class="prov sourced">Sourced · report-cycle (not live)</span></div>
+        <p class="caption">The money side of “capital discipline.” These two charts update on a <b>report cycle</b> (IEA / Enverus publications), not with the daily data refresh.</p>
+        <div class="grid2">
+          <div>
+            <div class="panel-head" style="margin-top:4px"><h3 style="font-size:15px;margin:0">Upstream oil &amp; gas capex</h3><span class="prov sourced">IEA WEI · real ~2024 $</span></div>
+            <div class="chart-box short"><canvas id="chartCapex"></canvas></div>
+            <p class="caption" id="capex-cap"></p>
+          </div>
+          <div>
+            <div class="panel-head" style="margin-top:4px"><h3 style="font-size:15px;margin:0">US upstream M&amp;A deal value</h3><span class="prov sourced">Enverus · real 2026 $</span></div>
+            <div class="chart-box short"><canvas id="chartMA"></canvas></div>
+            <p class="caption" id="ma-cap"></p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ===================== FOOTER / DATA & SOURCES ===================== -->
@@ -1352,33 +1369,33 @@
     // Every basin uses the IDENTICAL control set; only the sourced inputs differ.
     const SIMS = {
       permian:{ name:"Permian", color:"#c8102e", band:"rgba(200,16,46,0.10)", series:"COPRPM",
-        startYear:2026, N:20, base:6550, baseDate:"", sc:0.6301, mPeak:3, b:1.1, drill:{region:"Permian"}, term:0.06, young:0.68, rf:0.60,
+        startYear:2026, N:20, base:6550, baseDate:"", sc:0.8591, mPeak:2, b:1.3, drill:{region:"Permian"}, term:0.13, young:0.72, rf:0.60,
         priceMin:40, priceMax:100, paceMin:2000, paceMax:8000,
-        tiers:[{name:"Tier 1",loc:25000,be:40,mult:1.20},{name:"Tier 2",loc:30000,be:50,mult:1.00},{name:"Tier 3",loc:28000,be:60,mult:0.85},{name:"Tier 4",loc:17000,be:70,mult:0.68}],
+        tiers:[{name:"Tier 1",loc:25000,be:40,mult:1.20},{name:"Tier 2",loc:30000,be:50,mult:0.88},{name:"Tier 3",loc:28000,be:60,mult:0.66},{name:"Tier 4",loc:17000,be:70,mult:0.50}],
         def:{price:70,pace:4200},
         method:[
           {lab:"Remaining inventory", tag:"src", txt:"~100,000 remaining horizontal locations; ~55,000 break even below $50/bbl (NPV25). — Enverus Intelligence Research, Apr 2026 (via World Oil)."},
           {lab:"Breakeven cross-check", tag:"src", txt:"Corporate NPV25 breakevens ~$50–52 (Delaware ~$52, Midland ~$50). — Novi Labs public data, 2025."},
           {lab:"New-well breakeven", tag:"src", txt:"Midland $61 / Delaware $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"The ~100k locations are split into 4 breakeven bands interpolated between the verified Enverus anchors (55k sub-$50, 100k sub-$70). Individual band counts are derived, not separately published."},
-          {lab:"Existing base declines", tag:"asm", txt:"The live base is split into recent wells (steep hyperbolic decline: ~68%/31%/20% over years 1-3) and mature wells fading at a ~6%/yr terminal decline that never stops. New tier-cascade wells are layered on top. Two-segment decline defaults are assumptions — adjust the terminal-decline and young-well sliders. (Support: ~80% of a shale well's output comes in its first ~2 years, SPE/JPT; EIA DPR tracks a large Permian legacy decline.)"}
+          {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak (Y2 ~45%, Y3 ~30%), terminal ~13%/yr; tier EUR step-down T2 ~27% / T3 ~45% below T1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
         ] },
       bakken:{ name:"Bakken", color:"#33373d", band:"rgba(51,55,61,0.10)", series:"COPRBK",
-        startYear:2026, N:20, base:1177, baseDate:"", sc:0.8346, mPeak:3, b:1.1, drill:{region:"Bakken"}, term:0.06, young:0.68, rf:0.58,
+        startYear:2026, N:20, base:1177, baseDate:"", sc:1.1288, mPeak:2, b:1.3, drill:{region:"Bakken"}, term:0.13, young:0.72, rf:0.58,
         priceMin:40, priceMax:100, paceMin:80, paceMax:600,
-        tiers:[{name:"Tier 1",loc:1400,be:48,mult:1.15},{name:"Tier 2",loc:1900,be:58,mult:1.00},{name:"Tier 3",loc:1700,be:66,mult:0.85},{name:"Tier 4",loc:1100,be:75,mult:0.70}],
+        tiers:[{name:"Tier 1",loc:1400,be:48,mult:1.15},{name:"Tier 2",loc:1900,be:58,mult:0.84},{name:"Tier 3",loc:1700,be:66,mult:0.63},{name:"Tier 4",loc:1100,be:75,mult:0.48}],
         def:{price:68,pace:220},
         method:[
           {lab:"Sub-$50 inventory", tag:"src", txt:"~1,400 locations break even below $50/bbl. — Enverus, Aug 2024."},
           {lab:"Total economic inventory", tag:"src", txt:"~6,100 well sites still economic at recent prices (majors cite ~10 yrs of inventory). — RBN Energy, 2024."},
           {lab:"New-well breakeven", tag:"der", txt:"The Dallas Fed does not break out the Bakken; its “Other U.S. shale” ~$63 (Q1 2025) is used as the basin proxy — derived, not Bakken-specific."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"No public Bakken creaming curve exists. The 4 tiers are derived from the two verified anchors above (1,400 sub-$50; ~6,100 total) with an assumed breakeven spread."},
-          {lab:"Existing base declines", tag:"asm", txt:"The live base is split into recent wells (steep hyperbolic decline) and mature wells fading at a ~6%/yr terminal decline that never stops; new tier-cascade wells are layered on top. Two-segment decline defaults are assumptions — adjustable."}
+          {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak, terminal ~13%/yr; tier EUR step-down T2 ~27% / T3 ~45% below T1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
         ] },
       eagleford:{ name:"Eagle Ford", color:"#4f7186", band:"rgba(79,113,134,0.12)", series:"COPREF",
-        startYear:2026, N:20, base:1174, baseDate:"", sc:0.6219, mPeak:3, b:1.1, drill:{region:"Eagle Ford"}, term:0.06, young:0.68, rf:0.55,
+        startYear:2026, N:20, base:1174, baseDate:"", sc:0.8535, mPeak:2, b:1.3, drill:{region:"Eagle Ford"}, term:0.13, young:0.72, rf:0.55,
         priceMin:40, priceMax:100, paceMin:80, paceMax:600,
-        tiers:[{name:"Tier 1",loc:1200,be:50,mult:1.10},{name:"Tier 2",loc:1800,be:60,mult:1.00},{name:"Tier 3",loc:1600,be:68,mult:0.85},{name:"Tier 4",loc:900,be:78,mult:0.70}],
+        tiers:[{name:"Tier 1",loc:1200,be:50,mult:1.10},{name:"Tier 2",loc:1800,be:60,mult:0.80},{name:"Tier 3",loc:1600,be:68,mult:0.60},{name:"Tier 4",loc:900,be:78,mult:0.46}],
         def:{price:70,pace:200},
         method:[
           {lab:"New-well breakeven", tag:"src", txt:"Eagle Ford $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
@@ -1393,12 +1410,12 @@
     const TREND_ELAST=0.0004;   // WTI sensitivity: per $ above/below $70, add to annual rate
     const TRENDS = {
       gulf:{        name:"Federal Gulf",              color:"#6f93ab", series:"PAPRPGLF", term:0.05, young:0.30, rf:0.40 },
-      restl48:{     name:"Rest of L48 (Conventional)", color:"#9aa1ab", series:"COPRR48", term:0.05, young:0.30, rf:0.18, sc:0.2086, mPeak:3, b:1.1, drill:{region:"Rest of L48 (Conventional)"} },
+      restl48:{     name:"Rest of L48 (Conventional)", color:"#9aa1ab", series:"COPRR48", term:0.05, young:0.30, rf:0.18, sc:0.2161, mPeak:2, b:1.3, drill:{region:"Rest of L48 (Conventional)"} },
       alaska:{      name:"Alaska",                    color:"#7a5c8a", series:"PAPRPAK", term:0.05, young:0.28, rf:0.15 },
-      appalachia:{  name:"Appalachia",               color:"#8d8a5e", series:"COPRAP", tiny:true, term:0.06, young:0.55, rf:0.45, sc:0.3479, mPeak:3, b:1.1, drill:{region:"Appalachia"} },
-      haynesville:{ name:"Haynesville",              color:"#b08968", series:"COPRHA", tiny:true, term:0.06, young:0.55, rf:0.30, sc:0.8260, mPeak:3, b:1.1, drill:{region:"Haynesville"} }
+      appalachia:{  name:"Appalachia",               color:"#8d8a5e", series:"COPRAP", tiny:true, term:0.13, young:0.60, rf:0.45, sc:0.4604, mPeak:2, b:1.3, drill:{region:"Appalachia"} },
+      haynesville:{ name:"Haynesville",              color:"#b08968", series:"COPRHA", tiny:true, term:0.13, young:0.60, rf:0.30, sc:1.2279, mPeak:2, b:1.3, drill:{region:"Haynesville"} }
     };
-    const TERM_MIN=0.02, TERM_MAX=0.15, YOUNG_MIN=0.15, YOUNG_MAX=0.85;
+    const TERM_MIN=0.02, TERM_MAX=0.25, YOUNG_MIN=0.15, YOUNG_MAX=0.85;
     const clampT=v=>Math.max(TERM_MIN,Math.min(TERM_MAX,v)), clampY=v=>Math.max(YOUNG_MIN,Math.min(YOUNG_MAX,v));
     const N_SIM=20, START_SIM=2026;
     // Measure a region's average annual growth/decline over the last `yrs` years of LIVE actuals.
@@ -1435,7 +1452,7 @@
     // THREE production streams: (1) legacy declining, (2) new drilled+completed wells, (3) DUC completions.
     //   c = {price, rigs, complRate(0-1), ducRate(0-1), term, young, peakMult, pm[]}
     function rigDucRun(cfg,live,base,c){
-      const wcA=wellCurveAnnual(cfg.mPeak||3, c.young, cfg.b||1.1, c.term), Ry=declineCurve(c.young,c.term), tiers=cfg.tiers;
+      const wcA=wellCurveAnnual(c.mpeak||cfg.mPeak||2, c.young, c.bfac||cfg.b||1.3, c.term), Ry=declineCurve(c.young,c.term), tiers=cfg.tiers;
       const legacy=[]; for(let y=0;y<N_SIM;y++) legacy.push(base*legFactor(y,cfg.rf,Ry,c.term));
       let DUC=live.duc, cum=0; const cohN=[], cohD=[], dbk=[DUC];
       for(let y=1;y<N_SIM;y++){
@@ -1458,7 +1475,7 @@
     }
     // Pure-trend regions (no DPR rig/DUC data): declining legacy + new drilling sized from the observed net trend (via type curve).
     function trendProject(v0,obsRate,term,young,rf,persist,priceF){
-      const wcA=wellCurveAnnual(3,young,1.1,term), Ry=declineCurve(young,term), legacy=[];
+      const wcA=wellCurveAnnual(2,young,1.3,term), Ry=declineCurve(young,term), legacy=[];
       for(let y=0;y<N_SIM;y++) legacy.push(v0*legFactor(y,rf,Ry,term));
       const dY1=1-legFactor(1,rf,Ry,term);
       const A=Math.max(0, v0*(obsRate+dY1)*priceF)/Math.max(0.01,wcA[0]);   // year-1 net matches observed trend
@@ -1526,7 +1543,7 @@
       return '<h3>How to read this — combined model</h3><p>The <b>US total</b> sums every region’s corrected projection into one national crude line. Each region’s existing base declines and its new wells + DUC completions stack on top, so national decline emerges bottoms-up. Master sliders — <b>WTI price</b>, <b>global drilling &amp; growth intensity</b>, and <b>terminal decline / young-well</b> (shift every basin together) — plus the scenario preset flex the whole system.</p>'+legend;
     }
     function simAssump(type,cfg,live,base){
-      const twoSeg='<p><b>Two-segment decline (every basin, ASSUMPTION):</b> the existing base is split into recent wells — a steep hyperbolic decline (~68/31/20% over years 1-3, easing) — and mature wells on a permanent <b>terminal decline</b> that never stops (~6%/yr shale, ~5%/yr conventional). Every new well and completed DUC follows the same ramp→hyperbolic→terminal type curve. Support: ~80% of a shale well’s output comes in its first ~2 years (SPE/JPT); the EIA Drilling Productivity Report tracks large monthly legacy declines. Terminal rates vary by source, so these defaults are assumptions — adjust the sliders.</p>';
+      const twoSeg='<p><b>Decline model (ASSUMPTION, calibrated to benchmarks):</b> every new well and completed DUC follows a <b>modified-hyperbolic type curve</b> — ramp to peak, high early b-factor (~1.3), then a switch to exponential at the terminal rate. Defaults: <b>Year-1 ~70% decline from peak</b> (Y2 ~45%, Y3 ~30%), and a permanent <b>terminal decline</b> of <b>~13%/yr for shale</b> (Permian/Bakken/Eagle Ford) and ~5%/yr for mature conventional (Rest of L48 / Alaska / Gulf). Per-tier EUR step-down: Tier 2 ≈ 25–30% below Tier 1, Tier 3 ≈ 45% below. — <b>Petropt, “Permian Basin Decline Curve Benchmarks,” Mar 2026</b> (built from Texas RRC / New Mexico OCD / TGS / Enverus). Figures are data-grounded but adjustable — move the b-factor, young-well, terminal-decline and per-tier sliders.</p>';
       const threeStream=live?'<p><b>Three production streams:</b> (1) legacy declining; (2) <b>new wells</b> = '+live.rigs+' rigs × '+live.eff.toFixed(1)+' wells/rig·mo × completion rate; (3) <b>DUC completions</b> drawing down the live ~'+live.duc.toLocaleString()+'-well backlog. Wells drilled but not completed bank into the DUC backlog; completing a DUC adds oil with no new drilling, until the backlog empties. <b>Rigs, efficiency and DUCs are live (EIA STEO Table 10a, '+live.date+').</b></p>':'';
       if(type==='rig'){
         let html='<p>Starting production is <b>live from EIA</b> ('+(base/1000).toFixed(cfg.tiers?2:3)+'M bbl/d, '+(cfg.baseDate||(cfg.stats&&cfg.stats.date)||'')+').</p>'+threeStream+twoSeg;
@@ -1576,9 +1593,9 @@
       document.getElementById('sim-guide').innerHTML=simGuide(hasRig?'rig':(pureTrend?'trend':'combined'),cfg);
 
       let st;
-      if(hasRig) st={price:isInv?cfg.def.price:70, rigs:live?live.rigs:0, complRate:100, ducRate:15, peakMult:100, term:cfg.term, young:cfg.young, pm:(hasTiers?cfg.tiers.map(_=>100):[100,100,100,100]), rate:0, persist:95, intensity:0, termD:0, youngD:0};
-      else if(pureTrend) st={price:70, rigs:0, complRate:100, ducRate:15, peakMult:100, term:cfg.term, young:cfg.young, pm:[100,100,100,100], rate:obsRate, persist:95, intensity:0, termD:0, youngD:0};
-      else st={price:70, rigs:0, complRate:100, ducRate:15, peakMult:100, term:0.06, young:0.6, pm:[100,100,100,100], rate:0, persist:95, intensity:0, termD:0, youngD:0};
+      if(hasRig) st={price:isInv?cfg.def.price:70, rigs:live?live.rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:cfg.b||1.3, mpeak:cfg.mPeak||2, term:cfg.term, young:cfg.young, pm:(hasTiers?cfg.tiers.map(_=>100):[100,100,100,100]), rate:0, persist:95, intensity:0, termD:0, youngD:0};
+      else if(pureTrend) st={price:70, rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:1.3, mpeak:2, term:cfg.term, young:cfg.young, pm:[100,100,100,100], rate:obsRate, persist:95, intensity:0, termD:0, youngD:0};
+      else st={price:70, rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:1.3, mpeak:2, term:0.13, young:0.72, pm:[100,100,100,100], rate:0, persist:95, intensity:0, termD:0, youngD:0};
 
       const A={price:true, rigs:hasRig, compl:hasRig, ducr:hasRig, peak:hasRig, rate:pureTrend, persist:pureTrend, intensity:isTot, tiers:hasTiers};
       const eff=live?live.eff:0;
@@ -1591,12 +1608,14 @@
       ctrlsHTML+=cc('sim-compl','Completion rate (drilled → completed)',40,100,st.complRate,5,v=>v+'%',A.compl,pureTrend?'N/A — no rig/DUC data':'N/A — set per basin');
       ctrlsHTML+=cc('sim-ducr','DUC completion rate (backlog drawdown / yr)',0,40,st.ducRate,1,v=>v+'%/yr',A.ducr,pureTrend?'N/A — no DUC backlog':'N/A — set per basin');
       ctrlsHTML+=cc('sim-peak','Type-curve peak (well productivity)',50,150,st.peakMult,5,v=>v+'%',A.peak,pureTrend?'N/A — trend model':'N/A — set per basin');
+      ctrlsHTML+=cc('sim-bfac','Type-curve b-factor (decline shape)',1.0,2.5,st.bfac,0.1,v=>(+v).toFixed(1),A.peak,pureTrend?'N/A — trend model':'N/A — set per basin');
+      ctrlsHTML+=cc('sim-mpeak','Months to peak (well ramp-up)',1,6,st.mpeak,1,v=>v+' mo',A.peak,pureTrend?'N/A — trend model':'N/A — set per basin');
       if(isTot){
         ctrlsHTML+=cc('sim-young','Young-well steepness — shift all',-20,20,st.youngD,1,v=>((+v)>0?'+':'')+v+' pp',true,'');
         ctrlsHTML+=cc('sim-term','Terminal decline — shift all basins',-3,6,st.termD,0.5,v=>((+v)>0?'+':'')+(+v).toFixed(1)+' pp',true,'');
       } else {
-        ctrlsHTML+=cc('sim-young','Young-well decline steepness (yr-1)',20,80,Math.round(st.young*100),1,v=>v+'%',true,'');
-        ctrlsHTML+=cc('sim-term','Terminal decline rate (mature wells)',3,12,+(st.term*100).toFixed(1),0.5,v=>(+v).toFixed(1)+'%/yr',true,'');
+        ctrlsHTML+=cc('sim-young','Young-well decline steepness — yr-1 from peak',20,80,Math.round(st.young*100),1,v=>v+'%',true,'');
+        ctrlsHTML+=cc('sim-term','Terminal decline rate (mature wells)',3,25,+(st.term*100).toFixed(1),0.5,v=>(+v).toFixed(1)+'%/yr',true,'');
       }
       ctrlsHTML+=cc('sim-rate','New-drilling trend (net %/yr, near-term)',-20,20,+(st.rate*100).toFixed(1),0.1,v=>((+v)>0?'+':'')+(+v).toFixed(1)+'%',A.rate,'N/A — rig count drives new wells');
       ctrlsHTML+=cc('sim-persist','New-drilling persistence (100% = holds)',80,100,st.persist,1,v=>v+'%',A.persist,'N/A — rig-model control');
@@ -1613,7 +1632,7 @@
       const rigRows=live?[
         {lab:"Rigs → wells", tag:"live", txt:live.rigs+" active rigs × "+live.eff.toFixed(1)+" wells/rig·mo ≈ "+Math.round(live.rigs*live.eff*12).toLocaleString()+" wells/yr drilled. — EIA STEO Table 10a, "+live.date+"."},
         {lab:"DUC backlog", tag:"live", txt:"~"+live.duc.toLocaleString()+" drilled-but-uncompleted wells today — a finite backlog drawn down over the forecast (dashed line, right axis). — EIA STEO Table 10a, "+live.date+"."},
-        {lab:"Type curve", tag:"asm", txt:"Each new well and each completed DUC ramps to a peak over ~3 months, then declines hyperbolically into a terminal tail; peak, ramp, initial decline and terminal rate are adjustable assumptions."}
+        {lab:"Type curve & decline", tag:"asm", txt:"Each new well and each completed DUC follows a modified-hyperbolic type curve: ramp to peak (~2 mo), high early b-factor (~1.3), then a switch to exponential at the terminal rate. Defaults are data-grounded but adjustable — Year-1 ~70% decline from peak (Y2 ~45%, Y3 ~30%); terminal ~13%/yr for shale (~5%/yr mature conventional). — Petropt, “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / New Mexico OCD / TGS / Enverus)."}
       ]:[];
       let mStr;
       if(isInv) mStr=methodRender('How this '+cfg.name+' simulation was built (inventory + rig/DUC model)',
@@ -1634,7 +1653,7 @@
           const cf=pair[1][pair[0]], lv=drillStats(cf.drill.region); if(!lv)return;
           let bs; if(pair[1]===SIMS){ simLiveBase(cf); bs=cf.base; } else { const s=trendStats(cf.series,4); bs=s?s.v0:0; }
           const term=clampT(cf.term+stt.termD/100), young=clampY(cf.young+stt.youngD/100);
-          parts.push(rigDucRun(cf,lv,bs,{price:stt.price, rigs:lv.rigs*(1+stt.intensity/100), complRate:1.0, ducRate:0.15, term:term, young:young, peakMult:1, pm:(cf.tiers?cf.tiers.map(_=>100):[100,100,100,100])})); });
+          parts.push(rigDucRun(cf,lv,bs,{price:stt.price, rigs:lv.rigs*(1+stt.intensity/100), complRate:1.0, ducRate:0.15, term:term, young:young, peakMult:1, bfac:cf.b, mpeak:cf.mPeak, pm:(cf.tiers?cf.tiers.map(_=>100):[100,100,100,100])})); });
         ['gulf','alaska'].forEach(k=>{ const Tx=TRENDS[k], s=trendStats(Tx.series,4);
           const term=clampT(Tx.term+stt.termD/100), young=clampY(Tx.young+stt.youngD/100), eff2=(s?s.rate:0)+(stt.intensity/100)*0.10, pf=1+TREND_ELAST*(stt.price-70);
           parts.push(trendProject(s?s.v0:0,eff2,term,young,Tx.rf,0.95,pf)); });
@@ -1663,7 +1682,7 @@
           o={legacy:L,newWells:W,ducComp:D,total:T,ducBacklog:anyBk?BK:null,newColor:'rgba(79,113,134,0.6)',ducColor:'rgba(184,137,104,0.7)',lineColor:'#16181c'};
         } else if(pureTrend){ const pf=1+TREND_ELAST*(st.price-70), r=trendProject(base,st.rate,st.term,st.young,cfg.rf,st.persist/100,pf);
           o={legacy:r.legacy,newWells:r.newWells,ducComp:r.ducCompletions,total:r.total,ducBacklog:null,newColor:hexA(color,0.6),ducColor:'rgba(184,137,104,0.7)',lineColor:color};
-        } else { const r=rigDucRun(cfg,live,base,{price:st.price,rigs:st.rigs,complRate:st.complRate/100,ducRate:st.ducRate/100,term:st.term,young:st.young,peakMult:st.peakMult/100,pm:st.pm});
+        } else { const r=rigDucRun(cfg,live,base,{price:st.price,rigs:st.rigs,complRate:st.complRate/100,ducRate:st.ducRate/100,term:st.term,young:st.young,peakMult:st.peakMult/100,bfac:st.bfac,mpeak:st.mpeak,pm:st.pm});
           o={legacy:r.legacy,newWells:r.newWells,ducComp:r.ducCompletions,total:r.total,ducBacklog:r.ducBacklog,newColor:hexA(color,0.6),ducColor:'rgba(184,137,104,0.78)',lineColor:color}; }
         const total=o.total, peak=Math.max.apply(null,total),pk=total.indexOf(peak),y35=total[9],y40=total[14],last=total[N_SIM-1];
         if(hasRig){ const pct=(last-base)/base*100, d0=o.ducBacklog?o.ducBacklog[0]:0, dN=o.ducBacklog?o.ducBacklog[N_SIM-1]:0, fx=isInv?2:3;
@@ -1690,6 +1709,8 @@
       bindC('sim-compl','complRate',v=>v+'%');
       bindC('sim-ducr','ducRate',v=>v+'%/yr');
       bindC('sim-peak','peakMult',v=>v+'%');
+      bindC('sim-bfac','bfac',v=>(+v).toFixed(1));
+      bindC('sim-mpeak','mpeak',v=>v+' mo');
       bindC('sim-persist','persist',v=>v+'%');
       bindC('sim-intensity','intensity',v=>((+v)>0?'+':'')+v+'%');
       (function(){ const el=document.getElementById('sim-rate'); if(el&&!el.disabled) el.addEventListener('input',()=>{ st.rate=(+el.value)/100; document.getElementById('sim-rate-v').textContent=((+el.value)>0?'+':'')+(+el.value).toFixed(1)+'%'; clearScen(); draw(); }); })();
@@ -1699,17 +1720,17 @@
 
       function applyState(){ const set=(id,val,txt)=>{ const el=document.getElementById(id); if(el&&!el.disabled){ el.value=val; const b=document.getElementById(id+'-v'); if(b)b.textContent=txt; } };
         set('sim-price',st.price,'$'+st.price);
-        if(hasRig){ set('sim-rigs',st.rigs,(+st.rigs)+' rigs · ~'+Math.round(st.rigs*eff*12).toLocaleString()+' wells/yr'); set('sim-compl',st.complRate,st.complRate+'%'); set('sim-ducr',st.ducRate,st.ducRate+'%/yr'); set('sim-peak',st.peakMult,st.peakMult+'%');
+        if(hasRig){ set('sim-rigs',st.rigs,(+st.rigs)+' rigs · ~'+Math.round(st.rigs*eff*12).toLocaleString()+' wells/yr'); set('sim-compl',st.complRate,st.complRate+'%'); set('sim-ducr',st.ducRate,st.ducRate+'%/yr'); set('sim-peak',st.peakMult,st.peakMult+'%'); set('sim-bfac',st.bfac,(+st.bfac).toFixed(1)); set('sim-mpeak',st.mpeak,st.mpeak+' mo');
           set('sim-term',+(st.term*100).toFixed(1),(st.term*100).toFixed(1)+'%/yr'); set('sim-young',Math.round(st.young*100),Math.round(st.young*100)+'%');
           if(hasTiers) cfg.tiers.forEach((t,i)=>set('pm'+i,st.pm[i],st.pm[i]+'%')); }
         if(pureTrend){ set('sim-rate',+(st.rate*100).toFixed(1),(st.rate>0?'+':'')+(st.rate*100).toFixed(1)+'%'); set('sim-persist',st.persist,st.persist+'%'); set('sim-term',+(st.term*100).toFixed(1),(st.term*100).toFixed(1)+'%/yr'); set('sim-young',Math.round(st.young*100),Math.round(st.young*100)+'%'); }
         if(isTot){ set('sim-intensity',st.intensity,(st.intensity>0?'+':'')+st.intensity+'%'); set('sim-term',st.termD,(st.termD>0?'+':'')+st.termD.toFixed(1)+' pp'); set('sim-young',st.youngD,(st.youngD>0?'+':'')+st.youngD+' pp'); }
       }
       function presetVals(name){
-        if(hasRig){ const r0=live?live.rigs:0, p0=isInv?cfg.def.price:70, pmv=n=>st.pm.map(_=>n);
-          if(name==='Base') return {price:p0, rigs:r0, complRate:100, ducRate:15, peakMult:100, term:cfg.term, young:cfg.young, pm:pmv(100)};
-          if(name==='Upside') return {price:Math.min(100,p0+15), rigs:Math.round(r0*1.25), complRate:100, ducRate:25, peakMult:110, term:clampT(cfg.term-0.015), young:clampY(cfg.young-0.08), pm:pmv(110)};
-          return {price:Math.max(40,p0-15), rigs:Math.round(r0*0.6), complRate:90, ducRate:8, peakMult:90, term:clampT(cfg.term+0.02), young:clampY(cfg.young+0.05), pm:pmv(90)}; }
+        if(hasRig){ const r0=live?live.rigs:0, p0=isInv?cfg.def.price:70, pmv=n=>st.pm.map(_=>n), tc={bfac:cfg.b, mpeak:cfg.mPeak};
+          if(name==='Base') return Object.assign({price:p0, rigs:r0, complRate:100, ducRate:15, peakMult:100, term:cfg.term, young:cfg.young, pm:pmv(100)},tc);
+          if(name==='Upside') return Object.assign({price:Math.min(100,p0+15), rigs:Math.round(r0*1.25), complRate:100, ducRate:25, peakMult:110, term:clampT(cfg.term-0.03), young:clampY(cfg.young-0.05), pm:pmv(110)},tc);
+          return Object.assign({price:Math.max(40,p0-15), rigs:Math.round(r0*0.6), complRate:90, ducRate:8, peakMult:90, term:clampT(cfg.term+0.04), young:clampY(cfg.young+0.04), pm:pmv(90)},tc); }
         if(pureTrend){ const r=cfg.stats?cfg.stats.rate:obsRate;
           if(name==='Base') return {price:70, rate:r, persist:95, term:cfg.term, young:cfg.young};
           if(name==='Upside') return {price:85, rate:r+0.02, persist:100, term:clampT(cfg.term-0.015), young:clampY(cfg.young-0.05)};
@@ -1924,9 +1945,41 @@
       const gc=document.getElementById('gascos-src'); if(gc)gc.textContent=GAS_PRODUCERS.note+' '+GAS_PRODUCERS.src+' · last reviewed '+GAS_PRODUCERS.reviewed;
     }
 
+    // ===================== CAPITAL & CONSOLIDATION (SOURCED, report-cycle) =====================
+    // Upstream capex — IEA World Energy Investment (Rystad basis), already in real ~2024 USD.
+    const CAPEX={ unit:"billion, real ~2024 $",
+      years:[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+      values:[869,460,460,477,505,300,350,474,528,590,567],
+      src:{2015:1,2019:1,2020:1,2022:1,2023:1,2025:1} };  // others estimated/derived
+    // US upstream M&A — Enverus nominal totals, inflation-adjusted to real 2026$ via BLS CPI-U.
+    const MADEAL={ unit:"billion, real 2026 $",
+      years:[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+      values:[147,98,97,95,92,121,66,78,64,203,108,65],
+      nominal:[108,72,72,72,72,96,53,66,58,192,105,65],
+      src:{2014:1,2019:1,2021:1,2022:1,2023:1,2024:1,2025:1} };  // 2015-18 = 2015-19 avg
+    let capexChart=null, maChart=null;
+    function capBar(id,cfg,accentYear,chartRef){
+      const el=document.getElementById(id); if(!el) return chartRef;
+      if(chartRef){ chartRef.destroy(); }
+      const cols=cfg.years.map(y=> y===accentYear?'#c8102e':(cfg.src[y]?'#8a96a6':'#c9cfd8'));
+      return new Chart(el,{type:'bar',data:{labels:cfg.years,datasets:[{data:cfg.values,backgroundColor:cols,borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:c=>'$'+c.parsed.y+'B'+(cfg.src[cfg.years[c.dataIndex]]?' (sourced)':' (est.)')+(cfg.nominal?' · $'+cfg.nominal[c.dataIndex]+'B nominal':'')}}},
+          scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,font:{size:10}}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},ticks:{callback:v=>'$'+v+'B',font:{size:10}}}}}});
+    }
+    function buildCapital(){
+      capexChart=capBar('chartCapex',CAPEX,2015,capexChart);
+      maChart=capBar('chartMA',MADEAL,2023,maChart);
+      const cc=document.getElementById('capex-cap'); if(cc) cc.innerHTML=
+        'Peak <b>~$869B in 2015</b>; COVID trough <b>~$300B (2020)</b>; <b>~$567B in 2025</b> — down ~4% (first drop since 2020), and still <b>~35% below the 2015 peak</b>. Investment never recovered to its 2014-15 peak despite record production — the <b>capital discipline</b> the overview references. <span class="prov sourced">Sourced · IEA World Energy Investment (Rystad basis), 2019–2025 editions</span> <span style="color:var(--faint);font-size:11px">2016/17/21 estimated, 2018/24 derived from stated YoY.</span>';
+      const mc=document.getElementById('ma-cap'); if(mc) mc.innerHTML=
+        'Nominal Enverus deal values inflation-adjusted to <b>2026$</b> (BLS CPI, same series as real WTI). Record <b>2023 (~$192B nominal</b> — ExxonMobil–Pioneer, Chevron–Hess) and strong 2024 (Diamondback–Endeavor, ConocoPhillips–Marathon); <b>~$65B in 2025</b>. The industry increasingly <b>buys inventory via M&amp;A rather than drilling for it</b> — the other face of capital discipline. <span class="prov sourced">Sourced · Enverus US upstream M&amp;A (2014, 2019–2025)</span> <span style="color:var(--faint);font-size:11px">2015–18 shown at the Enverus 2015–19 average (~$72B nominal) — individual years not public; flag: unverified.</span>';
+    }
+
     // ===================== BUILD: OUTLOOK =====================
 let outlookChart=null;
     function buildOutlook(){
+      buildCapital();
       const actualsThrough=(BAS&&BAS.actuals_through)||(TOTAL&&TOTAL.latest&&TOTAL.latest.date)||'2026-03';
       let usTot=[];
       if(BAS&&BAS.regions){ const sums={},counts={},nreg=BAS.regions.length;

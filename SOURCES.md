@@ -25,6 +25,9 @@ Legend: **Cadence** = how often the source publishes something new worth checkin
 | 12 | Events narrative | 8 oil-price events | history (stable) | — | Rarely | `EVENTS` | 2026-06-26 |
 | 13 | Simulator basin inventory & breakevens | **Bakken** ~1,400 sub-$50 · ~6,100 economic (RBN) · Dallas-Fed "Other US shale" $63 proxy · **Eagle Ford** $62 breakeven · ~5,500 total *(estimate — ⚠ unverified, no public creaming curve)* | Enverus · RBN Energy · Dallas Fed | https://rbnenergy.com · https://www.dallasfed.org/research/surveys/des | Periodic | `SIMS.bakken` / `SIMS.eagleford` (tiers + methodology panels) | 2026-07-06 |
 | 14 | US crude exports / imports / Canada share | **LIVE** — exports `MCREXUS2` · imports `MCRIMUS2` · Canada `MCRIMUSCA2` (share computed) | EIA petroleum/move | https://www.eia.gov/petroleum/ | *(auto — via `fetch_data.py`)* | Overview `#bignum`; `data/trade.js` | live |
+| 15 | Simulator decline-curve benchmarks | Year-1 ~70% from peak (Y2 ~45%, Y3 ~30%); **terminal ~13%/yr shale**, ~5%/yr conventional; modified-hyperbolic b≈1.3; tier EUR step-down T2 ~27% / T3 ~45% below T1 | Petropt, "Permian Basin Decline Curve Benchmarks," Mar 2026 (Texas RRC / NM OCD / TGS / Enverus) | (report) | Periodic | `SIMS.*.term/young/b/tiers`, `TRENDS.*`, type-curve method rows | 2026-07-10 |
+| 16 | Upstream capex (real) | ~$869B peak 2015 · ~$300B 2020 trough · ~$567B 2025 (−4%, ~35% below peak) | IEA World Energy Investment (Rystad basis), real ~2024 $ | https://www.iea.org/reports/world-energy-investment-2025 | Annual (report) | `CAPEX` (Outlook › Capital & Consolidation) | 2026-07-10 |
+| 17 | US upstream M&A deal value | 2023 ~$192B nominal (record) · 2024 ~$105B · 2025 ~$65B; CPI-adjusted to real 2026$ | Enverus Intelligence Research (US upstream M&A) | https://www.enverus.com/newsroom/ | Annual (report) | `MADEAL` (Outlook › Capital & Consolidation); ⚠ 2015–18 = 2015–19 avg, unverified | 2026-07-10 |
 
 ## How the refresh works
 
