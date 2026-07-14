@@ -1,0 +1,57 @@
+name: Refresh & publish dashboard
+
+on:
+  schedule:
+    - cron: "0 12 * * *"      # 12:00 UTC daily (~6 AM Mountain). Time is UTC; adjust if you like.
+  workflow_dispatch: {}        # adds a "Run workflow" button so you can refresh on demand
+
+permissions:
+  contents: write   # to commit the refreshed data files back to the repo
+  pages: write      # to publish to GitHub Pages
+  id-token: write   # required by the Pages deploy step
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh-and-publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Get the project files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Put the API keys where the scripts expect them (.env, not committed)
+        run: |
+          echo "EIA_API_KEY=${{ secrets.EIA_API_KEY }}" >> .env
+          echo "FRED_API_KEY=${{ secrets.FRED_API_KEY }}" >> .env
+
+      - name: Pull latest data and rebuild the dashboard
+        run: |
+          python fetch_data.py
+          python bundle.py
+
+      - name: Save the refreshed files back to the repo (keeps the downloadable copy current)
+        run: |
+          git config user.name  "MI3 Dashboard Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Daily data refresh (auto)" || echo "No changes to commit"
+          git push || echo "Nothing to push"
+
+      - name: Package the site for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: publish-online
+
+      - name: Publish to the live link
+        id: deploy
+        uses: actions/deploy-pages@v4
