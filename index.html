@@ -310,7 +310,7 @@
       </div>
       <div class="headline-stats" id="headline-stats" hidden>
         <div class="hs"><div class="label">US Oil Production</div><div class="val mono" id="hs-oil">—</div><div class="sub" id="hs-oil-sub">—</div></div>
-        <div class="hs"><div class="label">WTI Spot</div><div class="val mono" id="hs-wti">—</div><div class="sub" id="hs-wti-sub">—</div></div>
+        <div class="hs"><div class="label">WTI Crude</div><div class="val mono" id="hs-wti">—</div><div class="sub" id="hs-wti-sub">—</div></div>
       </div>
     </div>
   </div>
@@ -905,7 +905,7 @@
       document.getElementById('hs-oil-sub').textContent = 'EIA · '+TOTAL.latest.date;
     }
     document.getElementById('hs-wti').innerHTML = '$'+currentWTI.toFixed(2);
-    document.getElementById('hs-wti-sub').textContent = spot ? ('spot · '+spot.date) : ('monthly · '+WTI.latest.date);
+    document.getElementById('hs-wti-sub').textContent = spot ? ((spot.source&&spot.source.indexOf('front-month')>=0?'front-month · ':'spot · ')+spot.date) : ('monthly · '+WTI.latest.date);
     // ---- Overview summary (OIL ONLY): analyst summary + trade/refinery point ----
     const _prod=(TOTAL&&TOTAL.latest)?TOTAL.latest.value.toFixed(1):'13.9';
     const _prodDate=(TOTAL&&TOTAL.latest)?TOTAL.latest.date:'';
@@ -941,7 +941,7 @@
     document.getElementById('updated').textContent='Page data last refreshed: '+(TOTAL?TOTAL.last_updated:WTI.last_updated);
 
     const realNoteEl=document.getElementById('real-note');
-    let pNote = spot ? ('Headline is the <b>latest daily spot</b> ($'+spot.price.toFixed(2)+' on '+spot.date+'). This chart shows <b>monthly averages</b>, so its last point ($'+WTI.latest.price.toFixed(2)+' for '+WTI.latest.date+') is an average. ') : '';
+    let pNote = spot ? ('Headline is the <b>current WTI front-month price</b> ($'+spot.price.toFixed(2)+' on '+spot.date+', NYMEX). This chart shows the EIA <b>monthly average</b> spot series, so its last point ($'+WTI.latest.price.toFixed(2)+' for '+WTI.latest.date+') is an average and will differ from the headline. ') : '';
     realNoteEl.innerHTML = pNote + (WTI.real_available ? ('Lines: <b>nominal</b> (solid) and <b>inflation-adjusted</b> (dashed). '+(WTI.real_note||'')) : (WTI.real_note||''));
 
     // =====================================================================
@@ -1872,29 +1872,5 @@
   })();
   </script>
 
-  <!-- Live-on-open price refresh: pulls the latest EIA daily spot each time the page opens,
-       overriding the baked-in headline. Uses a separate public EIA key (read-only) so the
-       daily updater's key is never exposed. Silently keeps the saved price if the feed is down. -->
-  <script>
-  (function(){
-    var K="7cOIY1x9CR6WqB72e7hvk4k5rJLEGR5edLUk48wR";
-    function latest(route,series,cb){
-      // cache-buster (&_=timestamp) + no-store so every page load/refresh pulls the freshest daily value, never a cached response
-      var u="https://api.eia.gov/v2/"+route+"/data/?api_key="+K+"&frequency=daily&data[0]=value&facets[series][]="+series+"&sort[0][column]=period&sort[0][direction]=desc&length=1&_="+Date.now();
-      fetch(u,{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
-        var row=d&&d.response&&d.response.data&&d.response.data[0];
-        if(row&&row.value!=null) cb(parseFloat(row.value),row.period);
-      }).catch(function(){});
-    }
-    function run(){
-      latest("petroleum/pri/spt","RWTC",function(p,dt){
-        var v=document.getElementById('hs-wti'); if(v) v.innerHTML='$'+p.toFixed(2);
-        var s=document.getElementById('hs-wti-sub'); if(s) s.textContent='spot · '+dt+' · live';
-      });
-    }
-    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(run,200);});
-    else setTimeout(run,200);
-  })();
-  </script>
 </body>
 </html>
