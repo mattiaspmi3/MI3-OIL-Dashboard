@@ -10,14 +10,12 @@ job on GitHub's servers pulls fresh government data, rebuilds the page, and
 publishes it to a permanent link. **No personal computer is involved once it's set up.**
 
 ## The live link
-`https://<owner>.github.io/MI3-OIL-Dashboard/`
-*(Fill in the real URL after GitHub Pages is turned on — it appears under repo
-Settings → Pages.)*
+**https://mattiaspmi3.github.io/MI3-OIL-Dashboard/** — updates itself daily.
 
-## Who owns / controls it (fill in)
-- **GitHub account/org that owns the repo:** `________________`  ← this is the lifeline; keep it accessible to the company
-- **Repo:** `MI3-OIL-Dashboard`
-- **Admins with access:** `________________`
+## Who owns / controls it
+- **GitHub account that owns the repo:** `mattiaspmi3` (registered under an MI3 company email).
+- **Repo:** `MI3-OIL-Dashboard` (public).
+- **Admins with access:** `________________`  ← **ADD A COMPANY ACCOUNT HERE.**
 
 > ⚠️ If the owning account is ever deleted and no one else is an admin, the live
 > site and auto-updates stop. Make sure at least one **company** account is an
