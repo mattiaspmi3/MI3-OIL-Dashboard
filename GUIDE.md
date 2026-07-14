@@ -28,15 +28,14 @@ Two golden rules run through the whole thing:
 
 | Tab | What it shows |
 |-----|---------------|
-| **Overview** | The headline numbers (oil production, WTI price, gas price), a plain-English "state of US oil &amp; gas" summary, a clickable US map of the basins, and today's basin mix (a donut of who produces the crude right now). |
+| **Overview** | The headline numbers (oil production, live WTI price), a plain-English oil-only summary, a clickable US map of the basins, and today's basin mix (a donut of who produces the crude right now). |
 | **Oil &amp; Gas 101** | A primer for newcomers: upstream/midstream/downstream, conventional vs. shale, horizontal drilling &amp; fracking, "lateral feet," rock tiers, and why any of it matters to an investor. |
 | **Production** | How much crude the U.S. pumps — a full century of history (from 1920), a deeper state-by-state view, the by-basin stacked chart, and a "who produces the most US oil" company ranking. |
 | **Basins** | The heart of the tool. Click any basin on the map to open its **deep-dive** — every basin uses the *same* layout: a status badge, a 7-metric stat row, three live mini-charts (production, new-well oil per rig, DUC wells), the top operators, inventory &amp; economics, and "what to watch." Plus basin-health cards and a breakeven-vs-price chart. |
 | **Inventory &amp; Productivity** | The live drilling engine: rigs, new wells drilled vs. completed, drilled-but-uncompleted (DUC) wells, and how much oil each rig brings on — all by basin. Also the interactive **Permian creaming curve** (drag a price slider to see how many locations are economic). |
-| **Production Simulator** | One hub for every projection. A selector switches between **US Total** and each region, all in the *same* layout. Three model types: **Inventory** (Permian, Bakken, Eagle Ford — tier-cascade from remaining drilling inventory), **Trend** (Federal Gulf, Rest of L48, Alaska, Appalachia, Haynesville — extrapolate the live 3–5-yr EIA rate), and **Combined** (US Total — sums all eight into one national line with a stacked breakdown). Every view carries a method badge and a "how it was built" sourcing panel; controls that don't apply are shown disabled with an "N/A" note. |
+| **Production Simulator** | One hub for every projection. A selector switches between **US Total** and each region, all in the *same* layout. Three model types: **Inventory** (Permian, Bakken, Eagle Ford — tier-cascade from remaining drilling inventory), **Trend** (Federal Gulf, Rest of L48, Alaska — extrapolate the live 3–5-yr EIA rate), and **Combined** (US Total — sums the regions into one national line with a stacked breakdown). Every view carries a method badge and a "how it was built" sourcing panel; controls that don't apply are shown disabled with an "N/A" note. |
 | **Prices &amp; Markets** | WTI oil price since 1986, inflation-adjusted ("real") vs. nominal, a guided "▶ Play the story" tour of the 8 world events that moved prices, an event-detail pop-up that quantifies each move, and WTI vs. the S&amp;P 500. |
-| **Natural Gas** | The parallel gas story: production (marketed &amp; dry), the Henry Hub price with the Jan-2026 polar-vortex spike, where the gas comes from (by region), who produces it, and the LNG / data-center demand drivers. |
-| **Outlook** | Forward-looking projections (clearly labelled): oil near a plateau, gas as the growth engine. It recomputes from the live data + EIA's forecast each time the data refreshes. Also a **Capital & Consolidation** panel — two sourced charts (upstream capex from IEA, and US upstream M&A deal value from Enverus, inflation-adjusted) that show the "capital discipline" story; these update on a report cycle, not with the daily refresh. |
+| **Outlook** | Forward-looking projections (clearly labelled): oil near a plateau, and the capital-discipline story. It recomputes from the live data + EIA's forecast each time the data refreshes. Also a **Capital & Consolidation** panel — two sourced charts (upstream capex from IEA, and US upstream M&A deal value from Enverus, inflation-adjusted) that show the "capital discipline" story; these update on a report cycle, not with the daily refresh. |
 
 ---
 
@@ -53,19 +52,19 @@ Two golden rules run through the whole thing:
 - **Permian creaming curve** — drag a WTI-price slider to see how many Permian
   drilling locations are economic at that price (built on verified Enverus + Novi figures).
 - **Production Simulator hub** — one tab holding every projection, with a selector for
-  **US Total** plus all eight regions in an **identical** layout (title + method badge on
+  **US Total** plus each oil region in an **identical** layout (title + method badge on
   top, chart in the middle, sliders always in the same spot, sourcing panel at the bottom).
   Three model types:
   - **Inventory** (Permian, Bakken, Eagle Ford) — a tier-cascade from remaining drilling
     inventory. Controls: WTI price, drilling pace, a per-tier productivity slider each,
     well-decline rate, and Base/Upside/Downside presets. Sourced from Enverus/Novi
     (Permian), Enverus + RBN + Dallas-Fed proxy (Bakken), Dallas Fed + estimate (Eagle Ford).
-  - **Trend** (Federal Gulf, Rest of L48, Alaska, Appalachia, Haynesville) — projects each
+  - **Trend** (Federal Gulf, Alaska) and **Rest of L48** (rig/DUC) — project each
     region forward at its **own live 3–5-yr EIA growth/decline rate**. Controls: a forward
     growth/decline slider (defaults to the observed rate), a trend-persistence (taper)
     slider, WTI sensitivity, and presets. A momentum projection — reliable near-term,
     weaker long-term; the only data source is live EIA, the forward rate is an assumption.
-  - **Combined** (US Total) — sums all eight regional projections into one national crude
+  - **Combined** (US Total) — sums the regional projections into one national crude
     line with a **stacked-area breakdown** beneath, flexed by master WTI-price and
     global-intensity sliders. It plainly states it *mixes* methods and inherits every
     basin's assumptions.
@@ -147,15 +146,13 @@ North-America-wide / all-tier figure, not Permian-only.
 | State-level crude (deep history) | EIA state series | ✅ daily |
 | WTI oil price (monthly + daily spot) | EIA series `RWTC` | ✅ daily |
 | Inflation-adjusted ("real") WTI | BLS CPI (`CUSR0000SA0`) / FRED | ✅ daily |
-| Natural gas production (marketed + dry) | EIA `N9050US2` / `N9070US2` | ✅ daily |
-| Henry Hub gas price | EIA series `RNGWHHD` | ✅ daily |
 | S&amp;P 500 (oil-vs-market chart) | FRED series `SP500` | ✅ daily |
 | Rigs, wells drilled/completed, DUC, oil-per-rig (by basin) | EIA STEO **Table 10a** | ✅ daily |
 | US crude exports / imports / % from Canada (Overview trade line) | EIA `MCREXUS2` / `MCRIMUS2` / `MCRIMUSCA2` | ✅ daily |
 
 All the live data refreshes **every day at 6 AM** via a scheduled task on the PC
 (runs `fetch_data.py`, then rebuilds the shareable file). This keeps the **daily WTI
-spot price and daily Henry Hub gas price** fresh each day; the monthly series (like
+spot price** fresh each day; the monthly series (like
 production) simply re-check and update whenever EIA posts a new month. EIA/BLS/FRED
 are free, so this costs nothing.
 
@@ -170,9 +167,8 @@ are free, so this costs nothing.
 | Creaming-curve anchors | Enverus + Novi (verified) | Periodic |
 | Per-basin operators &amp; production shares | Company filings, Enverus, BSEE (Gulf) | Quarterly |
 | Top US oil &amp; gas producers | Company Q4/FY results | Quarterly |
-| US gas by region (Appalachia 36.6, Permian 27.7, Haynesville 14.9 Bcf/d) | EIA Today in Energy | Periodic |
 | Basin shares of US crude (Permian ~48%, etc.) | EIA Today in Energy | Periodic |
-| Outlook projections (oil plateau; Henry Hub ~$3.80 by 2030; LNG ~2× by 2031) | EIA STEO/AEO; bank forecasts | Monthly-ish |
+| Outlook projections (oil near plateau; capital discipline) | EIA STEO/AEO; bank forecasts | Monthly-ish |
 
 A full checklist of these — with the exact source URLs and "last reviewed" dates —
 lives in **`SOURCES.md`**.
@@ -187,7 +183,7 @@ not measured data.
 
 1. **Live data → daily.** A Windows scheduled task ("MI3 Oil Dashboard Refresh")
    runs every day at 6 AM: it pulls the latest EIA/BLS/FRED data — including the
-   **daily WTI and Henry Hub spot prices** — and rebuilds the shareable file.
+   **daily WTI spot price** — and rebuilds the shareable file.
    Fully automatic, on the PC.
 
 2. **Sourced figures → quarterly.** A cloud agent runs on **Jan 1, Apr 1, Jul 1,

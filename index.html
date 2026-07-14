@@ -311,7 +311,6 @@
       <div class="headline-stats" id="headline-stats" hidden>
         <div class="hs"><div class="label">US Oil Production</div><div class="val mono" id="hs-oil">—</div><div class="sub" id="hs-oil-sub">—</div></div>
         <div class="hs"><div class="label">WTI Spot</div><div class="val mono" id="hs-wti">—</div><div class="sub" id="hs-wti-sub">—</div></div>
-        <div class="hs"><div class="label">Henry Hub Gas</div><div class="val mono" id="hs-gas">—</div><div class="sub" id="hs-gas-sub">—</div></div>
       </div>
     </div>
   </div>
@@ -320,14 +319,13 @@
   <div class="tabbar">
     <div class="tabbar-inner" id="tabbar">
       <a data-tab="overview">Overview</a>
-      <a data-tab="primer">Oil &amp; Gas 101</a>
       <a data-tab="production">Production</a>
       <a data-tab="basins">Basins</a>
       <a data-tab="inventory">Inventory &amp; Productivity</a>
       <a data-tab="simulator">Production Simulator</a>
       <a data-tab="prices">Prices &amp; Markets</a>
-      <a data-tab="gas">Natural Gas</a>
       <a data-tab="outlook">Outlook</a>
+      <a data-tab="primer">Oil &amp; Gas 101</a>
     </div>
   </div>
 
@@ -370,7 +368,7 @@
 
         <h3>How shale oil actually gets out of the ground</h3>
         <h4>Conventional vs. shale (tight) oil</h4>
-        <p><b>Conventional</b> oil sits in a porous pocket and flows up a vertical well — like sipping a juice box. <b>Shale (tight) oil</b> is locked inside dense rock that won’t flow on its own; you have to crack the rock open first.</p>
+        <p><b>Conventional</b> oil sits in a porous pocket and flows up a vertical well — like sipping a juice box. <b>Shale (tight) oil</b> is locked inside tight rock that won’t flow on its own; you have to crack the rock open first.</p>
         <h4>Horizontal drilling + fracking</h4>
         <p>The oil-rich rock layer is thin but spreads sideways for miles. Modern wells drill down, then <b>turn horizontal</b> and run 2–4 miles through that layer (“<b>lateral feet</b>”). Then <b>hydraulic fracturing (“fracking”)</b> pumps water and sand (“<b>proppant</b>”) at high pressure to crack the rock; the sand props the cracks open so oil can flow.</p>
         <h4>Why “lateral feet” is the key metric</h4>
@@ -384,7 +382,7 @@
         <p>Energy is only ~3–4% of the S&amp;P 500 by weight, but oil &amp; gas ripple through the whole economy via <b>gasoline prices, inflation, and transport costs</b>. The U.S. is now the <b>world’s top producer</b> of both oil and gas. The single biggest shift to understand: <b>oil is maturing toward a plateau while natural gas is the growth engine</b> (LNG exports + AI/data-center power demand).</p>
 
         <h3>How to read this dashboard</h3>
-        <p><b>Overview</b> = headline numbers + map. <b>Production</b> = how much oil the U.S. pumps, over a century. <b>Basins</b> = who produces it, basin by basin (click the map). <b>Prices &amp; Markets</b> = WTI history, events, and oil vs. the stock market. <b>Natural Gas</b> = the parallel gas story. <b>Outlook</b> = where it’s all heading. Look for the <span class="prov live">Live</span> and <span class="prov sourced">Sourced</span> tags — they tell you whether a number auto-updates from an API or is a hand-entered analyst estimate.</p>
+        <p><b>Overview</b> = headline numbers + map. <b>Production</b> = how much oil the U.S. pumps, over a century. <b>Basins</b> = who produces it, basin by basin (click the map). <b>Prices &amp; Markets</b> = WTI history, events, and oil vs. the stock market. <b>Production Simulator</b> = a 20-year forecast you can flex. <b>Outlook</b> = where it’s all heading. Look for the <span class="prov live">Live</span> and <span class="prov sourced">Sourced</span> tags — they tell you whether a number auto-updates from an API or is a hand-entered analyst estimate.</p>
       </div></div>
     </section>
 
@@ -456,8 +454,7 @@
         <div class="panel-head"><h2>Basin Health &amp; Inventory</h2><span class="prov sourced">Sourced · Novi Labs / Enverus · 2025</span></div>
         <p class="caption">Basins age like fields — grow, peak, mature. The Permian is the biggest <b>and</b> the youngest. Mini-charts are <b>live</b> EIA production; the figures are 2025 analyst estimates. <span class="reviewed">Last reviewed: 2026-06-26.</span></p>
         <div class="cards" id="basin-cards"></div>
-        <div class="callout" style="margin-top:16px" id="gas-note"></div>
-        <div class="callout" id="cross-basin"></div>
+        <div class="callout" style="margin-top:16px" id="cross-basin"></div>
       </div>
 
       <div class="panel">
@@ -508,7 +505,7 @@
         </div>
         <div class="panel">
           <div class="panel-head"><h2>DUC trend over time</h2><span class="prov live">Live</span></div>
-          <p class="caption"><span class="hint">Falling DUC = completing faster than drilling; rising = banking wells for later.</span></p>
+          <p class="caption">DUCs (drilled-but-uncompleted wells) act as a backlog that complements drilling — completing them adds production without new rigs, until the backlog runs down. <span class="hint">Falling DUC = completing faster than drilling; rising = banking wells for later.</span></p>
           <div class="controls"><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartDucTrend"></div></div>
           <div class="chart-box short"><canvas id="chartDucTrend"></canvas></div>
         </div>
@@ -577,50 +574,6 @@
       </div>
     </section>
 
-    <!-- ===================== NATURAL GAS ===================== -->
-    <section class="tab" id="tab-gas" hidden>
-      <h2 class="tab-title">Natural Gas — the growth story</h2>
-      <p class="tab-intro">Where oil is maturing, <b>gas is booming.</b> The U.S. produces a record ~118 Bcf/d of marketed gas, and demand from LNG exports and AI data centers is climbing fast. <span class="prov live">Live · EIA</span></p>
-
-      <div class="panel">
-        <div class="panel-head"><h2>US Natural Gas Production</h2><span class="prov live" id="g-asof">Live</span></div>
-        <p class="caption">Marketed and dry gas, monthly, in billion cubic feet per day (Bcf/d). <span class="tag" id="g-range"></span></p>
-        <div class="callout">💡 <b>What to notice:</b> a relentless climb to record highs — the mirror image of oil’s maturing plateau. Much of the recent growth is <b>associated gas</b> that comes up alongside Permian oil.</div>
-        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartGasProd"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartGasProd"></div></div>
-        <div class="chart-box tall"><canvas id="chartGasProd"></canvas></div>
-        <p class="src" style="margin-top:6px">Source: EIA marketed production (N9050US2) &amp; dry production (N9070US2), monthly.</p>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head"><h2>Henry Hub Gas Price</h2><span class="prov live" id="hh-asof">Live</span></div>
-        <p class="caption">The U.S. benchmark gas price, $/MMBtu, monthly since 1997. <span class="tag" id="hh-range"></span></p>
-        <div class="callout">💡 Gas normally runs <b>~$3–4</b>. The Jan-2026 spike (marked) was the polar-vortex winter; the daily spot briefly hit a record ~$30+/MMBtu during Winter Storm Fern.</div>
-        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartHH"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartHH"></div></div>
-        <div class="chart-box"><canvas id="chartHH"></canvas></div>
-        <p class="src" style="margin-top:6px">Source: EIA Henry Hub spot price, series RNGWHHD.</p>
-      </div>
-
-      <div class="grid2">
-        <div class="panel">
-          <div class="panel-head"><h2>Where US gas comes from</h2><span class="prov sourced">Sourced · EIA · 2025</span></div>
-          <p class="caption">Share of U.S. marketed gas by region. Appalachia, Permian &amp; Haynesville are firm EIA figures; smaller regions are estimates.</p>
-          <div class="chart-box short"><canvas id="chartGasRegion"></canvas></div>
-          <cite id="gasreg-src"></cite>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><h2>Who produces US gas?</h2><span class="prov sourced">Sourced · 2024–25</span></div>
-          <p class="caption">Top U.S. natural-gas producing companies (Bcf/d).</p>
-          <div class="op-box" style="height:260px"><canvas id="chartGasCos"></canvas></div>
-          <cite id="gascos-src"></cite>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-head"><h2>Why gas is booming</h2><span class="prov sourced">Sourced · EIA · 2025–26</span></div>
-        <div class="prose" id="gas-content"></div>
-      </div>
-    </section>
-
     <!-- ===================== OUTLOOK ===================== -->
     <section class="tab" id="tab-outlook" hidden>
       <h2 class="tab-title">Outlook</h2>
@@ -685,7 +638,6 @@
   <script src="data/total_us.js"></script>
   <script src="data/basins.js"></script>
   <script src="data/states.js"></script>
-  <script src="data/natgas.js"></script>
   <script src="data/sp500.js"></script>
   <script src="data/drilling.js"></script>
   <script src="data/trade.js"></script>
@@ -723,7 +675,6 @@
           operators:"<b>ConocoPhillips</b> (largest, via Marathon), EOG (4.6-mi record lateral), Crescent, BPX, Magnolia.",
           src:"EIA (9%/1.2M, id=67404); EOG Q2-2025 call (4.6-mi lateral); operator 10-Ks" }
       ],
-      gasNote:"🛢️ <b>Appalachia &amp; Haynesville</b> are mainly <b>natural-gas</b> basins, so they’re only tiny slivers on a <i>crude</i> chart — but giants on the gas chart. (EOG’s emerging <b>Utica oil window</b> is an exception.)",
       crossBasin:"<b>ConocoPhillips</b> holds low-cost positions across the Permian, Eagle Ford and Bakken (FCF breakeven guided to the low-$30s/bbl by decade-end). <b>EOG</b> — the “godfather of shale” — models <b>~16 years</b> of inventory across its portfolio. <cite>ConocoPhillips investor materials; Novi Labs “EOG… 16 years of inventory,” Jun 2026.</cite>",
       permian: {
         headline:"The Permian is <b>~48% of all U.S. crude</b> and the majority of U.S. shale oil — so its staying power is the whole country’s story. <span class='prov sourced'>Sourced · Novi Labs / EIA · 2025–26</span>",
@@ -734,14 +685,12 @@
         inventory:"<b>~100,000 remaining locations</b>, ~55,000 of them break even below $50/bbl (Enverus, Apr 2026). About <b>7–10 years</b> at the current pace; basin “just over half drilled” (Novi Labs, May 2025).",
         economics:"NPV25 breakevens ~$50 (Midland) / ~$52 (Delaware) (Novi Labs); new-well drill breakeven ~$61–62 (Dallas Fed Q1-2025). Most remaining inventory works below ~$70/bbl.",
         economicsCaveat:"These are <b>half-cycle wellhead</b> breakevens. A company’s <i>full</i> breakeven (overhead, debt, dividends) is higher — why you hear “the Permian can’t survive at $60” even though many wells can.",
-        bottomLine:"Bottom line: the Permian is <b>not running out</b> (~20 yrs of inventory, most wells economic) but it <b>is maturing</b>. The era of relentless Permian-led U.S. growth is ending — it keeps taking share from costlier basins, but growing from here is hard.",
+        bottomLine:"Bottom line: the Permian is <b>not running out</b> (~20 yrs of inventory, most wells economic) but it <b>is maturing</b>. The era of steady Permian-led U.S. growth is ending — it keeps taking share from costlier basins, but growing from here is hard.",
         runway:{ start:2025, end:2045, today:2026, tier1End:2037, tier2End:2043 }
       },
       shortBasins: {
         "Gulf of Mexico":{ color:"var(--gulf)", note:"<b>Federal offshore Gulf of Mexico</b> — <i>conventional</i> deepwater, not shale. Mature but long-lived: big multi-year projects (Whale, Anchor, Shenandoah) keep output near ~1.8M bbl/d. Long lead times, high upfront cost, low decline once online. <cite>EIA STEO regional series PAPRPGLF (live on the Production chart).</cite>" },
-        "Alaska":{ color:"var(--alaska)", note:"<b>Alaska (North Slope)</b> — <i>conventional</i>, in long structural decline from its 1988 peak (~2M bbl/d then, ~0.4M now). New projects (Willow, Pikka) aim to slow the decline rather than reverse it. <cite>EIA series PAPRPAK / MCRFPAK1 (live on the Production charts).</cite>" },
-        "Appalachia":{ color:"var(--appalachia)", note:"<b>Appalachia (Marcellus / Utica)</b> — the <b>largest U.S. natural-gas region</b> (~37 Bcf/d, ~31% of US gas), but barely a sliver of <i>crude</i>. Growth is capped by <b>pipeline constraints</b> out of the basin. See the Natural Gas tab for the real story. <cite>EIA (gas); STEO COPRAP (crude, live).</cite>" },
-        "Haynesville":{ color:"var(--haynesville)", note:"<b>Haynesville (LA / E. Texas)</b> — a <b>natural-gas</b> basin and the LNG <b>“swing” supplier</b> to the Gulf Coast (~15 Bcf/d). Tiny on a crude chart. It ramps up when LNG export demand and gas prices rise. <cite>EIA (gas); STEO COPRHA (crude, live).</cite>" }
+        "Alaska":{ color:"var(--alaska)", note:"<b>Alaska (North Slope)</b> — <i>conventional</i>, in long structural decline from its 1988 peak (~2M bbl/d then, ~0.4M now). New projects (Willow, Pikka) aim to slow the decline rather than reverse it. <cite>EIA series PAPRPAK / MCRFPAK1 (live on the Production charts).</cite>" }
       }
     };
 
@@ -752,8 +701,6 @@
       { metric:"State-level crude (proxy)", type:"Live", source:"EIA — MCRFPTX1/NM1/ND1/…", as:"annual, from 1981" },
       { metric:"WTI price (monthly + daily spot)", type:"Live", source:"EIA — RWTC (= FRED DCOILWTICO)", as:"monthly + daily" },
       { metric:"Real (inflation-adjusted) WTI", type:"Live", source:"BLS CPI CUSR0000SA0 (or FRED CPIAUCSL)", as:"monthly" },
-      { metric:"Natural gas production (marketed/dry)", type:"Live", source:"EIA — N9050US2 / N9070US2", as:"monthly" },
-      { metric:"Henry Hub gas price", type:"Live", source:"EIA — RNGWHHD", as:"monthly + daily" },
       { metric:"S&P 500 (oil-vs-market chart)", type:"Live", source:"FRED — SP500", as:"monthly, ~10 yrs" },
       { metric:"Drilling: rigs, wells drilled/completed, DUC, oil/rig", type:"Live", source:"EIA STEO Table 10a — RIGS/NWD/NWC/DUCS/CONWR ×6 regions", as:"monthly, by basin" },
       { metric:"Basin shares (Permian 48%, Bakken/EF 9%)", type:"Sourced", source:"EIA Today in Energy id=67404 (Mar 2026)", as:"2025" },
@@ -763,9 +710,7 @@
       { metric:"Bakken ~1,400 sub-$50 locations; mature", type:"Sourced", source:"Enverus (Aug 2024); RBN/Novi", as:"2024–25" },
       { metric:"Eagle Ford operators; EOG 4.6-mi lateral", type:"Sourced", source:"EOG Q2-2025 call; SEC 10-Ks", as:"2025" },
       { metric:"EOG ~16 yrs inventory; COP low-$30s breakeven", type:"Sourced", source:"Novi Labs (Jun 2026); ConocoPhillips IR", as:"2025–26" },
-      { metric:"Gas record 118 Bcf/d; LNG; data centers", type:"Sourced", source:"EIA TIE id=67345/67166/67484", as:"2025–26" },
-      { metric:"Henry Hub $7.72 Jan-2026 (polar vortex)", type:"Sourced", source:"EIA STEO press release (Feb 2026); NGI", as:"Jan 2026" },
-      { metric:"Outlook: oil plateau, gas growth, HH ~$3.80/2030", type:"Projection", source:"EIA STEO (Jun 2026) / AEO; bank forecasts", as:"forecast" }
+      { metric:"Outlook: oil near plateau; capital discipline", type:"Projection", source:"EIA STEO (Jun 2026) / AEO; bank forecasts", as:"forecast" }
     ];
     const NEEDS_REVIEW = [
       "Permian inventory CORRECTED &amp; verified: ~100,000 remaining locations (~55,000 sub-$50/bbl), ~7–10 yrs runway — Enverus (Apr 2026, via World Oil) + Novi Labs (May 2025). The earlier “~200,000” was unsupported for the Permian alone (that scale is North-America-wide / all-tier).",
@@ -791,27 +736,15 @@
       "Alaska": { unit:"kbbl/d oil", reviewed:"2026-06-26", note:"Operated oil. Alaska is effectively a two-operator basin; Exxon & Chevron hold equity but operate little. Approximate.",
         src:"AOGCC field data; Petroleum News; ConocoPhillips Alaska factsheet (2024–25). N. Slope total ~0.48M bbl/d.",
         data:[{n:"Hilcorp",v:290,est:true},{n:"ConocoPhillips",v:195}] },
-      "Appalachia": { unit:"Bcf/d gas", reviewed:"2026-06-26", note:"Dry gas. Appalachia is a GAS basin (Marcellus/Utica) — tiny on a crude chart, a giant here.",
-        src:"NGI; Antero filings; company data via aggregators (2024–25). Region ~36.6 Bcf/d (EIA).",
-        data:[{n:"EQT",v:5.75},{n:"Antero",v:2.2},{n:"Coterra",v:2.0,est:true},{n:"Ascent",v:2.0,est:true},{n:"Range",v:1.9,est:true},{n:"CNX",v:1.3,est:true}] },
-      "Haynesville": { unit:"Bcf/d gas", reviewed:"2026-06-26", note:"Dry gas. Haynesville is a GAS basin (the LNG 'swing' supplier) — tiny on a crude chart.",
-        src:"Evaluate Energy; Novi Labs; NGI; AOGR (2025). Region ~14.9 Bcf/d (EIA).",
-        data:[{n:"Expand Energy",v:2.9},{n:"Aethon",v:2.1,est:true},{n:"TG Natural Res.",v:1.3,est:true},{n:"Comstock",v:1.23},{n:"BPX",v:0.76}] }
+      "Rest of L48 (Conventional)": { diffuse:true, reviewed:"2026-07-14",
+        note:"A diffuse mix of smaller and legacy producers across the lower-48 outside the named shale basins — <b>no dominant operators</b>. It includes conventional and stripper wells, older waterfloods, and smaller unconventional plays (Anadarko, Powder River, Uinta, D-J / Niobrara), held by many operators with no single-company concentration.",
+        src:"EIA STEO COPRR48 (live production) + Table 10a (live rigs / DUC). No single-operator concentration to chart." }
     };
     // top US oil producers (national), top US gas producers, and gas by region
     const OIL_PRODUCERS = { unit:"k bbl/d or boe/d", reviewed:"2026-06-26",
       note:"Supermajors (Exxon/Chevron/COP) are boe/d (oil+gas+NGLs) so their bars run high; independents are crude bbl/d. Net US production. (est)=estimate.",
       src:"Company Q4/FY-2024 results (Exxon, Chevron, ConocoPhillips, Oxy, EOG, Diamondback, Devon, Permian Resources, APA, Coterra), Feb 2025.",
       data:[{n:"Chevron",v:1599},{n:"ExxonMobil",v:1450,est:true},{n:"ConocoPhillips",v:1152},{n:"Occidental",v:571},{n:"EOG",v:485},{n:"Diamondback",v:480,est:true},{n:"Devon",v:325,est:true},{n:"Permian Res.",v:159},{n:"APA",v:140},{n:"Coterra",v:113}] };
-    const GAS_PRODUCERS = { unit:"Bcf/d gas", reviewed:"2026-06-26",
-      note:"US gas output. Expand, EQT and Antero are filing-based; others are order-of-magnitude estimates.",
-      src:"Expand & EQT filings; Antero 2Q24; secondary aggregators (2024–25).",
-      data:[{n:"Expand Energy",v:7.2},{n:"EQT",v:5.75},{n:"Coterra",v:2.7,est:true},{n:"ExxonMobil",v:2.6,est:true},{n:"Antero",v:2.2},{n:"Range",v:1.9,est:true},{n:"CNX",v:1.3,est:true},{n:"ConocoPhillips",v:1.2,est:true}] };
-    const GAS_BY_REGION = { unit:"Bcf/d", reviewed:"2026-06-26",
-      note:"Marketed gas by region, ~2025. Appalachia, Permian & Haynesville are firm (EIA); smaller regions are estimates (EIA buckets them into 'rest of L48').",
-      src:"EIA Today in Energy id=67345 (Mar 2026); EIA id=64984. US total ~118 Bcf/d.",
-      data:[{n:"Appalachia",v:36.6},{n:"Permian",v:27.7},{n:"Haynesville",v:14.9},{n:"Eagle Ford",v:6.9},{n:"Rockies/Niobrara",v:6.5,est:true},{n:"Anadarko",v:5.5,est:true},{n:"Bakken",v:3.5,est:true},{n:"Barnett",v:3.0,est:true},{n:"Gulf/Other",v:13.4,est:true}] };
-
     // =====================================================================
     // EVENTS (oil price markers) — unchanged content, red markers
     // =====================================================================
@@ -833,14 +766,14 @@
         basin:"U.S. production kept declining — shale hadn’t arrived; deepwater Gulf was the growth area." },
       { id:"peak08", date:"2008-07", title:"2008 spike to ~$147, then the crash",
         what:"Prices peaked near ~$147 in July 2008, then collapsed as the financial crisis hit.",
-        why:"Booming demand and tight supply drove the spike; the crisis then vaporized demand, sending prices to ~$30 by December.",
+        why:"Strong demand and tight supply drove the spike; the crisis then sharply cut demand, sending prices to ~$30 by December.",
         price:"Spike to ~$147, then crash to ~$30/bbl.",
         basin:"Pivotal timing: the Bakken and Eagle Ford were just starting; the crash slowed early shale but proved the tech." },
       { id:"boom1014", start:"2010-01", end:"2014-06", title:"2010–2014 Shale Boom",
-        what:"Horizontal drilling + fracking unlocked oil from dense rock. U.S. production roughly doubled.",
-        why:"Sustained ~$90–100 prices made shale hugely profitable, triggering a drilling rush.",
+        what:"Horizontal drilling + fracking unlocked oil from tight rock. U.S. production roughly doubled.",
+        why:"Sustained ~$90–100 prices made shale more profitable, prompting a wave of drilling.",
         price:"Prices held high (~$90–110).",
-        basin:"The defining basin event: Permian, Bakken and Eagle Ford surged from minor to major, reversing 40 years of decline." },
+        basin:"A defining basin event: Permian, Bakken and Eagle Ford grew from minor to major producers, reversing about 40 years of decline." },
       { id:"opec1416", start:"2014-11", end:"2016-02", title:"2014–2016 OPEC price war & oversupply crash",
         what:"OPEC refused to cut output and defended share against U.S. shale; prices crashed from ~$100 to ~$26.",
         why:"Saudi Arabia bet low prices would bankrupt higher-cost shale faster than it hurt OPEC.",
@@ -860,7 +793,7 @@
     const RECESSIONS = [ {start:"1990-07",end:"1991-03"}, {start:"2001-03",end:"2001-11"}, {start:"2007-12",end:"2009-06"}, {start:"2020-02",end:"2020-04"} ];
 
     const TOTAL=window.TOTAL_US_DATA, BAS=window.BASINS_DATA, ST=window.STATES_DATA,
-          WTI=window.WTI_DATA, GAS=window.NATGAS_DATA, SP=window.SP500_DATA, TRADE=window.TRADE_DATA;
+          WTI=window.WTI_DATA, SP=window.SP500_DATA, TRADE=window.TRADE_DATA;
     if (!WTI || !WTI.data || !WTI.data.length) { document.getElementById('empty').hidden=false; return; }
 
     // ---- palette ----
@@ -973,11 +906,6 @@
     }
     document.getElementById('hs-wti').innerHTML = '$'+currentWTI.toFixed(2);
     document.getElementById('hs-wti-sub').textContent = spot ? ('spot · '+spot.date) : ('monthly · '+WTI.latest.date);
-    const hh = GAS && GAS.henry_hub ? GAS.henry_hub : null;
-    const hhSpot = hh && hh.spot_latest ? hh.spot_latest : (hh && hh.latest ? hh.latest : null);
-    if (hhSpot){ document.getElementById('hs-gas').innerHTML='$'+hhSpot.price.toFixed(2)+' <small>/MMBtu</small>';
-      document.getElementById('hs-gas-sub').textContent='Henry Hub · '+hhSpot.date; }
-    const gasMk = GAS && GAS.production && GAS.production.latest_marketed ? GAS.production.latest_marketed : null;
     // ---- Overview summary (OIL ONLY): analyst summary + trade/refinery point ----
     const _prod=(TOTAL&&TOTAL.latest)?TOTAL.latest.value.toFixed(1):'13.9';
     const _prodDate=(TOTAL&&TOTAL.latest)?TOTAL.latest.date:'';
@@ -1033,9 +961,7 @@
     const MAP_BASINS = [
       { key:"Permian",     v:"--permian",     x:638, y:466, ldx:-22, ldy:5,  anchor:"end",    label:"Permian",     sub:"W. Texas / SE NM" },
       { key:"Bakken",      v:"--bakken",      x:681, y:102, ldx:22,  ldy:5,  anchor:"start",  label:"Bakken",      sub:"ND / MT" },
-      { key:"Eagle Ford",  v:"--eagleford",   x:708, y:543, ldx:0,   ldy:30, anchor:"middle", label:"Eagle Ford",  sub:"S. Texas" },
-      { key:"Appalachia",  v:"--appalachia",  x:1039,y:242, ldx:22,  ldy:5,  anchor:"start",  label:"Appalachia",  sub:"PA / WV / OH" },
-      { key:"Haynesville", v:"--haynesville", x:821, y:443, ldx:22,  ldy:5,  anchor:"start",  label:"Haynesville", sub:"LA / E. Texas" }
+      { key:"Eagle Ford",  v:"--eagleford",   x:708, y:543, ldx:0,   ldy:30, anchor:"middle", label:"Eagle Ford",  sub:"S. Texas" }
     ];
     // secondary US basins/plays (informational; Gulf & Alaska are clickable to their notes)
     const MAP_EXTRA = [
@@ -1069,9 +995,9 @@
     // =====================================================================
     // TAB CONTROLLER (lazy-build charts when a tab is first shown)
     // =====================================================================
-    const TABS=['overview','primer','production','basins','inventory','simulator','prices','gas','outlook'];
+    const TABS=['overview','production','basins','inventory','simulator','prices','outlook','primer'];
     const built={};
-    const BUILDERS={ overview:buildOverview, production:buildProduction, basins:buildBasins, inventory:buildInventory, simulator:buildSimulatorTab, prices:buildPrices, gas:buildGas, outlook:buildOutlook };
+    const BUILDERS={ overview:buildOverview, production:buildProduction, basins:buildBasins, inventory:buildInventory, simulator:buildSimulatorTab, prices:buildPrices, outlook:buildOutlook };
     function showTab(name){
       TABS.forEach(t=>{ const el=document.getElementById('tab-'+t); if(el) el.hidden=(t!==name); });
       document.querySelectorAll('#tabbar a').forEach(a=>a.classList.toggle('active',a.dataset.tab===name));
@@ -1183,7 +1109,7 @@
       buildMap('map-basins','legend-basins',selectBasin);
       // selector buttons
       const sel=document.getElementById('basinsel');
-      const order=["Permian","Bakken","Eagle Ford","Gulf of Mexico","Alaska","Appalachia","Haynesville"];
+      const order=["Permian","Bakken","Eagle Ford","Gulf of Mexico","Alaska","Rest of L48 (Conventional)"];
       sel.innerHTML=order.map(k=>{ const col=COLORS[k]|| (ANALYST_FACTS.shortBasins[k]?'':'#9aa1ab');
         const sw=COLORS[k]?('<i class="dot-sw" style="background:'+COLORS[k]+'"></i>'):''; return '<button data-b="'+k+'">'+sw+k+'</button>'; }).join('');
       sel.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>selectBasin(b.dataset.b)));
@@ -1230,18 +1156,12 @@
         creaming:false,
         watch:["Willow and Pikka ramp vs. legacy-field decline.","Drilling-productivity metrics don’t apply to conventional fields."],
         src:"EIA PAPRPAK / MCRFPAK1 (live production)" },
-      "Appalachia":{ region:"PA / WV / OH (Marcellus/Utica)", status:"Gas giant · sliver of crude", prodRegion:"Appalachia", drillRegion:"Appalachia",
-        breakeven:"n/a (gas)", inventory:"gas-focused",
-        economics:"Mainly a NATURAL-GAS basin (~37 Bcf/d, the largest US gas region) — barely a sliver of crude, so an oil breakeven isn’t meaningful. Crude growth is capped by pipeline constraints. See the Natural Gas tab for the real story.",
+      "Rest of L48 (Conventional)":{ region:"Lower-48, outside the named shale basins", status:"Diffuse · slow decline", prodRegion:"Rest of L48 (Conventional)", drillRegion:"Rest of L48 (Conventional)",
+        breakeven:"varies", inventory:"legacy · slow decline",
+        economics:"All lower-48 crude produced <b>outside</b> the named shale basins — a diffuse mix of conventional fields, stripper and legacy wells, and smaller unconventional plays (Anadarko, Powder River, Uinta, D-J / Niobrara and others). It is <b>a diffuse mix of smaller and legacy producers; no dominant operators.</b> Output declines slowly and is held up by steady, low-intensity drilling across many operators rather than a few big projects. The live rig and DUC figures shown above are EIA’s Table 10a aggregate for this residual region.",
         creaming:false,
-        watch:["Pipeline egress — not oil economics — is the constraint.","EOG’s emerging Utica oil window is the one to watch for crude."],
-        src:"EIA (live drilling & crude); Natural Gas tab for gas" },
-      "Haynesville":{ region:"LA / E. Texas", status:"Gas basin · LNG swing", prodRegion:"Haynesville", drillRegion:"Haynesville",
-        breakeven:"n/a (gas)", inventory:"gas-focused",
-        economics:"A NATURAL-GAS basin and the LNG “swing” supplier to the Gulf Coast (~15 Bcf/d) — negligible crude. Its rig count rises and falls with gas prices and LNG demand, not oil.",
-        creaming:false,
-        watch:["Gas price + LNG export demand drive its rigs.","Minimal crude — see the Natural Gas tab."],
-        src:"EIA (live drilling & crude); Natural Gas tab for gas" }
+        watch:["Slow structural decline, offset by steady drilling across many small operators.","Rig activity is diffuse — no single play or operator drives the trajectory."],
+        src:"EIA STEO COPRR48 (live production) + Table 10a (live rigs / DUC / new-well oil per rig). No single-operator concentration." }
     };
     // SOURCED creaming-curve data — VERIFIED anchors: Enverus IR (Apr 2026) location counts + Novi Labs NPV25 breakevens
     const CREAM = { total:100000, median:50, average:55,
@@ -1411,9 +1331,7 @@
     const TRENDS = {
       gulf:{        name:"Federal Gulf",              color:"#6f93ab", series:"PAPRPGLF", term:0.05, young:0.30, rf:0.40 },
       restl48:{     name:"Rest of L48 (Conventional)", color:"#9aa1ab", series:"COPRR48", term:0.05, young:0.30, rf:0.18, sc:0.2161, mPeak:2, b:1.3, drill:{region:"Rest of L48 (Conventional)"} },
-      alaska:{      name:"Alaska",                    color:"#7a5c8a", series:"PAPRPAK", term:0.05, young:0.28, rf:0.15 },
-      appalachia:{  name:"Appalachia",               color:"#8d8a5e", series:"COPRAP", tiny:true, term:0.13, young:0.60, rf:0.45, sc:0.4604, mPeak:2, b:1.3, drill:{region:"Appalachia"} },
-      haynesville:{ name:"Haynesville",              color:"#b08968", series:"COPRHA", tiny:true, term:0.13, young:0.60, rf:0.30, sc:1.2279, mPeak:2, b:1.3, drill:{region:"Haynesville"} }
+      alaska:{      name:"Alaska",                    color:"#7a5c8a", series:"PAPRPAK", term:0.05, young:0.28, rf:0.15 }
     };
     const TERM_MIN=0.02, TERM_MAX=0.25, YOUNG_MIN=0.15, YOUNG_MAX=0.85;
     const clampT=v=>Math.max(TERM_MIN,Math.min(TERM_MAX,v)), clampY=v=>Math.max(YOUNG_MIN,Math.min(YOUNG_MAX,v));
@@ -1458,19 +1376,19 @@
       for(let y=1;y<N_SIM;y++){
         const drilled=c.rigs*live.eff*12, completed=drilled*c.complRate; DUC+=drilled-completed;      // banked-but-not-completed → DUC
         const dc=Math.min(DUC, DUC*c.ducRate); DUC-=dc;                                                 // DUC backlog drawdown
-        let tm=1; if(tiers){ let cc=0; tm=tiers[tiers.length-1].mult*(c.pm[tiers.length-1]/100);
-          for(let i=0;i<tiers.length;i++){ cc+=tiers[i].loc; if(cum<cc){ tm=tiers[i].mult*(c.pm[i]/100); break; } } }
+        let tm=1, ti=tiers?tiers.length-1:0; if(tiers){ let cc=0; tm=tiers[tiers.length-1].mult*(c.pm[tiers.length-1]/100);
+          for(let i=0;i<tiers.length;i++){ cc+=tiers[i].loc; if(cum<cc){ tm=tiers[i].mult*(c.pm[i]/100); ti=i; break; } } }
         cum+=completed;
-        cohN.push({y, v:completed*live.opw*tm*c.peakMult*cfg.sc});
+        cohN.push({y, ti, v:completed*live.opw*tm*c.peakMult*cfg.sc});   // ti = which rock tier this year's wells came from
         cohD.push({y, v:dc*live.opw*c.peakMult*cfg.sc});
         dbk.push(DUC);
       }
-      const nw=[], dcp=[];
-      for(let y=0;y<N_SIM;y++){ let s=0,s2=0;
-        for(let i=0;i<cohN.length;i++){ if(cohN[i].y<=y) s+=cohN[i].v*wcA[y-cohN[i].y]; }
+      const nw=[], dcp=[], nwTier=tiers?tiers.map(_=>[]):null;
+      for(let y=0;y<N_SIM;y++){ let s=0,s2=0; const tsum=tiers?tiers.map(_=>0):null;
+        for(let i=0;i<cohN.length;i++){ if(cohN[i].y<=y){ const q=cohN[i].v*wcA[y-cohN[i].y]; s+=q; if(tsum) tsum[cohN[i].ti]+=q; } }
         for(let i=0;i<cohD.length;i++){ if(cohD[i].y<=y) s2+=cohD[i].v*wcA[y-cohD[i].y]; }
-        nw.push(s); dcp.push(s2); }
-      return {legacy:legacy.map(v=>+v.toFixed(1)), newWells:nw.map(v=>+v.toFixed(1)), ducCompletions:dcp.map(v=>+v.toFixed(1)),
+        nw.push(s); dcp.push(s2); if(nwTier) tsum.forEach((v,t)=>nwTier[t].push(+v.toFixed(1))); }
+      return {legacy:legacy.map(v=>+v.toFixed(1)), newWells:nw.map(v=>+v.toFixed(1)), newByTier:nwTier, ducCompletions:dcp.map(v=>+v.toFixed(1)),
               total:legacy.map((v,i)=>+(v+nw[i]+dcp[i]).toFixed(1)), ducBacklog:dbk.map(v=>Math.round(v))};
     }
     // Pure-trend regions (no DPR rig/DUC data): declining legacy + new drilling sized from the observed net trend (via type curve).
@@ -1527,10 +1445,10 @@
     }
     function combinedMethodHTML(){
       const rows=[
-        {lab:"How the total is built", tag:"der", txt:"US total = the sum of all eight regional projections at each year. National decline emerges bottoms-up from the basins — it is not assumed. It deliberately MIXES methods and inherits every basin's own assumptions."},
+        {lab:"How the total is built", tag:"der", txt:"US total = the sum of the regional projections at each year. National decline emerges bottoms-up from the basins — it is not assumed. It deliberately MIXES methods and inherits every basin's own assumptions."},
         {lab:"Three streams everywhere", tag:"asm", txt:"In every basin the existing base declines (two-segment: recent steep, mature terminal), while new drilled wells and DUC completions stack on top. New production must out-run the decline for a basin to grow. Grey = legacy, coloured = new wells, tan = DUC completions."},
         {lab:"Permian · Bakken · Eagle Ford", tag:"src", txt:"Inventory + rig/DUC models — sourced inventory & breakevens (Enverus, RBN, Novi Labs, Dallas Fed) with live rigs & DUCs. Open each basin's own view for its full sourcing."},
-        {lab:"Appalachia · Haynesville · Rest of L48", tag:"live", txt:"Rig/DUC models — live rigs & DUC backlogs (EIA STEO Table 10a), no public tier inventory (flat productivity)."},
+        {lab:"Rest of L48 (Conventional)", tag:"live", txt:"Rig/DUC model — live rigs & DUC backlog (EIA STEO Table 10a), no public tier inventory (flat productivity)."},
         {lab:"Federal Gulf · Alaska", tag:"asm", txt:"Trend models — no DPR rig/DUC data (offshore / conventional); new drilling sized from each region's live 3–5-yr EIA trend over a declining base."},
         {lab:"Rigs, DUCs & baselines", tag:"live", txt:"Rig counts, DUC backlogs and every basin's starting production are live from EIA (STEO Table 10a / regional series, auto-updates daily); master sliders flex all basins together."}
       ];
@@ -1555,7 +1473,7 @@
       if(type==='trend'){ const s=cfg.stats;
         return '<p>The <b>declining legacy base</b> (terminal decline) plus <b>new drilling</b> sized so the near-term net matches the observed '+(s?s.yrs:4)+'-yr EIA change of <b>'+(s?(s.rate*100).toFixed(1):'?')+'%/yr</b>. This region has no DPR rig/DUC data (offshore or conventional), so rigs/DUCs are N/A and the trend sets new drilling, which then tapers (persistence). <b>Terminal decline increasingly drives the forecast.</b></p>'+twoSeg+'<p style="margin-top:6px"><b>Only data source: live EIA production; forward rate &amp; decline splits are assumptions.</b></p>';
       }
-      return '<p>The US total is the <b>sum of all eight corrected regional projections</b>: Permian, Bakken and Eagle Ford (inventory + rig/DUC); Appalachia, Haynesville, Rest of L48 (rig/DUC, no tiers); Federal Gulf and Alaska (trend, no rig data). In every one the existing base declines and new wells + DUC completions stack on top, so <b>national decline emerges bottoms-up rather than being assumed</b>. Master <b>price</b>, <b>intensity</b> and <b>terminal/young</b> sliders flex every basin together.</p>'+twoSeg;
+      return '<p>The US total is the <b>sum of the corrected regional projections</b>: Permian, Bakken and Eagle Ford (inventory + rig/DUC); Rest of L48 (rig/DUC, no tiers); Federal Gulf and Alaska (trend, no rig data). In every one the existing base declines and new wells + DUC completions stack on top, so <b>national decline emerges bottoms-up rather than being assumed</b>. Master <b>price</b>, <b>intensity</b> and <b>terminal/young</b> sliders flex every basin together.</p>'+twoSeg;
     }
     let simChart=null, simView='ustotal';
     function buildSimulatorTab(){
@@ -1593,7 +1511,7 @@
       document.getElementById('sim-guide').innerHTML=simGuide(hasRig?'rig':(pureTrend?'trend':'combined'),cfg);
 
       let st;
-      if(hasRig) st={price:isInv?cfg.def.price:70, rigs:live?live.rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:cfg.b||1.3, mpeak:cfg.mPeak||2, term:cfg.term, young:cfg.young, pm:(hasTiers?cfg.tiers.map(_=>100):[100,100,100,100]), rate:0, persist:95, intensity:0, termD:0, youngD:0};
+      if(hasRig) st={price:isInv?cfg.def.price:70, rigs:live?live.rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:cfg.b||1.3, mpeak:cfg.mPeak||2, term:cfg.term, young:cfg.young, pm:(hasTiers?[90,80,70,50]:[100,100,100,100]), rate:0, persist:95, intensity:0, termD:0, youngD:0};
       else if(pureTrend) st={price:70, rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:1.3, mpeak:2, term:cfg.term, young:cfg.young, pm:[100,100,100,100], rate:obsRate, persist:95, intensity:0, termD:0, youngD:0};
       else st={price:70, rigs:0, complRate:100, ducRate:15, peakMult:100, bfac:1.3, mpeak:2, term:0.13, young:0.72, pm:[100,100,100,100], rate:0, persist:95, intensity:0, termD:0, youngD:0};
 
@@ -1649,7 +1567,7 @@
       const yTitle=(isTot?'US':title.replace(' oil production',''))+' crude (million bbl/day)';
 
       function combParts(stt){ const parts=[];
-        [['permian',SIMS],['bakken',SIMS],['eagleford',SIMS],['appalachia',TRENDS],['haynesville',TRENDS],['restl48',TRENDS]].forEach(pair=>{
+        [['permian',SIMS],['bakken',SIMS],['eagleford',SIMS],['restl48',TRENDS]].forEach(pair=>{
           const cf=pair[1][pair[0]], lv=drillStats(cf.drill.region); if(!lv)return;
           let bs; if(pair[1]===SIMS){ simLiveBase(cf); bs=cf.base; } else { const s=trendStats(cf.series,4); bs=s?s.v0:0; }
           const term=clampT(cf.term+stt.termD/100), young=clampY(cf.young+stt.youngD/100);
@@ -1660,13 +1578,19 @@
         return parts; }
 
       // Stacked chart: 3 streams (legacy / new wells / DUC completions) + total line + DUC backlog (right axis)
+      // Tier colours (Tier 1 = best rock, deep red → Tier 4 = pale) so the mix shift is visible
+      const TIER_COLORS=['rgba(200,16,46,0.85)','rgba(200,16,46,0.58)','rgba(200,16,46,0.34)','rgba(200,16,46,0.16)'];
       function stackChart(o){
         if(simChart){ simChart.destroy(); simChart=null; }
         const ds=[
-          {label:'Legacy (existing wells, declining)',data:toM(o.legacy),backgroundColor:'rgba(150,157,168,0.55)',borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:1,tension:0.15,yAxisID:'y'},
-          {label:'New drilled wells',data:toM(o.newWells),backgroundColor:o.newColor,borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:2,tension:0.15,yAxisID:'y'},
-          {label:'DUC completions',data:toM(o.ducComp),backgroundColor:o.ducColor,borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:3,tension:0.15,yAxisID:'y'},
-          {label:'Total',data:toM(o.total),borderColor:o.lineColor,borderWidth:2.6,pointRadius:0,fill:false,stack:'tot',order:0,tension:0.15,yAxisID:'y'}];
+          {label:'Legacy (existing wells, declining)',data:toM(o.legacy),backgroundColor:'rgba(150,157,168,0.55)',borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:1,tension:0.15,yAxisID:'y'}];
+        if(o.newByTier){   // inventory basins: split the new-wells band into Tier 1-4 sub-bands (best rock drilled first, then worse)
+          o.newByTier.forEach((band,t)=>ds.push({label:'New wells · '+(o.newTierNames&&o.newTierNames[t]||('Tier '+(t+1))),data:toM(band),backgroundColor:TIER_COLORS[t]||TIER_COLORS[3],borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:2,tension:0.15,yAxisID:'y'}));
+        } else {
+          ds.push({label:'New drilled wells',data:toM(o.newWells),backgroundColor:o.newColor,borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:2,tension:0.15,yAxisID:'y'});
+        }
+        ds.push({label:'DUC completions',data:toM(o.ducComp),backgroundColor:o.ducColor,borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:3,tension:0.15,yAxisID:'y'});
+        ds.push({label:'Total',data:toM(o.total),borderColor:o.lineColor,borderWidth:2.6,pointRadius:0,fill:false,stack:'tot',order:0,tension:0.15,yAxisID:'y'});
         const scales={x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,grid:{color:'#e6e8eb'},title:{display:true,text:yTitle,color:'#9aa1ab',font:{size:11}}}};
         if(o.ducBacklog){ ds.push({label:'DUC backlog (right axis)',data:o.ducBacklog,borderColor:'#8a5a12',borderWidth:1.4,borderDash:[5,3],pointRadius:0,fill:false,order:0,yAxisID:'y2'});
           scales.y2={position:'right',beginAtZero:true,grid:{display:false},title:{display:true,text:'DUC backlog (wells)',color:'#8a5a12',font:{size:10}},ticks:{color:'#8a5a12'}}; }
@@ -1683,7 +1607,7 @@
         } else if(pureTrend){ const pf=1+TREND_ELAST*(st.price-70), r=trendProject(base,st.rate,st.term,st.young,cfg.rf,st.persist/100,pf);
           o={legacy:r.legacy,newWells:r.newWells,ducComp:r.ducCompletions,total:r.total,ducBacklog:null,newColor:hexA(color,0.6),ducColor:'rgba(184,137,104,0.7)',lineColor:color};
         } else { const r=rigDucRun(cfg,live,base,{price:st.price,rigs:st.rigs,complRate:st.complRate/100,ducRate:st.ducRate/100,term:st.term,young:st.young,peakMult:st.peakMult/100,bfac:st.bfac,mpeak:st.mpeak,pm:st.pm});
-          o={legacy:r.legacy,newWells:r.newWells,ducComp:r.ducCompletions,total:r.total,ducBacklog:r.ducBacklog,newColor:hexA(color,0.6),ducColor:'rgba(184,137,104,0.78)',lineColor:color}; }
+          o={legacy:r.legacy,newWells:r.newWells,newByTier:r.newByTier,newTierNames:(cfg.tiers?cfg.tiers.map(t=>t.name):null),ducComp:r.ducCompletions,total:r.total,ducBacklog:r.ducBacklog,newColor:hexA(color,0.6),ducColor:'rgba(184,137,104,0.78)',lineColor:color}; }
         const total=o.total, peak=Math.max.apply(null,total),pk=total.indexOf(peak),y35=total[9],y40=total[14],last=total[N_SIM-1];
         if(hasRig){ const pct=(last-base)/base*100, d0=o.ducBacklog?o.ducBacklog[0]:0, dN=o.ducBacklog?o.ducBacklog[N_SIM-1]:0, fx=isInv?2:3;
           document.getElementById('sim-stats').innerHTML=
@@ -1727,10 +1651,13 @@
         if(isTot){ set('sim-intensity',st.intensity,(st.intensity>0?'+':'')+st.intensity+'%'); set('sim-term',st.termD,(st.termD>0?'+':'')+st.termD.toFixed(1)+' pp'); set('sim-young',st.youngD,(st.youngD>0?'+':'')+st.youngD+' pp'); }
       }
       function presetVals(name){
-        if(hasRig){ const r0=live?live.rigs:0, p0=isInv?cfg.def.price:70, pmv=n=>st.pm.map(_=>n), tc={bfac:cfg.b, mpeak:cfg.mPeak};
-          if(name==='Base') return Object.assign({price:p0, rigs:r0, complRate:100, ducRate:15, peakMult:100, term:cfg.term, young:cfg.young, pm:pmv(100)},tc);
-          if(name==='Upside') return Object.assign({price:Math.min(100,p0+15), rigs:Math.round(r0*1.25), complRate:100, ducRate:25, peakMult:110, term:clampT(cfg.term-0.03), young:clampY(cfg.young-0.05), pm:pmv(110)},tc);
-          return Object.assign({price:Math.max(40,p0-15), rigs:Math.round(r0*0.6), complRate:90, ducRate:8, peakMult:90, term:clampT(cfg.term+0.04), young:clampY(cfg.young+0.04), pm:pmv(90)},tc); }
+        if(hasRig){ const r0=live?live.rigs:0, X=Math.round(r0*0.215), p0=isInv?cfg.def.price:70;
+          // Base & Upside change ONLY the tier % and the rig count vs each other; everything else = Base.
+          const baseCommon={price:p0, complRate:100, ducRate:15, peakMult:100, term:cfg.term, young:cfg.young, bfac:cfg.b, mpeak:cfg.mPeak};
+          if(name==='Base')   return Object.assign({}, baseCommon, {rigs:r0,   pm:[90,80,70,50]});
+          if(name==='Upside') return Object.assign({}, baseCommon, {rigs:r0+X, pm:[100,90,80,70]});
+          // Downside is the only scenario that also sets the other sliders to custom values (symmetric rig swing).
+          return {price:55, rigs:Math.max(0,r0-X), complRate:90, ducRate:8, peakMult:90, mpeak:2, term:0.13, bfac:1.3, young:0.76, pm:[90,80,70,60]}; }
         if(pureTrend){ const r=cfg.stats?cfg.stats.rate:obsRate;
           if(name==='Base') return {price:70, rate:r, persist:95, term:cfg.term, young:cfg.young};
           if(name==='Upside') return {price:85, rate:r+0.02, persist:100, term:clampT(cfg.term-0.015), young:clampY(cfg.young-0.05)};
@@ -1767,7 +1694,10 @@
     function destroyOpChart(){ if(opChart){ try{opChart.destroy();}catch(e){} opChart=null; } }
     function renderOperators(key){
       destroyOpChart();
-      const sec=document.getElementById('op-section'); const O=OPERATORS[key]; if(!sec||!O)return;
+      const sec=document.getElementById('op-section'); const O=OPERATORS[key]; if(!sec)return;
+      if(!O){ sec.innerHTML=''; return; }
+      if(O.diffuse){ sec.innerHTML='<h3 style="font-size:15px;margin:0 0 2px">Who operates here</h3>'+
+        '<p class="caption" style="margin:0 0 6px">'+O.note+' <span class="prov sourced">Sourced</span></p><cite>'+O.src+' · last reviewed '+O.reviewed+'</cite>'; return; }
       const col=COLORS[key]||'#e63950';
       sec.innerHTML='<h3 style="font-size:15px;margin:0 0 2px">Who operates here — top producers</h3>'+
         '<p class="caption" style="margin:0 0 4px">Approximate production of the basin’s biggest operators. <span class="prov sourced">Sourced · 2025</span></p>'+
@@ -1794,19 +1724,6 @@
           plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'~'+c.parsed.x+' '+O.unit+(data[c.dataIndex].est?' (estimate)':'')}}},
           scales:{x:{grid:{color:'#e6e8eb'},title:{display:true,text:'approx. ('+O.unit+')',color:'#9aa1ab',font:{size:11}}},y:{grid:{display:false},ticks:{font:{size:12}}}}}});
     }
-    let _gasDonut=null;
-    function gasRegionDonut(canvasId){
-      const cv=document.getElementById(canvasId); if(!cv)return; const O=GAS_BY_REGION;
-      const data=O.data.slice().sort((a,b)=>b.v-a.v), total=data.reduce((s,d)=>s+d.v,0);
-      const fb=["#bdb86e","#e63950","#cf9e74","#6fa8cc","#93b8d4","#a99cc0","#cbd0d7","#9aa1ab","#7d8088"];
-      const colors=data.map((d,i)=>COLORS[d.n]||fb[i%fb.length]);
-      if(_gasDonut){try{_gasDonut.destroy();}catch(e){}}
-      _gasDonut=new Chart(cv,{type:'doughnut',
-        data:{labels:data.map(d=>d.n+(d.est?' (est)':'')),datasets:[{data:data.map(d=>d.v),backgroundColor:colors,borderColor:'#ffffff',borderWidth:2}]},
-        options:{responsive:true,maintainAspectRatio:false,cutout:'56%',
-          plugins:{legend:{position:'right',labels:{boxWidth:11,padding:6,font:{size:11}}},
-            tooltip:{callbacks:{label:c=>c.label+': '+c.parsed.toFixed(1)+' Bcf/d ('+(c.parsed/total*100).toFixed(0)+'%)'}}}}});
-    }
     function buildHealthCards(){
       const host=document.getElementById('basin-cards'); if(!host||host.childElementCount)return;
       ANALYST_FACTS.basins.forEach((b,i)=>{ const c=document.createElement('div'); c.className='hcard'; c.style.borderTopColor=b.color;
@@ -1818,8 +1735,7 @@
         const pts=region.data.filter(p=>!p.forecast);
         new Chart(cv,{type:'line',data:{labels:pts.map(p=>p.date),datasets:[{data:pts.map(p=>p.value),borderColor:COLORS[b.key],borderWidth:1.6,pointRadius:0,fill:true,backgroundColor:hexA(COLORS[b.key],0.12),tension:0.2}]},
           options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:false}}); });
-      document.getElementById('gas-note').innerHTML=ANALYST_FACTS.gasNote;
-      document.getElementById('cross-basin').innerHTML=ANALYST_FACTS.crossBasin;
+      const cb=document.getElementById('cross-basin'); if(cb)cb.innerHTML=ANALYST_FACTS.crossBasin;
     }
     function buildBreakeven(){
       const cv=document.getElementById('chartBreakeven'); if(!cv||cv.dataset.built)return; cv.dataset.built='1';
@@ -1831,9 +1747,7 @@
             label:{display:true,content:'WTI now ≈ $'+price.toFixed(0),position:'end',backgroundColor:RED,color:'#fff',font:{size:11,weight:'bold'},padding:4}}}}:{}},
           scales:{x:{grid:{display:false}},y:{beginAtZero:true,suggestedMax:Math.max(price||0,70)+15,ticks:{callback:v=>'$'+v},grid:{color:'#e6e8eb'},title:{display:true,text:'US dollars / barrel',color:'#9aa1ab',font:{size:11}}}}}});
     }
-
     // ===================== BUILD: PRICES =====================
-    let chartE;
     function buildPrices(){
       const labels=WTI.data.map(r=>r.date), set=new Set(labels);
       document.getElementById('e-range').textContent=labels[0]+' – '+labels[labels.length-1];
@@ -1892,92 +1806,7 @@
       srcEl.textContent='S&P 500 source: FRED series SP500 ('+labels[0]+'..'+labels[labels.length-1]+'). Both lines indexed to 100 at start.';
     }
 
-    // ===================== BUILD: NATURAL GAS =====================
-    function buildGas(){
-      if (GAS && GAS.production && GAS.production.marketed && GAS.production.marketed.length){
-        const mk=GAS.production.marketed, dr=GAS.production.dry||[];
-        const labels=mk.map(p=>p.date); const drMap={}; dr.forEach(p=>drMap[p.date]=p.value);
-        document.getElementById('g-range').textContent=labels[0]+' – '+labels[labels.length-1];
-        document.getElementById('g-asof').textContent='Live · EIA · '+labels[labels.length-1];
-        const chartG=new Chart(document.getElementById('chartGasProd'),{type:'line',
-          data:{labels,datasets:[
-            {label:'Marketed',data:mk.map(p=>p.value),borderColor:RED,borderWidth:1.6,pointRadius:0,fill:true,backgroundColor:hexA(RED,0.07),tension:0.1},
-            {label:'Dry',data:labels.map(d=>drMap[d]!=null?drMap[d]:null),borderColor:STEEL,borderWidth:1.5,pointRadius:0,fill:false,tension:0.1}]},
-          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-            plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:12}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+(c.parsed.y==null?'n/a':c.parsed.y.toFixed(1)+' Bcf/d')}}},
-            scales:{x:xCat(),y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'billion cubic feet / day',color:'#9aa1ab',font:{size:11}}}}}});
-        buildTypeToggle(chartG,'[data-type-for="chartGasProd"]',[0,1],'area');
-        buildRange(chartG,labels,'[data-range-for="chartGasProd"]',[{label:'10Y',months:120},{label:'25Y',months:300},{label:'All',months:null}]);
-      }
-      if (GAS && GAS.henry_hub && GAS.henry_hub.monthly && GAS.henry_hub.monthly.length){
-        const hhm=GAS.henry_hub.monthly, labels=hhm.map(p=>p.date), set=new Set(labels);
-        document.getElementById('hh-range').textContent=labels[0]+' – '+labels[labels.length-1];
-        const hhspot=GAS.henry_hub.spot_latest;
-        document.getElementById('hh-asof').textContent='Live · EIA · '+(hhspot?hhspot.date:labels[labels.length-1]);
-        // annotate Jan-2026 spike if present
-        const ann={}; const spikeDate='2026-01';
-        if(set.has(spikeDate)){ ann['vortex']={type:'line',xMin:spikeDate,xMax:spikeDate,borderColor:'rgba(200,16,46,0.6)',borderWidth:1.5,borderDash:[3,3],
-          label:{display:true,content:'polar vortex',position:'start',backgroundColor:RED,color:'#fff',font:{size:10,weight:'bold'},padding:3,borderRadius:6}}; }
-        const chartHH=new Chart(document.getElementById('chartHH'),{type:'line',
-          data:{labels,datasets:[{label:'Henry Hub',data:hhm.map(p=>p.price),borderColor:'#33373d',borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:'rgba(51,55,61,0.06)',tension:0.1}]},
-          options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-            plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>c[0].label,label:c=>'$'+c.parsed.y.toFixed(2)+' /MMBtu'}},annotation:{annotations:ann}},
-            scales:{x:xCat(),y:{ticks:{callback:v=>'$'+v},grid:{color:'#e6e8eb'},title:{display:true,text:'$ / MMBtu',color:'#9aa1ab',font:{size:11}}}}}});
-        buildTypeToggle(chartHH,'[data-type-for="chartHH"]',[0],'area');
-        buildRange(chartHH,labels,'[data-range-for="chartHH"]',[{label:'5Y',months:60},{label:'10Y',months:120},{label:'All',months:null}]);
-      }
-      document.getElementById('gas-content').innerHTML=
-        '<h4>The gas basins</h4>'+
-        '<p><b>Appalachia (Marcellus/Utica)</b> — the largest U.S. gas region (~31% of output, ~37 Bcf/d), but growth is limited by <b>pipeline constraints</b> out of the region. '+
-        '<b>Haynesville (LA/E. Texas)</b> — the <b>“swing” supplier</b>: close to Gulf Coast LNG, it ramps up when export demand and prices rise. '+
-        '<b>Permian</b> — produces huge volumes of <b>associated gas</b> as a byproduct of its oil, so gas keeps flowing even when gas prices are low.</p>'+
-        '<h4>Demand driver 1 — LNG exports</h4>'+
-        '<p>U.S. LNG exports hit a record (~15 Bcf/d in 2025, heading to ~17–18 Bcf/d) as new terminals ramp — <b>Plaquemines</b>, <b>Golden Pass</b>, <b>Corpus Christi Stage 3</b>. EIA expects U.S. LNG export capacity to <b>nearly double by 2031</b>.</p>'+
-        '<h4>Demand driver 2 — AI &amp; data centers</h4>'+
-        '<p>Electricity demand from data centers is rising fast; EIA estimates it could add on the order of <b>~+3 Bcf/d</b> of gas demand by 2030 (the low end of a wide 3–20 Bcf/d range of analyst views).</p>'+
-        '<h4>Tie back to oil</h4>'+
-        '<p>This is why Appalachia and Haynesville barely register on the crude chart but dominate here: they are <b>gas</b> basins. As oil matures, gas is where the growth is.</p>'+
-        '<cite>Sourced: EIA Today in Energy id=67345 (record production), id=67166 (basins), id=67484 (LNG); EIA STEO. As of 2025–26 · last reviewed '+ANALYST_FACTS.reviewed+'.</cite>';
-      // where-gas-comes-from donut + who-produces-it bar
-      gasRegionDonut('chartGasRegion');
-      barChartH('chartGasCos', GAS_PRODUCERS, '#33373d');
-      const gr=document.getElementById('gasreg-src'); if(gr)gr.textContent=GAS_BY_REGION.note+' '+GAS_BY_REGION.src;
-      const gc=document.getElementById('gascos-src'); if(gc)gc.textContent=GAS_PRODUCERS.note+' '+GAS_PRODUCERS.src+' · last reviewed '+GAS_PRODUCERS.reviewed;
-    }
-
-    // ===================== CAPITAL & CONSOLIDATION (SOURCED, report-cycle) =====================
-    // Upstream capex — IEA World Energy Investment (Rystad basis), already in real ~2024 USD.
-    const CAPEX={ unit:"billion, real ~2024 $",
-      years:[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-      values:[869,460,460,477,505,300,350,474,528,590,567],
-      src:{2015:1,2019:1,2020:1,2022:1,2023:1,2025:1} };  // others estimated/derived
-    // US upstream M&A — Enverus nominal totals, inflation-adjusted to real 2026$ via BLS CPI-U.
-    const MADEAL={ unit:"billion, real 2026 $",
-      years:[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-      values:[147,98,97,95,92,121,66,78,64,203,108,65],
-      nominal:[108,72,72,72,72,96,53,66,58,192,105,65],
-      src:{2014:1,2019:1,2021:1,2022:1,2023:1,2024:1,2025:1} };  // 2015-18 = 2015-19 avg
-    let capexChart=null, maChart=null;
-    function capBar(id,cfg,accentYear,chartRef){
-      const el=document.getElementById(id); if(!el) return chartRef;
-      if(chartRef){ chartRef.destroy(); }
-      const cols=cfg.years.map(y=> y===accentYear?'#c8102e':(cfg.src[y]?'#8a96a6':'#c9cfd8'));
-      return new Chart(el,{type:'bar',data:{labels:cfg.years,datasets:[{data:cfg.values,backgroundColor:cols,borderWidth:0}]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
-          tooltip:{callbacks:{label:c=>'$'+c.parsed.y+'B'+(cfg.src[cfg.years[c.dataIndex]]?' (sourced)':' (est.)')+(cfg.nominal?' · $'+cfg.nominal[c.dataIndex]+'B nominal':'')}}},
-          scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,font:{size:10}}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},ticks:{callback:v=>'$'+v+'B',font:{size:10}}}}}});
-    }
-    function buildCapital(){
-      capexChart=capBar('chartCapex',CAPEX,2015,capexChart);
-      maChart=capBar('chartMA',MADEAL,2023,maChart);
-      const cc=document.getElementById('capex-cap'); if(cc) cc.innerHTML=
-        'Peak <b>~$869B in 2015</b>; COVID trough <b>~$300B (2020)</b>; <b>~$567B in 2025</b> — down ~4% (first drop since 2020), and still <b>~35% below the 2015 peak</b>. Investment never recovered to its 2014-15 peak despite record production — the <b>capital discipline</b> the overview references. <span class="prov sourced">Sourced · IEA World Energy Investment (Rystad basis), 2019–2025 editions</span> <span style="color:var(--faint);font-size:11px">2016/17/21 estimated, 2018/24 derived from stated YoY.</span>';
-      const mc=document.getElementById('ma-cap'); if(mc) mc.innerHTML=
-        'Nominal Enverus deal values inflation-adjusted to <b>2026$</b> (BLS CPI, same series as real WTI). Record <b>2023 (~$192B nominal</b> — ExxonMobil–Pioneer, Chevron–Hess) and strong 2024 (Diamondback–Endeavor, ConocoPhillips–Marathon); <b>~$65B in 2025</b>. The industry increasingly <b>buys inventory via M&amp;A rather than drilling for it</b> — the other face of capital discipline. <span class="prov sourced">Sourced · Enverus US upstream M&amp;A (2014, 2019–2025)</span> <span style="color:var(--faint);font-size:11px">2015–18 shown at the Enverus 2015–19 average (~$72B nominal) — individual years not public; flag: unverified.</span>';
-    }
-
     // ===================== BUILD: OUTLOOK =====================
-let outlookChart=null;
     function buildOutlook(){
       buildCapital();
       const actualsThrough=(BAS&&BAS.actuals_through)||(TOTAL&&TOTAL.latest&&TOTAL.latest.date)||'2026-03';
@@ -1990,18 +1819,14 @@ let outlookChart=null;
       const smap=(arr,key)=>{const m={};arr.forEach(p=>m[p.date]=p[key]);return m;};
       let crudeYoY=null;
       if(TOTAL&&TOTAL.data&&nowCrude!=null){const m=smap(TOTAL.data,'value'),prev=m[addMonths(nowCrudeDate,-12)];if(prev!=null)crudeYoY=nowCrude-prev;}
-      const gasNow=gasMk?gasMk.value:null, gasNowDate=gasMk?gasMk.date:null;
-      let gasYoY=null;
-      if(GAS&&GAS.production&&GAS.production.marketed&&gasNow!=null){const m=smap(GAS.production.marketed,'value'),prev=m[addMonths(gasNowDate,-12)];if(prev!=null)gasYoY=gasNow-prev;}
       const wtiNow=currentWTI, wtiDate=spot?spot.date:(WTI.latest?WTI.latest.date:'');
       let wtiHigh=null; if(WTI.data){const tail=WTI.data.slice(-12);wtiHigh=Math.max.apply(null,tail.map(r=>r.price));}
-      const hhNow=hhSpot?hhSpot.price:null, hhDate=hhSpot?hhSpot.date:'';
       const dir=(v,u)=>v==null?'':'<span style="color:'+(v>=0?'#2c7a4d':'#c8102e')+';font-size:11px">'+(v>=0?'▲ +':'▼ ')+Math.abs(v).toFixed(2)+' '+u+' YoY</span>';
 
       document.getElementById('outlook-headline').innerHTML=
         '<span class="n">The big picture:</span> U.S. <b>oil is near a plateau</b> — about <span class="n">'+(nowCrude?nowCrude.toFixed(1):'13.7')+' Mbbl/d</span> now'+
         (projPoint?(', and EIA STEO projects ~<span class="n">'+projPoint.value.toFixed(1)+' Mbbl/d</span> by '+projPoint.date.slice(0,4)):'')+
-        ' — while <b>natural gas is the growth engine</b> at <span class="n">'+(gasNow?gasNow.toFixed(0):'~118')+' Bcf/d</span> and climbing.';
+        '. Growth is concentrated in the Permian, which is maturing, so national output flattens as its best rock runs down.';
 
       const stat=(v,l,extra)=>'<div class="ms"><div class="v">'+v+'</div><div class="l">'+l+'</div>'+(extra?'<div style="margin-top:3px">'+extra+'</div>':'')+'</div>';
       document.getElementById('outlook-snapshot').innerHTML=
@@ -2009,9 +1834,7 @@ let outlookChart=null;
         '<p class="caption">The current readings the outlook is built on — these recompute on every data refresh.</p>'+
         '<div class="modal-stat" style="margin:0">'+
           stat((nowCrude?nowCrude.toFixed(2):'—')+' <small style="font-size:11px;color:var(--faint)">Mbbl/d</small>','US crude · '+nowCrudeDate,dir(crudeYoY,'Mbbl/d'))+
-          stat((gasNow?gasNow.toFixed(0):'—')+' <small style="font-size:11px;color:var(--faint)">Bcf/d</small>','Natural gas · '+(gasNowDate||''),dir(gasYoY,'Bcf/d'))+
           stat('$'+(wtiNow?wtiNow.toFixed(2):'—'),'WTI spot · '+wtiDate,(wtiHigh&&wtiNow?'<span style="font-size:11px;color:var(--faint)">12-mo high $'+wtiHigh.toFixed(0)+'</span>':''))+
-          stat('$'+(hhNow?hhNow.toFixed(2):'—'),'Henry Hub · '+(hhDate||''),'')+
         '</div>';
 
       if(usTot.length){
@@ -2028,8 +1851,8 @@ let outlookChart=null;
       }
 
       const cards=[
-        {h:"Oil — near plateau",b:"U.S. crude hit a record <b>~13.6M bbl/d in 2025</b>"+(projPoint?'; EIA STEO now carries it to <b>~'+projPoint.value.toFixed(1)+'M bbl/d by '+projPoint.date.slice(0,4)+'</b>':'; EIA sees it holding then easing slightly')+'. The Permian drives most remaining growth but is maturing (Tier-1 ~2037).',t:"Live current + EIA STEO projection (id=67404)"},
-        {h:"Gas — the growth story",b:"At <b>~"+(gasNow?gasNow.toFixed(0):'118')+" Bcf/d</b> now and rising. LNG + data-center demand lift the floor: EIA projects Henry Hub <b>~$3.80/MMBtu by 2030</b> (some banks $5+), and LNG export capacity <b>nearly doubles by 2031</b>.",t:"Live current + EIA AEO/STEO; bank forecasts"}
+        {h:"Oil — near plateau",b:"U.S. crude hit a record <b>~13.6M bbl/d in 2025</b>"+(projPoint?'; EIA STEO now carries it to <b>~'+projPoint.value.toFixed(1)+'M bbl/d by '+projPoint.date.slice(0,4)+'</b>':'; EIA sees it holding then easing slightly')+'. The Permian drives most remaining growth but is maturing (best rock thinning by ~2037).',t:"Live current + EIA STEO projection (id=67404)"},
+        {h:"Capital discipline",b:"Upstream spending is still <b>~35% below its 2015 peak</b> even at record output, and consolidation is heavy — companies increasingly <b>buy inventory through mergers</b> rather than drill for it. See the Capital &amp; Consolidation charts below.",t:"IEA World Energy Investment; Enverus US upstream M&A"}
       ];
       document.getElementById('outlook-cards').innerHTML=cards.map(c=>'<div class="panel" style="margin-top:0"><div class="panel-head"><h2>'+c.h+'</h2><span class="prov proj">Projection</span></div><p class="caption" style="margin:0">'+c.b+'</p><cite>'+c.t+' · refreshed '+(TOTAL?TOTAL.last_updated:'')+'</cite></div>').join('');
 
@@ -2037,9 +1860,9 @@ let outlookChart=null;
         '<div class="panel-head"><h2>What to watch</h2><span class="prov proj">Projections</span></div>'+
         '<div class="prose"><ul>'+
         '<li><b>The Permian plateau.</b> Most U.S. oil growth rides on one maturing basin. When its growth flattens (Production tab), national growth flattens too.</li>'+
-        '<li><b>LNG build-out.</b> Plaquemines, Golden Pass, Corpus Christi Stage 3 — then more by 2031 — pull more gas into exports, tightening the domestic market.</li>'+
-        '<li><b>Data-center demand.</b> The wild card: ~3–20 Bcf/d by 2030 across estimates; even the low end tightens balances.</li>'+
-        '<li><b>Price risk.</b> Oil to Middle East supply shocks; gas to winter spikes (Jan-2026) and the LNG ramp pace.</li>'+
+        '<li><b>Rig count &amp; capital discipline.</b> Output holds only if drilling keeps pace with decline; fewer rigs or tighter budgets tip it into decline (see the Production Simulator).</li>'+
+        '<li><b>DUC backlog.</b> Drilled-but-uncompleted wells are a cushion that can add production without new rigs — until the backlog runs down.</li>'+
+        '<li><b>Price risk.</b> Oil is exposed to Middle East supply shocks and shifts in global demand.</li>'+
         '</ul><cite>Projections: EIA STEO (June 2026) & AEO; analyst forecasts (Deloitte, ICF). Live figures refresh when fetch_data.py runs · last reviewed '+ANALYST_FACTS.reviewed+'.</cite></div>';
     }
 
@@ -2056,8 +1879,9 @@ let outlookChart=null;
   (function(){
     var K="7cOIY1x9CR6WqB72e7hvk4k5rJLEGR5edLUk48wR";
     function latest(route,series,cb){
-      var u="https://api.eia.gov/v2/"+route+"/data/?api_key="+K+"&frequency=daily&data[0]=value&facets[series][]="+series+"&sort[0][column]=period&sort[0][direction]=desc&length=1";
-      fetch(u).then(function(r){return r.json();}).then(function(d){
+      // cache-buster (&_=timestamp) + no-store so every page load/refresh pulls the freshest daily value, never a cached response
+      var u="https://api.eia.gov/v2/"+route+"/data/?api_key="+K+"&frequency=daily&data[0]=value&facets[series][]="+series+"&sort[0][column]=period&sort[0][direction]=desc&length=1&_="+Date.now();
+      fetch(u,{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
         var row=d&&d.response&&d.response.data&&d.response.data[0];
         if(row&&row.value!=null) cb(parseFloat(row.value),row.period);
       }).catch(function(){});
@@ -2066,10 +1890,6 @@ let outlookChart=null;
       latest("petroleum/pri/spt","RWTC",function(p,dt){
         var v=document.getElementById('hs-wti'); if(v) v.innerHTML='$'+p.toFixed(2);
         var s=document.getElementById('hs-wti-sub'); if(s) s.textContent='spot · '+dt+' · live';
-      });
-      latest("natural-gas/pri/fut","RNGWHHD",function(p,dt){
-        var v=document.getElementById('hs-gas'); if(v) v.innerHTML='$'+p.toFixed(2)+' <small>/MMBtu</small>';
-        var s=document.getElementById('hs-gas-sub'); if(s) s.textContent='Henry Hub · '+dt+' · live';
       });
     }
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(run,200);});
