@@ -370,6 +370,34 @@ try:
     except Exception as e:  # noqa: BLE001
         failures.append(("WTI daily spot (RWTC daily)", str(e)))
 
+    # Headline "current price": prefer the FRONT-MONTH WTI FUTURES (NYMEX CL=F) — that's
+    # the number quoted everywhere as "the WTI price" and it's current-day. EIA's RWTC
+    # spot lags ~a week and EIA's own futures series was discontinued in 2024, so we take
+    # the front-month from CME/Yahoo here (server-side; no browser CORS limit). If it
+    # can't be reached, we silently keep the EIA daily spot from above as a fallback.
+    try:
+        import datetime as _dt
+        for _host in ("query1", "query2"):
+            try:
+                _u = ("https://%s.finance.yahoo.com/v8/finance/chart/CL=F"
+                      "?interval=1d&range=5d" % _host)
+                _req = urllib.request.Request(_u, headers={"User-Agent": "Mozilla/5.0"})
+                _meta = json.load(urllib.request.urlopen(_req, timeout=30))["chart"]["result"][0]["meta"]
+                _px = _meta.get("regularMarketPrice")
+                _ts = _meta.get("regularMarketTime")
+                if _px:
+                    _date = (_dt.datetime.utcfromtimestamp(_ts).strftime("%Y-%m-%d")
+                             if _ts else NOW[:10])
+                    spot_latest = {"date": _date, "price": round(float(_px), 2),
+                                   "source": "NYMEX front-month (CME/Yahoo)"}
+                    report.append(("WTI front-month futures (headline)",
+                                   f"${float(_px):.2f} on {_date}"))
+                    break
+            except Exception:
+                continue
+    except Exception as e:  # noqa: BLE001
+        failures.append(("WTI front-month futures", str(e)))
+
     real_note = "Inflation-adjusted price unavailable (CPI source could not be reached)."
     real_available = False
     cpi_source = None
