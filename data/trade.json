@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-14 22:33",
+  "last_updated": "2026-07-14 22:49",
   "units": "thousand barrels per day",
   "source": "EIA petroleum/move: exports MCREXUS2, imports MCRIMUS2, Canada imports MCRIMUSCA2",
   "exports": {
