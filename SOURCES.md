@@ -31,21 +31,32 @@ Legend: **Cadence** = how often the source publishes something new worth checkin
 
 ## How the refresh works
 
-**LIVE data (automatic):** a Windows Task Scheduler job runs `fetch_data.py` (see the
-"Daily auto-refresh" section of README). Nothing to do.
+**🟢 LIVE data (fully automatic — nothing to do).** A daily **GitHub Actions** job
+(`.github/workflows/refresh.yml`) runs `fetch_data.py` + `bundle.py` on GitHub's servers
+and republishes the live site. This covers everything auto-fed by an API: US & basin
+crude production, WTI (and daily spot), rigs / wells / DUCs / oil-per-rig, crude
+exports/imports, inflation-adjusted WTI, and the S&P 500 chart. No person or laptop needed.
 
-**SOURCED data (scheduled agent):** a recurring routine performs, for each row above whose
-cadence is due:
-1. Fetch the source URL(s); find the latest published figure.
-2. If it changed, update the value in the `index.html` location shown, and bump `last_reviewed`
-   here and in the dashboard tag.
-3. Attach/refresh the citation in the Data & Sources panel.
-4. Re-run the bundler (rebuild `US-Oil-Gas-Dashboard.html` + `publish-online/index.html`).
-5. Report what changed (old → new, with source) so a human can sanity-check.
-6. **Never fabricate.** If a figure can't be re-verified, leave it and flag it in the report.
+**🔴 SOURCED data (needs a human, ~once a quarter).** The figures in the table above are
+hand-entered analyst estimates. The daily job does **not** touch them — they stay frozen
+until someone updates them. They won't be wrong tomorrow, but some drift over 6–12 months.
 
-**To trigger a refresh manually** at any time, run the `refresh-sources` routine (or ask
-Claude: "refresh the sourced figures from SOURCES.md").
+### Quarterly refresh checklist (≈1 hour, for whoever owns this)
+Do this each quarter (or when a boss flags a stale number):
 
-Priority order when time-boxed: **#1–2 (Dallas Fed, quarterly)** and **#6–8 (operators, quarterly)**
-change most often; #3–5 (inventory) a few times a year; #9–12 occasionally.
+1. **Open this file (`SOURCES.md`)** and go down the table. For each row whose **Cadence**
+   is due (see priority below), open its **URL** and find the latest published figure.
+2. **If it changed:** edit the value in **`index.html`** at the spot named in the
+   "Lives in `index.html`" column, and update the date on that row here + on the dashboard tag.
+3. **Commit and push** your edit. The site republishes automatically (or run it now:
+   repo → **Actions** tab → "Refresh & publish dashboard" → **Run workflow**).
+4. **If you can't verify a figure**, leave it as-is and flag it — never guess. (`GUIDE.md`
+   explains where every config block lives if you need context.)
+
+**What changes most often (do these first):** #1–2 Dallas Fed breakevens (quarterly) and
+#6–8 operators / top producers (after earnings). Then #16–17 capex & M&A (once a year, when
+IEA/Enverus publish). #3–5 inventory a few times a year; #10, #15 occasionally; the rest rarely.
+
+> Not a developer? You can also hand this file to an AI assistant and say *"refresh the
+> sourced figures from SOURCES.md — check each source, update only what changed, and never
+> fabricate,"* then review its changes before pushing.
