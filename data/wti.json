@@ -4,7 +4,7 @@
   "source": "U.S. Energy Information Administration (EIA), series RWTC",
   "series_id": "RWTC",
   "frequency": "monthly",
-  "last_updated": "2026-07-15 16:52",
+  "last_updated": "2026-07-16 16:50",
   "real_available": true,
   "real_note": "Real prices in 2026-06 dollars, inflation-adjusted via FRED series CPIAUCSL.",
   "latest": {
@@ -13,31 +13,11 @@
     "real": 84.81
   },
   "spot_latest": {
-    "date": "2026-07-15",
-    "price": 79.39,
+    "date": "2026-07-16",
+    "price": 78.84,
     "source": "NYMEX front-month (CME/Yahoo)"
   },
   "spot_recent": [
-    {
-      "date": "2026-05-21",
-      "price": 100.2
-    },
-    {
-      "date": "2026-05-22",
-      "price": 100.35
-    },
-    {
-      "date": "2026-05-26",
-      "price": 97.63
-    },
-    {
-      "date": "2026-05-27",
-      "price": 92.35
-    },
-    {
-      "date": "2026-05-28",
-      "price": 92.65
-    },
     {
       "date": "2026-05-29",
       "price": 91.16
@@ -137,6 +117,26 @@
     {
       "date": "2026-07-06",
       "price": 69.6
+    },
+    {
+      "date": "2026-07-07",
+      "price": 71.53
+    },
+    {
+      "date": "2026-07-08",
+      "price": 74.56
+    },
+    {
+      "date": "2026-07-09",
+      "price": 73.15
+    },
+    {
+      "date": "2026-07-10",
+      "price": 72.45
+    },
+    {
+      "date": "2026-07-13",
+      "price": 79.2
     }
   ],
   "data": [
