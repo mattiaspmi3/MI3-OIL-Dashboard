@@ -4,7 +4,7 @@
   "source": "U.S. Energy Information Administration (EIA)",
   "frequency": "annual",
   "note": "State-level proxy. EIA's state crude history begins in 1981. Texas+New Mexico approximate the Permian, North Dakota+Montana the Bakken, etc. Approximate, not exact basin data.",
-  "last_updated": "2026-07-17 13:41",
+  "last_updated": "2026-07-18 13:18",
   "states": [
     {
       "name": "Texas",
