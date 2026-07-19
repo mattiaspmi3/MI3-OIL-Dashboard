@@ -4,7 +4,7 @@
   "source": "U.S. Energy Information Administration (EIA), series RWTC",
   "series_id": "RWTC",
   "frequency": "monthly",
-  "last_updated": "2026-07-18 13:18",
+  "last_updated": "2026-07-19 13:20",
   "real_available": true,
   "real_note": "Real prices in 2026-06 dollars, inflation-adjusted via FRED series CPIAUCSL.",
   "latest": {
