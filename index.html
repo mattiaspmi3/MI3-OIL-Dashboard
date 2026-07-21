@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>US Oil &amp; Gas · Prepared for MI3 Energy</title>
+<title>US Oil · Prepared for MI3 Energy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -304,7 +304,7 @@
         <img src="mi3-logo.svg" class="brand-logo" id="brand-logo" alt="MI3 Energy" hidden
              onload="this.hidden=false; var f=document.getElementById('brand-fallback'); if(f) f.style.display='none';">
         <div class="brand-text">
-          <h1>US Oil &amp; Gas Intelligence</h1>
+          <h1>US Oil Intelligence</h1>
           <div class="prep">Prepared for <b>MI3 Energy</b> · Dashboard 1</div>
         </div>
       </div>
@@ -325,7 +325,7 @@
       <a data-tab="simulator">Production Simulator</a>
       <a data-tab="prices">Prices &amp; Markets</a>
       <a data-tab="outlook">Outlook</a>
-      <a data-tab="primer">Oil &amp; Gas 101</a>
+      <a data-tab="primer">Oil 101</a>
     </div>
   </div>
 
@@ -354,7 +354,7 @@
 
     <!-- ===================== OIL & GAS 101 ===================== -->
     <section class="tab" id="tab-primer" hidden>
-      <h2 class="tab-title">Oil &amp; Gas 101</h2>
+      <h2 class="tab-title">Oil 101</h2>
       <p class="tab-intro">A plain-English primer for newcomers and investors — what the industry is, how the oil actually gets out of the ground, and why it moves markets.</p>
       <div class="panel"><div class="prose">
         <h3>The business, in one minute</h3>
@@ -618,7 +618,7 @@
           <p style="margin-top:10px"><b class="needs-review">Notes &amp; caveats:</b> <span id="needs-review-list"></span></p>
         </div>
       </details>
-      <p style="margin-top:14px"><span class="mi3">MI3 Energy</span> · US Oil &amp; Gas Intelligence, Dashboard 1. Analyst figures are estimates that vary by price assumption and source; breakevens are half-cycle wellhead unless noted.</p>
+      <p style="margin-top:14px"><span class="mi3">MI3 Energy</span> · US Oil Intelligence, Dashboard 1. Analyst figures are estimates that vary by price assumption and source; breakevens are half-cycle wellhead unless noted.</p>
       <p class="updated" id="updated"></p>
     </footer>
   </div>
@@ -1748,6 +1748,7 @@
           scales:{x:{grid:{display:false}},y:{beginAtZero:true,suggestedMax:Math.max(price||0,70)+15,ticks:{callback:v=>'$'+v},grid:{color:'#e6e8eb'},title:{display:true,text:'US dollars / barrel',color:'#9aa1ab',font:{size:11}}}}}});
     }
     // ===================== BUILD: PRICES =====================
+    let chartE;
     function buildPrices(){
       const labels=WTI.data.map(r=>r.date), set=new Set(labels);
       document.getElementById('e-range').textContent=labels[0]+' – '+labels[labels.length-1];
@@ -1806,6 +1807,36 @@
       srcEl.textContent='S&P 500 source: FRED series SP500 ('+labels[0]+'..'+labels[labels.length-1]+'). Both lines indexed to 100 at start.';
     }
 
+    // ===================== CAPITAL & CONSOLIDATION (SOURCED, report-cycle) =====================
+    // Upstream capex — IEA World Energy Investment (Rystad basis), already in real ~2024 USD.
+    const CAPEX={ unit:"billion, real ~2024 $",
+      years:[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+      values:[869,460,460,477,505,300,350,474,528,590,567],
+      src:{2015:1,2019:1,2020:1,2022:1,2023:1,2025:1} };  // others estimated/derived
+    // US upstream M&A — Enverus nominal totals, inflation-adjusted to real 2026$ via BLS CPI-U.
+    const MADEAL={ unit:"billion, real 2026 $",
+      years:[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+      values:[147,98,97,95,92,121,66,78,64,203,108,65],
+      nominal:[108,72,72,72,72,96,53,66,58,192,105,65],
+      src:{2014:1,2019:1,2021:1,2022:1,2023:1,2024:1,2025:1} };  // 2015-18 = 2015-19 avg
+    let capexChart=null, maChart=null;
+    function capBar(id,cfg,accentYear,chartRef){
+      const el=document.getElementById(id); if(!el) return chartRef;
+      if(chartRef){ chartRef.destroy(); }
+      const cols=cfg.years.map(y=> y===accentYear?'#c8102e':(cfg.src[y]?'#8a96a6':'#c9cfd8'));
+      return new Chart(el,{type:'bar',data:{labels:cfg.years,datasets:[{data:cfg.values,backgroundColor:cols,borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:c=>'$'+c.parsed.y+'B'+(cfg.src[cfg.years[c.dataIndex]]?' (sourced)':' (est.)')+(cfg.nominal?' · $'+cfg.nominal[c.dataIndex]+'B nominal':'')}}},
+          scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true,font:{size:10}}},y:{beginAtZero:true,grid:{color:'#e6e8eb'},ticks:{callback:v=>'$'+v+'B',font:{size:10}}}}}});
+    }
+    function buildCapital(){
+      capexChart=capBar('chartCapex',CAPEX,2015,capexChart);
+      maChart=capBar('chartMA',MADEAL,2023,maChart);
+      const cc=document.getElementById('capex-cap'); if(cc) cc.innerHTML=
+        'Peak <b>~$869B in 2015</b>; COVID trough <b>~$300B (2020)</b>; <b>~$567B in 2025</b> — down ~4% (first drop since 2020), and still <b>~35% below the 2015 peak</b>. Investment never recovered to its 2014-15 peak despite record production — the <b>capital discipline</b> the overview references. <span class="prov sourced">Sourced · IEA World Energy Investment (Rystad basis), 2019–2025 editions</span> <span style="color:var(--faint);font-size:11px">2016/17/21 estimated, 2018/24 derived from stated YoY.</span>';
+      const mc=document.getElementById('ma-cap'); if(mc) mc.innerHTML=
+        'Nominal Enverus deal values inflation-adjusted to <b>2026$</b> (BLS CPI, same series as real WTI). Record <b>2023 (~$192B nominal</b> — ExxonMobil–Pioneer, Chevron–Hess) and strong 2024 (Diamondback–Endeavor, ConocoPhillips–Marathon); <b>~$65B in 2025</b>. The industry increasingly <b>buys inventory via M&amp;A rather than drilling for it</b> — the other face of capital discipline. <span class="prov sourced">Sourced · Enverus US upstream M&amp;A (2014, 2019–2025)</span> <span style="color:var(--faint);font-size:11px">2015–18 shown at the Enverus 2015–19 average (~$72B nominal) — individual years not public; flag: unverified.</span>';
+    }
     // ===================== BUILD: OUTLOOK =====================
     function buildOutlook(){
       buildCapital();
