@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-22 13:58",
+  "last_updated": "2026-07-23 14:04",
   "sources": "EIA Natural Gas: marketed N9050US2, dry N9070US2, Henry Hub spot RNGWHHD",
   "production": {
     "marketed": [
@@ -5408,30 +5408,10 @@
       }
     ],
     "spot_latest": {
-      "date": "2026-07-13",
-      "price": 2.83
+      "date": "2026-07-20",
+      "price": 2.8
     },
     "spot_recent": [
-      {
-        "date": "2026-05-29",
-        "price": 3.34
-      },
-      {
-        "date": "2026-06-01",
-        "price": 3.07
-      },
-      {
-        "date": "2026-06-02",
-        "price": 2.97
-      },
-      {
-        "date": "2026-06-03",
-        "price": 2.97
-      },
-      {
-        "date": "2026-06-04",
-        "price": 3.08
-      },
       {
         "date": "2026-06-05",
         "price": 3.05
@@ -5531,6 +5511,26 @@
       {
         "date": "2026-07-13",
         "price": 2.83
+      },
+      {
+        "date": "2026-07-14",
+        "price": 2.76
+      },
+      {
+        "date": "2026-07-15",
+        "price": 2.8
+      },
+      {
+        "date": "2026-07-16",
+        "price": 2.83
+      },
+      {
+        "date": "2026-07-17",
+        "price": 2.75
+      },
+      {
+        "date": "2026-07-20",
+        "price": 2.8
       }
     ],
     "units": "dollars per million Btu ($/MMBtu)",
