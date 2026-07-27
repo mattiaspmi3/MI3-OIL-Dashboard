@@ -1,0 +1,67 @@
+name: Quarterly full data refresh + review reminder
+
+on:
+  schedule:
+    - cron: "0 8 1 1,4,7,10 *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  full-refresh:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Get the project files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Put the API keys where the scripts expect them (.env, not committed)
+        run: |
+          echo "EIA_API_KEY=${{ secrets.EIA_API_KEY }}" >> .env
+          echo "FRED_API_KEY=${{ secrets.FRED_API_KEY }}" >> .env
+
+      - name: Re-pull ALL EIA/BLS/FRED data, then rebuild the page
+        run: |
+          python fetch_data.py
+          python bundle.py
+
+      - name: Save the refreshed data back to the repo
+        run: |
+          git config user.name  "MI3 Dashboard Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Quarterly full data refresh (auto)" || echo "No changes to commit"
+          git push || echo "Nothing to push"
+
+      - name: Package the site for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: publish-online
+
+      - name: Publish to the live link
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Open a human-review reminder issue (never edits sourced figures)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python review_checklist.py > _review.md
+          gh issue create \
+            --title "Quarterly review — check sourced figures & oil news" \
+            --body-file _review.md
