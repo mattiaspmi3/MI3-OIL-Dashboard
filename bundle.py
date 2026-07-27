@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Bundle index.html + data/*.js + logo into the self-contained shareable file and
 refresh publish-online/. Run after fetch_data.py so the shared/published copies stay current."""
-import io, os, base64
+import io, os, base64, json
 
 html = io.open("index.html", encoding="utf-8").read()
 for name in ["wti", "total_us", "basins", "states", "sp500", "drilling", "trade", "usmap"]:
@@ -19,5 +19,17 @@ if os.path.exists("mi3-logo.svg"):
 io.open("US-Oil-Gas-Dashboard.html", "w", encoding="utf-8").write(html)
 os.makedirs("publish-online", exist_ok=True)
 io.open(os.path.join("publish-online", "index.html"), "w", encoding="utf-8").write(html)
+
+# Tiny same-origin price file the live page fetches fresh on every open (cache-proof
+# headline). Mirrors spot_latest from data/wti.json; updated by the daily WTI job.
+try:
+    _wti = json.load(io.open(os.path.join("data", "wti.json"), encoding="utf-8"))
+    _spot = _wti.get("spot_latest") or {}
+    if _spot.get("price") is not None:
+        io.open(os.path.join("publish-online", "wti-latest.json"), "w",
+                encoding="utf-8").write(json.dumps(_spot))
+except Exception as _e:
+    print("Note: could not write wti-latest.json (%s)" % _e)
+
 print("Bundled US-Oil-Gas-Dashboard.html + publish-online/index.html "
       "(external data refs left: %d)" % html.count('src="data/'))
