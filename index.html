@@ -1904,5 +1904,26 @@
   })();
   </script>
 
+  <!-- Always show the freshest published WTI price, even if this page was cached.
+       Pulls a tiny same-origin file (updated every morning by the daily job) with a
+       cache-buster so the browser/CDN can never serve a stale headline number.
+       Silently keeps the built-in value if the file isn't reachable (e.g. offline copy). -->
+  <script>
+  (function(){
+    try{
+      fetch('wti-latest.json?t=' + new Date().getTime(), {cache:'no-store'})
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){
+          if(!j || j.price==null) return;
+          var el=document.getElementById('hs-wti');
+          if(el) el.innerHTML='$'+Number(j.price).toFixed(2);
+          var sub=document.getElementById('hs-wti-sub');
+          if(sub && j.date) sub.textContent=((j.source&&j.source.indexOf('front-month')>=0?'front-month · ':'spot · ')+j.date);
+        })
+        .catch(function(){});
+    }catch(e){}
+  })();
+  </script>
+
 </body>
 </html>
