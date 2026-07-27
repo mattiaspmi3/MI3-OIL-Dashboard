@@ -1838,6 +1838,7 @@
         'Nominal Enverus deal values inflation-adjusted to <b>2026$</b> (BLS CPI, same series as real WTI). Record <b>2023 (~$192B nominal</b> — ExxonMobil–Pioneer, Chevron–Hess) and strong 2024 (Diamondback–Endeavor, ConocoPhillips–Marathon); <b>~$65B in 2025</b>. The industry increasingly <b>buys inventory via M&amp;A rather than drilling for it</b> — the other face of capital discipline. <span class="prov sourced">Sourced · Enverus US upstream M&amp;A (2014, 2019–2025)</span> <span style="color:var(--faint);font-size:11px">2015–18 shown at the Enverus 2015–19 average (~$72B nominal) — individual years not public; flag: unverified.</span>';
     }
     // ===================== BUILD: OUTLOOK =====================
+    let outlookChart=null;
     function buildOutlook(){
       buildCapital();
       const actualsThrough=(BAS&&BAS.actuals_through)||(TOTAL&&TOTAL.latest&&TOTAL.latest.date)||'2026-03';
