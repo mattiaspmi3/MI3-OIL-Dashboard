@@ -389,7 +389,7 @@
     <!-- ===================== PRODUCTION ===================== -->
     <section class="tab" id="tab-production" hidden>
       <h2 class="tab-title">US Oil Production</h2>
-      <p class="tab-intro">How much crude the U.S. pumps — a century of history, the deeper state-level view, and the breakdown by basin. <span class="prov live">Live · EIA · auto-updates</span></p>
+      <p class="tab-intro">Evolution of US crude oil production — a century of history, then the deeper breakdown of today’s picture by basin and state. <span class="prov live">Live · EIA · auto-updates</span></p>
 
       <div class="panel">
         <div class="panel-head"><h2>Total US Crude Production — full history</h2><span class="prov live" id="b-asof">Live</span></div>
@@ -416,8 +416,8 @@
 
       <div class="panel">
         <div class="panel-head"><h2>Production by Basin</h2><span class="prov live" id="c-asof">Live</span></div>
-        <p class="caption">The national total, split into the regions that produce it. <span class="tag" id="c-range"></span></p>
-        <div class="callout">💡 <b>What to notice:</b> watch the red <b>Permian</b> band swell from a sliver into the biggest slice. Switch to <b>Share %</b> to see it take over the pie, or <b>Compare</b> to race the basins as lines.</div>
+        <p class="caption">The national total split into the major basins and regions that produce from on-shore, off-shore, conventional and unconventional. <span class="tag" id="c-range"></span></p>
+        <div class="callout">💡 <b>What to notice:</b> Recently, most of the production growth comes from the Permian while other unconventional basins have matured. Conventional and offshore production remain stable with a low decline.</div>
         <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-mode-for="chartC"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartC"></div></div>
         <div class="chart-box tall"><canvas id="chartC"></canvas></div>
         <p class="hint" id="forecast-hint" style="margin:8px 0 0"></p>
@@ -438,7 +438,7 @@
     <!-- ===================== BASINS ===================== -->
     <section class="tab" id="tab-basins" hidden>
       <h2 class="tab-title">The Basins</h2>
-      <p class="tab-intro">Who actually pumps America’s oil. Click the map or a button to open a basin’s deep-dive. Live production trends pair with 2025 analyst estimates (each tagged and dated).</p>
+      <p class="tab-intro">Where does America’s oil come from? Click the map or a button to open a basin’s deep dive. Live production trends pair with 2025 analyst estimates (each tagged and dated).</p>
 
       <div class="panel">
         <div class="panel-head"><h2>Click a basin on the map</h2></div>
@@ -513,7 +513,7 @@
 
       <div class="panel">
         <div class="panel-head"><h2>Permian creaming curve — inventory vs. price</h2><span class="prov sourced" id="cream-tag">Sourced · Enverus / Novi · 2026</span></div>
-        <p class="caption">Every remaining Permian drilling location, sorted cheapest-to-drill first. Drag the price slider to see how many locations are economic at a given WTI price.</p>
+        <p class="caption">Every remaining Permian drilling location, sorted cheapest-to-drill first. Drag the price slider to see how many locations are economic at a given WTI price. The lack of extensive data for Tier 2 and Tier 3 wells makes the current production forecast assumption and breakeven price a bit optimistic.</p>
         <div class="note-inline"><b>Verified.</b> Anchored on <b>Enverus Intelligence Research</b> (Apr 2026, via World Oil): ~55,000 Permian locations break even below $50/bbl and ~100,000 in total below ~$70/bbl (including geologically-viable rock). NPV25 breakevens cross-checked against <b>Novi Labs</b> public data (Delaware ~$52, Midland ~$50). The curve between anchors is interpolated. <i>Note:</i> the older “~200,000 locations” figure isn’t supported for the Permian alone — that scale reflects North-America-wide or all-tier counts.</div>
         <div class="cream-wrap" id="cream-host"></div>
       </div>
@@ -567,7 +567,7 @@
 
       <div class="panel">
         <div class="panel-head"><h2>Oil vs. the Stock Market</h2><span id="sp-prov" class="prov sourced">FRED</span></div>
-        <p class="caption">WTI and the S&amp;P 500, each indexed to 100 at the start so their shapes compare directly.</p>
+        <p class="caption">WTI and the S&amp;P 500, each indexed to 100 at the start so their shapes compare directly. Energy is only ~3–4% of the S&amp;P 500, but oil ripples through the economy. The link is loose and regime-dependent — balanced, affordable energy can support a strong economy.</p>
         <div class="callout">💡 Energy is only ~3–4% of the S&amp;P 500, but oil ripples through the economy via gasoline, inflation and transport. The link is loose and regime-dependent — high oil can mean a strong economy <i>or</i> an inflation shock.</div>
         <div id="sp-wrap"><div class="chart-box"><canvas id="chartSP"></canvas></div></div>
         <p class="src" style="margin-top:6px" id="sp-src">S&amp;P 500 source: FRED series SP500 (needs a FRED key; ~10-year history).</p>
@@ -657,7 +657,7 @@
       reviewed: "2026-06-26",
       basins: [
         { key:"Permian", color:"var(--permian)", share:"~48%", prod:"~6.6M bbl/d", breakeven:61, breakevenLabel:"$61–62 (Dallas Fed Q1-25)",
-          maturity:"Youngest & healthiest major oil basin",
+          maturity:"Largest major oil basin, with the latest Tier-1 wells already showing signs of depletion. Production performance of future Tier-2 and Tier-3 locations is highly uncertain.",
           inventory:"~100,000 locations (Enverus, Apr 2026); ~55k sub-$50/bbl; ~7–10 yrs runway",
           growth:"Growth slowing",
           operators:"<b>Midland:</b> ExxonMobil + Diamondback dominate. <b>Delaware:</b> EOG holds a leading position.",
@@ -912,7 +912,7 @@
     document.getElementById('state-of-union').innerHTML =
       'The U.S. is the world’s top oil producer. Crude output sits near a record <b>'+_prod+
       ' million bbl/d</b>, led by the Permian (~48%), but growth is flattening as multiple unconventional plays mature and '+
-      'completion-technology gains no longer offset controlled rig activity, capital discipline, shrinking DUC inventory, '+
+      'completion-technology gains no longer offset reduced drilling rig activity, capital discipline, shrinking DUC inventory, '+
       'pressure depletion around remaining Tier-1 locations, and geologic deterioration of Tier-2 and Tier-3 rock.'+
       '<br><span class="prov live" style="margin-top:6px;display:inline-block">Live · US production · EIA MCRFPUS2 · '+_prodDate+
       '</span> <span class="prov sourced">Sourced · Permian ~48% · EIA · 2025</span>';
@@ -924,7 +924,7 @@
       const _ca =(TRADE.canada_share_pct!=null)?Math.round(TRADE.canada_share_pct):66;
       const _td =TRADE.exports.latest.date;
       document.getElementById('bignum').innerHTML=
-        'U.S. crude production is about <span class="n">~16%</span> of worldwide crude output — the largest of any nation. '+
+        'U.S. crude and liquids production is about <span class="n">~16%</span> of worldwide output — the largest of any nation. '+
         'The U.S. exports roughly <span class="n">'+_exp+' million</span> barrels of crude per day, yet still imports about '+
         '<span class="n">'+_imp+' million</span> barrels per day of heavier grades (about <span class="n">'+_ca+
         '% from Canada</span>) to feed Gulf Coast refineries built for a heavier crude slate than U.S. shale provides.'+
@@ -932,7 +932,7 @@
         '</span> <span class="prov sourced">Sourced · world share ~16% crude (≈20% incl. all liquids) · EIA · 2025</span>';
     } else {
       document.getElementById('bignum').innerHTML=
-        'U.S. crude production is about <span class="n">~16%</span> of worldwide crude output — the largest of any nation. '+
+        'U.S. crude and liquids production is about <span class="n">~16%</span> of worldwide output — the largest of any nation. '+
         'The U.S. exports roughly <span class="n">5.6 million</span> barrels of crude per day, yet still imports about '+
         '<span class="n">6.3 million</span> barrels per day of heavier grades (about <span class="n">~66% from Canada</span>) '+
         'to feed Gulf Coast refineries built for a heavier crude slate than U.S. shale provides.'+
