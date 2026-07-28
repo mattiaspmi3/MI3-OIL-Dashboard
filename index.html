@@ -374,7 +374,7 @@
         <h4>Why “lateral feet” is the key metric</h4>
         <p>More rock contacted = more oil. The length of horizontal wellbore drilled is the headline productivity number analysts track.</p>
         <h4>Rock tiers &amp; “high-grading”</h4>
-        <p>Acreage is graded <b>Tier 1</b> (best) to <b>Tier 4</b>. Companies drill their best rock first (“high-grading”), so the <i>leftover</i> inventory gets progressively worse — quality of remaining locations matters more than the raw count.</p>
+        <p>Acreage is graded <b>Tier-1</b> (best) to <b>Tier-4</b>. Companies drill their best rock first (“high-grading”), so the <i>leftover</i> inventory gets progressively worse — quality of remaining locations matters more than the raw count.</p>
         <h4>Pressure depletion</h4>
         <p>Wells drain a shared reservoir. A new well drilled <b>too close or too late</b> to older wells hits already-drained rock and produces less. As a basin matures, more new wells hit depleted rock — a key reason a basin’s best days are finite.</p>
 
@@ -513,7 +513,7 @@
 
       <div class="panel">
         <div class="panel-head"><h2>Permian creaming curve — inventory vs. price</h2><span class="prov sourced" id="cream-tag">Sourced · Enverus / Novi · 2026</span></div>
-        <p class="caption">Every remaining Permian drilling location, sorted cheapest-to-drill first. Drag the price slider to see how many locations are economic at a given WTI price. The lack of extensive data for T2 and T3 wells makes the current production forecast assumption and breakeven price a bit optimistic.</p>
+        <p class="caption">Every remaining Permian drilling location, sorted cheapest-to-drill first. Drag the price slider to see how many locations are economic at a given WTI price. The lack of extensive data for Tier-2 and Tier-3 wells makes the current production forecast assumption and breakeven price a bit optimistic.</p>
         <div class="note-inline"><b>Verified.</b> Anchored on <b>Enverus Intelligence Research</b> (Apr 2026, via World Oil): ~55,000 Permian locations break even below $50/bbl and ~100,000 in total below ~$70/bbl (including geologically-viable rock). NPV25 breakevens cross-checked against <b>Novi Labs</b> public data (Delaware ~$52, Midland ~$50). The curve between anchors is interpolated. <i>Note:</i> the older “~200,000 locations” figure isn’t supported for the Permian alone — that scale reflects North-America-wide or all-tier counts.</div>
         <div class="cream-wrap" id="cream-host"></div>
       </div>
@@ -657,7 +657,7 @@
       reviewed: "2026-06-26",
       basins: [
         { key:"Permian", color:"var(--permian)", share:"~48%", prod:"~6.6M bbl/d", breakeven:61, breakevenLabel:"$61–62 (Dallas Fed Q1-25)",
-          maturity:"Largest major oil basin with latest T1 wells already showing signs of depletion. Production performance of future T2&amp;T3 locations is highly uncertain.",
+          maturity:"Largest major oil basin with latest Tier-1 wells already showing signs of depletion. Production performance of future Tier-2 and Tier-3 locations is highly uncertain.",
           inventory:"~100,000 locations (Enverus, Apr 2026); ~55k sub-$50/bbl; ~7–10 yrs runway",
           growth:"Growth slowing",
           operators:"<b>Midland:</b> ExxonMobil + Diamondback dominate. <b>Delaware:</b> EOG holds a leading position.",
@@ -1291,31 +1291,31 @@
       permian:{ name:"Permian", color:"#c8102e", band:"rgba(200,16,46,0.10)", series:"COPRPM",
         startYear:2026, N:20, base:6550, baseDate:"", sc:0.8591, mPeak:2, b:1.3, drill:{region:"Permian"}, term:0.13, young:0.72, rf:0.60,
         priceMin:40, priceMax:100, paceMin:2000, paceMax:8000,
-        tiers:[{name:"Tier 1",loc:25000,be:40,mult:1.20},{name:"Tier 2",loc:30000,be:50,mult:0.88},{name:"Tier 3",loc:28000,be:60,mult:0.66},{name:"Tier 4",loc:17000,be:70,mult:0.50}],
+        tiers:[{name:"Tier-1",loc:25000,be:40,mult:1.20},{name:"Tier-2",loc:30000,be:50,mult:0.88},{name:"Tier-3",loc:28000,be:60,mult:0.66},{name:"Tier-4",loc:17000,be:70,mult:0.50}],
         def:{price:70,pace:4200},
         method:[
           {lab:"Remaining inventory", tag:"src", txt:"~100,000 remaining horizontal locations; ~55,000 break even below $50/bbl (NPV25). — Enverus Intelligence Research, Apr 2026 (via World Oil)."},
           {lab:"Breakeven cross-check", tag:"src", txt:"Corporate NPV25 breakevens ~$50–52 (Delaware ~$52, Midland ~$50). — Novi Labs public data, 2025."},
           {lab:"New-well breakeven", tag:"src", txt:"Midland $61 / Delaware $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"The ~100k locations are split into 4 breakeven bands interpolated between the verified Enverus anchors (55k sub-$50, 100k sub-$70). Individual band counts are derived, not separately published."},
-          {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak (Y2 ~45%, Y3 ~30%), terminal ~13%/yr; tier EUR step-down T2 ~27% / T3 ~45% below T1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
+          {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak (Y2 ~45%, Y3 ~30%), terminal ~13%/yr; tier EUR step-down Tier-2 ~27% / Tier-3 ~45% below Tier-1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
         ] },
       bakken:{ name:"Bakken", color:"#33373d", band:"rgba(51,55,61,0.10)", series:"COPRBK",
         startYear:2026, N:20, base:1177, baseDate:"", sc:1.1288, mPeak:2, b:1.3, drill:{region:"Bakken"}, term:0.13, young:0.72, rf:0.58,
         priceMin:40, priceMax:100, paceMin:80, paceMax:600,
-        tiers:[{name:"Tier 1",loc:1400,be:48,mult:1.15},{name:"Tier 2",loc:1900,be:58,mult:0.84},{name:"Tier 3",loc:1700,be:66,mult:0.63},{name:"Tier 4",loc:1100,be:75,mult:0.48}],
+        tiers:[{name:"Tier-1",loc:1400,be:48,mult:1.15},{name:"Tier-2",loc:1900,be:58,mult:0.84},{name:"Tier-3",loc:1700,be:66,mult:0.63},{name:"Tier-4",loc:1100,be:75,mult:0.48}],
         def:{price:68,pace:220},
         method:[
           {lab:"Sub-$50 inventory", tag:"src", txt:"~1,400 locations break even below $50/bbl. — Enverus, Aug 2024."},
           {lab:"Total economic inventory", tag:"src", txt:"~6,100 well sites still economic at recent prices (majors cite ~10 yrs of inventory). — RBN Energy, 2024."},
           {lab:"New-well breakeven", tag:"der", txt:"The Dallas Fed does not break out the Bakken; its “Other U.S. shale” ~$63 (Q1 2025) is used as the basin proxy — derived, not Bakken-specific."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"No public Bakken creaming curve exists. The 4 tiers are derived from the two verified anchors above (1,400 sub-$50; ~6,100 total) with an assumed breakeven spread."},
-          {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak, terminal ~13%/yr; tier EUR step-down T2 ~27% / T3 ~45% below T1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
+          {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak, terminal ~13%/yr; tier EUR step-down Tier-2 ~27% / Tier-3 ~45% below Tier-1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
         ] },
       eagleford:{ name:"Eagle Ford", color:"#4f7186", band:"rgba(79,113,134,0.12)", series:"COPREF",
         startYear:2026, N:20, base:1174, baseDate:"", sc:0.8535, mPeak:2, b:1.3, drill:{region:"Eagle Ford"}, term:0.13, young:0.72, rf:0.55,
         priceMin:40, priceMax:100, paceMin:80, paceMax:600,
-        tiers:[{name:"Tier 1",loc:1200,be:50,mult:1.10},{name:"Tier 2",loc:1800,be:60,mult:0.80},{name:"Tier 3",loc:1600,be:68,mult:0.60},{name:"Tier 4",loc:900,be:78,mult:0.46}],
+        tiers:[{name:"Tier-1",loc:1200,be:50,mult:1.10},{name:"Tier-2",loc:1800,be:60,mult:0.80},{name:"Tier-3",loc:1600,be:68,mult:0.60},{name:"Tier-4",loc:900,be:78,mult:0.46}],
         def:{price:70,pace:200},
         method:[
           {lab:"New-well breakeven", tag:"src", txt:"Eagle Ford $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
@@ -1461,7 +1461,7 @@
       return '<h3>How to read this — combined model</h3><p>The <b>US total</b> sums every region’s corrected projection into one national crude line. Each region’s existing base declines and its new wells + DUC completions stack on top, so national decline emerges bottoms-up. Master sliders — <b>WTI price</b>, <b>global drilling &amp; growth intensity</b>, and <b>terminal decline / young-well</b> (shift every basin together) — plus the scenario preset flex the whole system.</p>'+legend;
     }
     function simAssump(type,cfg,live,base){
-      const twoSeg='<p><b>Decline model (ASSUMPTION, calibrated to benchmarks):</b> every new well and completed DUC follows a <b>modified-hyperbolic type curve</b> — ramp to peak, high early b-factor (~1.3), then a switch to exponential at the terminal rate. Defaults: <b>Year-1 ~70% decline from peak</b> (Y2 ~45%, Y3 ~30%), and a permanent <b>terminal decline</b> of <b>~13%/yr for shale</b> (Permian/Bakken/Eagle Ford) and ~5%/yr for mature conventional (Rest of L48 / Alaska / Gulf). Per-tier EUR step-down: Tier 2 ≈ 25–30% below Tier 1, Tier 3 ≈ 45% below. — <b>Petropt, “Permian Basin Decline Curve Benchmarks,” Mar 2026</b> (built from Texas RRC / New Mexico OCD / TGS / Enverus). Figures are data-grounded but adjustable — move the b-factor, young-well, terminal-decline and per-tier sliders.</p>';
+      const twoSeg='<p><b>Decline model (ASSUMPTION, calibrated to benchmarks):</b> every new well and completed DUC follows a <b>modified-hyperbolic type curve</b> — ramp to peak, high early b-factor (~1.3), then a switch to exponential at the terminal rate. Defaults: <b>Year-1 ~70% decline from peak</b> (Y2 ~45%, Y3 ~30%), and a permanent <b>terminal decline</b> of <b>~13%/yr for shale</b> (Permian/Bakken/Eagle Ford) and ~5%/yr for mature conventional (Rest of L48 / Alaska / Gulf). Per-tier EUR step-down: Tier-2 ≈ 25–30% below Tier-1, Tier-3 ≈ 45% below. — <b>Petropt, “Permian Basin Decline Curve Benchmarks,” Mar 2026</b> (built from Texas RRC / New Mexico OCD / TGS / Enverus). Figures are data-grounded but adjustable — move the b-factor, young-well, terminal-decline and per-tier sliders.</p>';
       const threeStream=live?'<p><b>Three production streams:</b> (1) legacy declining; (2) <b>new wells</b> = '+live.rigs+' rigs × '+live.eff.toFixed(1)+' wells/rig·mo × completion rate; (3) <b>DUC completions</b> drawing down the live ~'+live.duc.toLocaleString()+'-well backlog. Wells drilled but not completed bank into the DUC backlog; completing a DUC adds oil with no new drilling, until the backlog empties. <b>Rigs, efficiency and DUCs are live (EIA STEO Table 10a, '+live.date+').</b></p>':'';
       if(type==='rig'){
         let html='<p>Starting production is <b>live from EIA</b> ('+(base/1000).toFixed(cfg.tiers?2:3)+'M bbl/d, '+(cfg.baseDate||(cfg.stats&&cfg.stats.date)||'')+').</p>'+threeStream+twoSeg;
@@ -1538,7 +1538,7 @@
       ctrlsHTML+=cc('sim-rate','New-drilling trend (net %/yr, near-term)',-20,20,+(st.rate*100).toFixed(1),0.1,v=>((+v)>0?'+':'')+(+v).toFixed(1)+'%',A.rate,'N/A — rig count drives new wells');
       ctrlsHTML+=cc('sim-persist','New-drilling persistence (100% = holds)',80,100,st.persist,1,v=>v+'%',A.persist,'N/A — rig-model control');
       ctrlsHTML+=cc('sim-intensity','Global drilling & growth intensity',-30,30,st.intensity,5,v=>((+v)>0?'+':'')+v+'%',A.intensity,'N/A — US-Total master (adjust per basin here)');
-      const tOff=A.tiers?'':' off', tlist=hasTiers?cfg.tiers:[{name:'Tier 1'},{name:'Tier 2'},{name:'Tier 3'},{name:'Tier 4'}];
+      const tOff=A.tiers?'':' off', tlist=hasTiers?cfg.tiers:[{name:'Tier-1'},{name:'Tier-2'},{name:'Tier-3'},{name:'Tier-4'}];
       let tg='<div class="sim-tiers'+tOff+'"><div class="tt">Per-tier productivity — what if the rock performs better / worse (100% = base)'+(A.tiers?'':' <span class="na">N/A — this model has no tier structure</span>')+'</div><div class="sim-tiergrid">';
       tlist.forEach((t,i)=>{ tg+='<div class="sim-ctrl'+tOff+'"><label>'+t.name+' <b id="pm'+i+'-v">'+(A.tiers?st.pm[i]+'%':'—')+'</b></label><input type="range" id="pm'+i+'" min="50" max="150" value="'+st.pm[i]+'" step="5"'+(A.tiers?'':' disabled')+'></div>'; });
       tg+='</div></div>'; ctrlsHTML+=tg;
@@ -1578,14 +1578,14 @@
         return parts; }
 
       // Stacked chart: 3 streams (legacy / new wells / DUC completions) + total line + DUC backlog (right axis)
-      // Tier colours (Tier 1 = best rock, deep red → Tier 4 = pale) so the mix shift is visible
+      // Tier colours (Tier-1 = best rock, deep red → Tier-4 = pale) so the mix shift is visible
       const TIER_COLORS=['rgba(200,16,46,0.85)','rgba(200,16,46,0.58)','rgba(200,16,46,0.34)','rgba(200,16,46,0.16)'];
       function stackChart(o){
         if(simChart){ simChart.destroy(); simChart=null; }
         const ds=[
           {label:'Legacy (existing wells, declining)',data:toM(o.legacy),backgroundColor:'rgba(150,157,168,0.55)',borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:1,tension:0.15,yAxisID:'y'}];
-        if(o.newByTier){   // inventory basins: split the new-wells band into Tier 1-4 sub-bands (best rock drilled first, then worse)
-          o.newByTier.forEach((band,t)=>ds.push({label:'New wells · '+(o.newTierNames&&o.newTierNames[t]||('Tier '+(t+1))),data:toM(band),backgroundColor:TIER_COLORS[t]||TIER_COLORS[3],borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:2,tension:0.15,yAxisID:'y'}));
+        if(o.newByTier){   // inventory basins: split the new-wells band into Tier-1-4 sub-bands (best rock drilled first, then worse)
+          o.newByTier.forEach((band,t)=>ds.push({label:'New wells · '+(o.newTierNames&&o.newTierNames[t]||('Tier-'+(t+1))),data:toM(band),backgroundColor:TIER_COLORS[t]||TIER_COLORS[3],borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:2,tension:0.15,yAxisID:'y'}));
         } else {
           ds.push({label:'New drilled wells',data:toM(o.newWells),backgroundColor:o.newColor,borderColor:'transparent',borderWidth:0,pointRadius:0,fill:true,stack:'a',order:2,tension:0.15,yAxisID:'y'});
         }
