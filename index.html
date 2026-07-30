@@ -714,16 +714,16 @@
     ];
     const NEEDS_REVIEW = [
       "Permian inventory CORRECTED &amp; verified: ~100,000 remaining locations (~55,000 sub-$50/bbl), ~7–10 yrs runway — Enverus (Apr 2026, via World Oil) + Novi Labs (May 2025). The earlier “~200,000” was unsupported for the Permian alone (that scale is North-America-wide / all-tier).",
-      "Operator production shares are mostly boe/d (oil+gas+NGLs) on mixed gross/net bases — illustrative, not exact crude shares; a few EOG/Devon/APA basin-only splits are estimates.",
+      "Operator production shares are mostly boe/d (oil+gas+NGLs) on mixed gross/net bases — illustrative, not exact crude shares; a few EOG/Devon/APA basin-only splits are estimates. CORRECTED 2026-07-30: ExxonMobil & Chevron re-verified to FY2025 filings — Exxon US ~2.3–2.4 MMboe/d (largest US producer) &gt; Permian ~1.6 MMboe/d record; Chevron US ~1.8 &gt; Permian ~1.0. A prior Exxon-Permian figure (~1,960) was inflated. COP/Oxy and the independents are pending the same FY2025 re-check.",
       "“EOG largest in Delaware” softened to “leading position”; Bakken “3–4-mile laterals” confirmed directionally (long laterals + refracs), exact mileage not stated verbatim."
     ];
 
     // Top operators by approximate production (Mboe/d). SOURCED, 2024–25.
     // boe/d (not crude) on mixed gross-operated / net bases — illustrative. (est)=estimate.
     const OPERATORS = {
-      "Permian": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross-operated/net bases — illustrative, not exact crude shares.",
-        src:"Enverus & Rystad via Permian Basin O&G Magazine (Jan 2025); company filings (Diamondback, Permian Resources). EIA basin total ~6.6M bbl/d crude.",
-        data:[{n:"ExxonMobil",v:1960},{n:"Diamondback",v:915},{n:"Chevron",v:880},{n:"Occidental",v:820},{n:"ConocoPhillips",v:790},{n:"EOG",v:550,est:true}] },
+      "Permian": { unit:"Mboe/d", reviewed:"2026-07-30", note:"boe/d (oil+gas+NGLs), net where reported. Illustrative, not exact crude shares. ExxonMobil & Chevron set to FY2025 verified net records.",
+        src:"ExxonMobil & Chevron FY2025 results (Feb 2026): Exxon Permian ~1.6 MMboe/d record, Chevron Permian ~1.0 MMboe/d. Others: Enverus & Rystad via Permian Basin O&G Magazine + company filings (Diamondback, Permian Resources). EIA basin total ~6.6M bbl/d crude.",
+        data:[{n:"ExxonMobil",v:1600},{n:"Diamondback",v:915},{n:"Chevron",v:1000},{n:"Occidental",v:820},{n:"ConocoPhillips",v:790},{n:"EOG",v:550,est:true}] },
       "Bakken": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross/net — illustrative, not exact crude shares.",
         src:"Company releases (Chord/Enerplus, Devon), Hart Energy, Rextag, AOGR (2024–25). EIA basin total ~1.2M bbl/d crude.",
         data:[{n:"Chord Energy",v:287},{n:"Continental",v:210,est:true},{n:"Chevron (Hess)",v:200},{n:"ConocoPhillips",v:175,est:true},{n:"Devon",v:105}] },
@@ -741,10 +741,10 @@
         src:"EIA STEO COPRR48 (live production) + Table 10a (live rigs / DUC). No single-operator concentration to chart." }
     };
     // top US oil producers (national), top US gas producers, and gas by region
-    const OIL_PRODUCERS = { unit:"k bbl/d or boe/d", reviewed:"2026-06-26",
-      note:"Supermajors (Exxon/Chevron/COP) are boe/d (oil+gas+NGLs) so their bars run high; independents are crude bbl/d. Net US production. (est)=estimate.",
-      src:"Company Q4/FY-2024 results (Exxon, Chevron, ConocoPhillips, Oxy, EOG, Diamondback, Devon, Permian Resources, APA, Coterra), Feb 2025.",
-      data:[{n:"Chevron",v:1599},{n:"ExxonMobil",v:1450,est:true},{n:"ConocoPhillips",v:1152},{n:"Occidental",v:571},{n:"EOG",v:485},{n:"Diamondback",v:480,est:true},{n:"Devon",v:325,est:true},{n:"Permian Res.",v:159},{n:"APA",v:140},{n:"Coterra",v:113}] };
+    const OIL_PRODUCERS = { unit:"k bbl/d or boe/d", reviewed:"2026-07-30",
+      note:"Supermajors (Exxon/Chevron/COP) are total-US boe/d (oil+gas+NGLs) so their bars run high; independents are crude bbl/d. Net US production. (est)=estimate.",
+      src:"ExxonMobil & Chevron FY2025 results (Feb 2026): Exxon US ~2.3–2.4 MMboe/d (largest US producer post-Pioneer), Chevron US ~1.8 MMboe/d. Independents: company FY2025 crude results. COP/Oxy pending the same FY2025 re-verification.",
+      data:[{n:"ExxonMobil",v:2350,est:true},{n:"Chevron",v:1800,est:true},{n:"ConocoPhillips",v:1152},{n:"Occidental",v:571},{n:"EOG",v:485},{n:"Diamondback",v:480,est:true},{n:"Devon",v:325,est:true},{n:"Permian Res.",v:159},{n:"APA",v:140},{n:"Coterra",v:113}] };
     // =====================================================================
     // EVENTS (oil price markers) — unchanged content, red markers
     // =====================================================================
