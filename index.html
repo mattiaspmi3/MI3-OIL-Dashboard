@@ -458,8 +458,8 @@
       </div>
 
       <div class="panel">
-        <div class="panel-head"><h2>Breakeven vs. today’s price</h2><span class="prov sourced">Sourced · Dallas Fed Q1-2025</span></div>
-        <p class="caption">The WTI price each basin needs to profitably <b>drill a new well</b> (Dallas Fed Energy Survey, Q1 2025). The red line is the <b>live</b> current WTI spot — bars below it are profitable to drill today.</p>
+        <div class="panel-head"><h2>Breakeven vs. today’s price</h2><span class="prov sourced">Sourced · Dallas Fed Q1-2026</span></div>
+        <p class="caption">The WTI price each basin needs to profitably <b>drill a new well</b> (Dallas Fed Energy Survey, Q1 2026). The red line is the <b>live</b> current WTI spot — bars below it are profitable to drill today.</p>
         <div class="callout">💡 The far lower <b>operating (“shut-in”) breakevens</b> are what keep wells <i>producing</i>: Eagle Ford ~$26, Permian Delaware ~$33, Midland ~$35. So even well below the drill price, existing wells keep pumping.</div>
         <div class="chart-box short"><canvas id="chartBreakeven"></canvas></div>
       </div>
@@ -656,19 +656,19 @@
     const ANALYST_FACTS = {
       reviewed: "2026-06-26",
       basins: [
-        { key:"Permian", color:"var(--permian)", share:"~48%", prod:"~6.6M bbl/d", breakeven:61, breakevenLabel:"$61–62 (Dallas Fed Q1-25)",
+        { key:"Permian", color:"var(--permian)", share:"~48%", prod:"~6.6M bbl/d", breakeven:67, breakevenLabel:"~$67 (Dallas Fed Q1-26)",
           maturity:"Largest major oil basin with latest Tier-1 wells already showing signs of depletion. Production performance of future Tier-2 and Tier-3 locations is highly uncertain.",
-          inventory:"~100,000 locations (Enverus, Apr 2026); ~55k sub-$50/bbl; ~7–10 yrs runway",
+          inventory:"~100,000 locations (Enverus, Apr 2026); ~55k sub-$50/bbl; low-breakeven runway toward ~2040",
           growth:"Growth slowing",
           operators:"<b>Midland:</b> ExxonMobil + Diamondback dominate. <b>Delaware:</b> EOG holds a leading position.",
           src:"EIA (48%/6.6M, id=67404, 2026); Novi Labs / Enverus (inventory, 2025–26)" },
-        { key:"Bakken", color:"var(--bakken)", share:"~9%", prod:"~1.2M bbl/d", breakeven:63, breakevenLabel:"~$63 (Dallas Fed Q1-25)",
+        { key:"Bakken", color:"var(--bakken)", share:"~9%", prod:"~1.2M bbl/d", breakeven:64, breakevenLabel:"~$64 (Dallas Fed Q1-26, Other-US proxy)",
           maturity:"Mature — peaked 2019, plateaued",
           inventory:"~10 yrs at majors; ~1,400 sub-$50 locations left (Enverus)",
           growth:"Extended via long laterals & refracs",
           operators:"<b>Chord Energy</b> (largest, post-Enerplus), <b>Continental</b> (pioneer), Chevron (via Hess), ConocoPhillips.",
           src:"EIA (9%/1.2M, id=67404); Enverus (~1,400 sub-$50, Aug 2024); RBN/Novi (peak 2019)" },
-        { key:"Eagle Ford", color:"var(--eagleford)", share:"~9%", prod:"~1.2M bbl/d", breakeven:62, breakevenLabel:"~$62 (Dallas Fed Q1-25)",
+        { key:"Eagle Ford", color:"var(--eagleford)", share:"~9%", prod:"~1.2M bbl/d", breakeven:63, breakevenLabel:"~$63 (Dallas Fed Q1-26)",
           maturity:"Mature / disciplined",
           inventory:"Tier-1 declining; refracs rising",
           growth:"Near Gulf refineries & export docks",
@@ -682,8 +682,8 @@
                  delaware:"<b>Delaware (west):</b> younger, thicker stacked rock, less depleted — more of its best locations are still intact." },
         activity:"Drilling has crashed from the 2022 peak — <b>rigs down ~70%</b>, <b>frac crews down ~60%</b> by some 2025 counts.",
         efficiency:"Efficiency masked the slowdown but is fading: more lateral feet per crew, but at today’s activity the basin adds fewer new feet/year than 2024, and productivity per foot has plateaued.",
-        inventory:"<b>~100,000 remaining locations</b>, ~55,000 of them break even below $50/bbl (Enverus, Apr 2026). About <b>7–10 years</b> at the current pace; basin “just over half drilled” (Novi Labs, May 2025).",
-        economics:"NPV25 breakevens ~$50 (Midland) / ~$52 (Delaware) (Novi Labs); new-well drill breakeven ~$61–62 (Dallas Fed Q1-2025). Most remaining inventory works below ~$70/bbl.",
+        inventory:"<b>~100,000 remaining locations</b>, ~55,000 of them break even below $50/bbl (Enverus, Apr 2026). On current pace the low-breakeven runway extends toward <b>~2040</b> (Enverus, Apr 2026).",
+        economics:"NPV25 breakevens ~$50 (Midland) / ~$52 (Delaware) (Novi Labs); new-well drill breakeven ~$67 (Dallas Fed Q1-2026). Most remaining inventory works below ~$70/bbl.",
         economicsCaveat:"These are <b>half-cycle wellhead</b> breakevens. A company’s <i>full</i> breakeven (overhead, debt, dividends) is higher — why you hear “the Permian can’t survive at $60” even though many wells can.",
         bottomLine:"Bottom line: the Permian is <b>not running out</b> (~20 yrs of inventory, most wells economic) but it <b>is maturing</b>. The era of steady Permian-led U.S. growth is ending — it keeps taking share from costlier basins, but growing from here is hard.",
         runway:{ start:2025, end:2045, today:2026, tier1End:2037, tier2End:2043 }
@@ -704,8 +704,8 @@
       { metric:"S&P 500 (oil-vs-market chart)", type:"Live", source:"FRED — SP500", as:"monthly, ~10 yrs" },
       { metric:"Drilling: rigs, wells drilled/completed, DUC, oil/rig", type:"Live", source:"EIA STEO Table 10a — RIGS/NWD/NWC/DUCS/CONWR ×6 regions", as:"monthly, by basin" },
       { metric:"Basin shares (Permian 48%, Bakken/EF 9%)", type:"Sourced", source:"EIA Today in Energy id=67404 (Mar 2026)", as:"2025" },
-      { metric:"Basin breakevens (drill & shut-in)", type:"Sourced", source:"Dallas Fed Energy Survey Q1-2025 (dallasfed.org/research/energy11/permian)", as:"Q1 2025" },
-      { metric:"Permian inventory: ~100k locations, ~55k sub-$50/bbl", type:"Sourced", source:"Enverus IR via World Oil (Apr 15 2026) + Novi Labs (May 2025, “half drilled, 7–10 yrs”)", as:"2025–26" },
+      { metric:"Basin breakevens (drill & shut-in)", type:"Sourced", source:"Dallas Fed Energy Survey Q1-2026 (dallasfed.org/research/surveys/des)", as:"Q1 2026" },
+      { metric:"Permian inventory: ~100k locations, ~55k sub-$50/bbl", type:"Sourced", source:"Enverus IR via World Oil (Apr 15 2026); low-breakeven runway toward ~2040", as:"2026" },
       { metric:"Permian creaming curve (NPV25 breakeven vs locations)", type:"Sourced", source:"Enverus location counts + Novi Labs NPV25 breakevens (Delaware ~$52 / Midland ~$50)", as:"2026" },
       { metric:"Bakken ~1,400 sub-$50 locations; mature", type:"Sourced", source:"Enverus (Aug 2024); RBN/Novi", as:"2024–25" },
       { metric:"Eagle Ford operators; EOG 4.6-mi lateral", type:"Sourced", source:"EOG Q2-2025 call; SEC 10-Ks", as:"2025" },
@@ -713,8 +713,8 @@
       { metric:"Outlook: oil near plateau; capital discipline", type:"Projection", source:"EIA STEO (Jun 2026) / AEO; bank forecasts", as:"forecast" }
     ];
     const NEEDS_REVIEW = [
-      "Permian inventory CORRECTED &amp; verified: ~100,000 remaining locations (~55,000 sub-$50/bbl), ~7–10 yrs runway — Enverus (Apr 2026, via World Oil) + Novi Labs (May 2025). The earlier “~200,000” was unsupported for the Permian alone (that scale is North-America-wide / all-tier).",
-      "Operator production shares are mostly boe/d (oil+gas+NGLs) on mixed gross/net bases — illustrative, not exact crude shares; a few EOG/Devon/APA basin-only splits are estimates. CORRECTED 2026-07-30: ExxonMobil & Chevron re-verified to FY2025 filings — Exxon US ~2.3–2.4 MMboe/d (largest US producer) &gt; Permian ~1.6 MMboe/d record; Chevron US ~1.8 &gt; Permian ~1.0. A prior Exxon-Permian figure (~1,960) was inflated. COP/Oxy and the independents are pending the same FY2025 re-check.",
+      "Permian inventory verified: ~100,000 remaining locations (~55,000 sub-$50/bbl) — Enverus (Apr 2026, via World Oil). Runway now framed toward ~2040 (Enverus) rather than the older “7–10 yrs / just over half drilled” (Novi Labs, May 2025). The earlier “~200,000” was unsupported for the Permian alone (North-America-wide / all-tier).",
+      "FULL OPERATOR AUDIT 2026-07-30: every operator bar re-verified against FY2025 company filings / BSEE. Changed — US producers: COP→1,650, Oxy→587, EOG→522, Diamondback→497, Devon→385, Permian Res→182, APA→126, Coterra→160 (Exxon 2,350 / Chevron 1,800 done earlier). Permian: EOG→715, COP→840 (Exxon 1,600 / Chevron 1,000). Bakken: Devon→150 (Grayson Mill). Eagle Ford: Crescent→175 (was whole-company), Devon→95. Gulf: Talos→104. Bars still mixed-basis (supermajors boe/d, independents crude) — illustrative, not exact crude shares; Continental, EOG/BPX Eagle-Ford splits remain estimates.",
       "“EOG largest in Delaware” softened to “leading position”; Bakken “3–4-mile laterals” confirmed directionally (long laterals + refracs), exact mileage not stated verbatim."
     ];
 
@@ -722,17 +722,17 @@
     // boe/d (not crude) on mixed gross-operated / net bases — illustrative. (est)=estimate.
     const OPERATORS = {
       "Permian": { unit:"Mboe/d", reviewed:"2026-07-30", note:"boe/d (oil+gas+NGLs), net where reported. Illustrative, not exact crude shares. ExxonMobil & Chevron set to FY2025 verified net records.",
-        src:"ExxonMobil & Chevron FY2025 results (Feb 2026): Exxon Permian ~1.6 MMboe/d record, Chevron Permian ~1.0 MMboe/d. Others: Enverus & Rystad via Permian Basin O&G Magazine + company filings (Diamondback, Permian Resources). EIA basin total ~6.6M bbl/d crude.",
-        data:[{n:"ExxonMobil",v:1600},{n:"Diamondback",v:915},{n:"Chevron",v:1000},{n:"Occidental",v:820},{n:"ConocoPhillips",v:790},{n:"EOG",v:550,est:true}] },
+        src:"Re-verified to FY2025 filings (Feb 2026): Exxon Permian ~1.6 MMboe/d record, Chevron ~1.0M, ConocoPhillips ~0.84M (Delaware+Midland), EOG (Delaware) ~0.72M. Diamondback ~0.92M, Occidental ~0.80M. All net. EIA basin total ~6.6M bbl/d crude.",
+        data:[{n:"ExxonMobil",v:1600},{n:"Diamondback",v:915},{n:"Chevron",v:1000},{n:"Occidental",v:820},{n:"ConocoPhillips",v:840},{n:"EOG",v:715}] },
       "Bakken": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross/net — illustrative, not exact crude shares.",
-        src:"Company releases (Chord/Enerplus, Devon), Hart Energy, Rextag, AOGR (2024–25). EIA basin total ~1.2M bbl/d crude.",
-        data:[{n:"Chord Energy",v:287},{n:"Continental",v:210,est:true},{n:"Chevron (Hess)",v:200},{n:"ConocoPhillips",v:175,est:true},{n:"Devon",v:105}] },
+        src:"Company FY2024–25 releases (Chord, Devon+Grayson Mill, Chevron/Hess, ConocoPhillips/Marathon), Hart Energy, Rextag, AOGR. Continental is private (Hamm) — bondholder 10-Qs only, so its figure is an estimate. EIA basin total ~1.2M bbl/d crude.",
+        data:[{n:"Chord Energy",v:287},{n:"Continental",v:210,est:true},{n:"Chevron (Hess)",v:200},{n:"ConocoPhillips",v:175,est:true},{n:"Devon",v:150}] },
       "Eagle Ford": { unit:"Mboe/d", reviewed:"2026-06-26", note:"boe/d (oil+gas+NGLs), mixed gross/net — illustrative, not exact crude shares.",
-        src:"SEC 8-Ks (ConocoPhillips, Crescent, Devon, Magnolia), Hart Energy (2024–25). EIA basin total ~1.2M bbl/d crude.",
-        data:[{n:"ConocoPhillips",v:390},{n:"Crescent",v:255},{n:"EOG",v:170,est:true},{n:"Devon",v:113},{n:"Magnolia",v:90},{n:"BPX",v:60,est:true}] },
+        src:"SEC 8-Ks / FY2025 releases (ConocoPhillips, Crescent, Devon, Magnolia), Hart Energy. Crescent value is Eagle-Ford-only net (its ~255 total-company figure also includes Permian). EOG & BPX Eagle-Ford-only splits are estimates. EIA basin total ~1.2M bbl/d crude.",
+        data:[{n:"ConocoPhillips",v:390},{n:"Crescent",v:175},{n:"EOG",v:170,est:true},{n:"Devon",v:95},{n:"Magnolia",v:90},{n:"BPX",v:60,est:true}] },
       "Gulf of Mexico": { unit:"kbbl/d oil", reviewed:"2026-06-26", note:"Operator totals (100% of operated-lease oil), so they overstate net economic share where fields are co-owned.",
         src:"BSEE 'Production by Operator Ranked by Total Oil, 2024' (primary). Gulf total ~1.8M bbl/d.",
-        data:[{n:"Shell",v:483},{n:"BP",v:393},{n:"Chevron",v:213},{n:"Occidental",v:171},{n:"Murphy",v:107},{n:"Talos",v:91},{n:"LLOG",v:75}] },
+        data:[{n:"Shell",v:483},{n:"BP",v:393},{n:"Chevron",v:213},{n:"Occidental",v:171},{n:"Murphy",v:107},{n:"Talos",v:104},{n:"LLOG",v:75}] },
       "Alaska": { unit:"kbbl/d oil", reviewed:"2026-06-26", note:"Operated oil. Alaska is effectively a two-operator basin; Exxon & Chevron hold equity but operate little. Approximate.",
         src:"AOGCC field data; Petroleum News; ConocoPhillips Alaska factsheet (2024–25). N. Slope total ~0.48M bbl/d.",
         data:[{n:"Hilcorp",v:290,est:true},{n:"ConocoPhillips",v:195}] },
@@ -742,9 +742,9 @@
     };
     // top US oil producers (national), top US gas producers, and gas by region
     const OIL_PRODUCERS = { unit:"k bbl/d or boe/d", reviewed:"2026-07-30",
-      note:"Supermajors (Exxon/Chevron/COP) are total-US boe/d (oil+gas+NGLs) so their bars run high; independents are crude bbl/d. Net US production. (est)=estimate.",
-      src:"ExxonMobil & Chevron FY2025 results (Feb 2026): Exxon US ~2.3–2.4 MMboe/d (largest US producer post-Pioneer), Chevron US ~1.8 MMboe/d. Independents: company FY2025 crude results. COP/Oxy pending the same FY2025 re-verification.",
-      data:[{n:"ExxonMobil",v:2350,est:true},{n:"Chevron",v:1800,est:true},{n:"ConocoPhillips",v:1152},{n:"Occidental",v:571},{n:"EOG",v:485},{n:"Diamondback",v:480,est:true},{n:"Devon",v:325,est:true},{n:"Permian Res.",v:159},{n:"APA",v:140},{n:"Coterra",v:113}] };
+      note:"Supermajors (Exxon/Chevron/COP) are total-US boe/d (oil+gas+NGLs) so their bars run high; independents are crude/oil bbl/d. Net US production. (est)=estimate.",
+      src:"All bars re-verified to FY2025 company results (Feb 2026). Supermajors as total-US boe/d — Exxon ~2.35 (largest US producer post-Pioneer), Chevron ~1.80, ConocoPhillips ~1.65 MMboe/d. Independents as FY2025 US crude/oil bbl/d (Oxy 587, EOG 522, Diamondback 497, Devon 385, Permian Res 182, APA 126, Coterra 160).",
+      data:[{n:"ExxonMobil",v:2350,est:true},{n:"Chevron",v:1800,est:true},{n:"ConocoPhillips",v:1650,est:true},{n:"Occidental",v:587},{n:"EOG",v:522},{n:"Diamondback",v:497},{n:"Devon",v:385},{n:"Permian Res.",v:182},{n:"APA",v:126},{n:"Coterra",v:160}] };
     // =====================================================================
     // EVENTS (oil price markers) — unchanged content, red markers
     // =====================================================================
@@ -1127,23 +1127,23 @@
     // SOURCED per-basin facts (live values come from basins.js + drilling.js)
     const BASIN_PROFILE = {
       "Permian":{ region:"W. Texas / SE New Mexico", status:"Growth engine · maturing", prodRegion:"Permian", drillRegion:"Permian",
-        breakeven:"$61–62", inventory:"~7–10 yrs",
-        economics:"New-well <b>drill</b> breakeven ~$61 (Midland) / ~$62 (Delaware) — Dallas Fed Energy Survey, Q1-2025. Operating (shut-in) breakevens are far lower — Delaware ~$33, Midland ~$35 — so wells keep pumping well below the drill price. On a returns basis, Novi Labs NPV25 breakevens run ~$50 (Midland) / ~$52 (Delaware). <b>Inventory:</b> ~100,000 remaining locations, of which ~55,000 break even below $50/bbl (Enverus, Apr 2026) — about <b>7–10 years</b> at the current pace, with the basin “just over half drilled” (Novi Labs, May 2025).",
+        breakeven:"~$67", inventory:"toward ~2040",
+        economics:"New-well <b>drill</b> breakeven ~$67 average (range $63–70) — Dallas Fed Energy Survey, Q1-2026. Operating (shut-in) breakevens are far lower — Delaware ~$33, Midland ~$35 — so wells keep pumping well below the drill price. On a returns basis, Novi Labs NPV25 breakevens run ~$50 (Midland) / ~$52 (Delaware). <b>Inventory:</b> ~100,000 remaining locations, of which ~55,000 break even below $50/bbl (Enverus, Apr 2026) — a low-breakeven runway extending toward <b>~2040</b> on current pace (Enverus, Apr 2026).",
         creaming:true,
         watch:["Permian-led U.S. growth is flattening — watch new-well oil/rig and rig count for the inflection.","At today’s WTI essentially all of the ~100k economic locations work; only a drop toward ~$50 would sideline the costlier tier (see creaming curve)."],
-        src:"EIA (live share/drilling); Dallas Fed Energy Survey Q1-2025 (drill breakevens); Enverus Apr-2026 via World Oil (locations); Novi Labs May-2025 (years) + public NPV25 breakevens" },
+        src:"EIA (live share/drilling); Dallas Fed Energy Survey Q1-2026 (drill breakevens); Enverus Apr-2026 via World Oil (locations & ~2040 runway) + public NPV25 breakevens" },
       "Bakken":{ region:"North Dakota / Montana (Williston)", status:"Mature · peaked 2019", prodRegion:"Bakken", drillRegion:"Bakken",
-        breakeven:"~$63", inventory:"~10 yrs",
-        economics:"New-well breakeven ~$63 (Dallas Fed “Other US shale” proxy, Q1-2025). The DUC backlog is thin (~2 months’ supply), so output leans on active drilling. ~10 years of inventory at the majors; ~1,400 sub-$50 locations remain (Enverus). Most top-tier rock is drilled; long laterals & refracs extend life.",
+        breakeven:"~$64", inventory:"~10 yrs",
+        economics:"New-well breakeven ~$64 (Dallas Fed “Other US shale” proxy, Q1-2026). The DUC backlog is thin (~2 months’ supply), so output leans on active drilling. ~10 years of inventory at the majors; ~1,400 sub-$50 locations remain (Enverus). Most top-tier rock is drilled; long laterals & refracs extend life.",
         creaming:false,
         watch:["Thin DUC cushion: completions must keep pace with drilling to hold output.","Refracs and 3–4-mile laterals are the swing factor for the plateau."],
-        src:"EIA (live); Dallas Fed Q1-2025 (breakeven); Enverus / RBN (inventory)" },
+        src:"EIA (live); Dallas Fed Q1-2026 (breakeven); Enverus / RBN (inventory)" },
       "Eagle Ford":{ region:"South Texas", status:"Mature · disciplined", prodRegion:"Eagle Ford", drillRegion:"Eagle Ford",
-        breakeven:"~$62", inventory:"Tier-1 declining",
-        economics:"New-well breakeven ~$62 (Dallas Fed Q1-2025); operating/shut-in breakeven just ~$26 — among the lowest anywhere, so wells stay online far below the drill price. Tier-1 inventory declining; refracs rising. Advantaged by proximity to Gulf Coast refineries and export docks.",
+        breakeven:"~$63", inventory:"Tier-1 declining",
+        economics:"New-well breakeven ~$63 (Dallas Fed Q1-2026); operating/shut-in breakeven just ~$26 — among the lowest anywhere, so wells stay online far below the drill price. Tier-1 inventory declining; refracs rising. Advantaged by proximity to Gulf Coast refineries and export docks.",
         creaming:false,
         watch:["Thin DUC backlog — growth depends on sustained drilling.","Refrac economics and Gulf-Coast export pull are the key supports."],
-        src:"EIA (live); Dallas Fed Q1-2025 (breakevens); operator 10-Ks" },
+        src:"EIA (live); Dallas Fed Q1-2026 (breakevens); operator 10-Ks" },
       "Gulf of Mexico":{ region:"Federal offshore", status:"Conventional · long-lived", prodRegion:"Federal Gulf", drillRegion:null,
         breakeven:"n/a", inventory:"project-driven",
         economics:"Conventional deepwater, not shale — so the rig / DUC / per-rig metrics don’t apply here. Big multi-year projects (Whale, Anchor, Shenandoah) keep output near ~1.8M bbl/d with low decline once online.",
@@ -1296,7 +1296,7 @@
         method:[
           {lab:"Remaining inventory", tag:"src", txt:"~100,000 remaining horizontal locations; ~55,000 break even below $50/bbl (NPV25). — Enverus Intelligence Research, Apr 2026 (via World Oil)."},
           {lab:"Breakeven cross-check", tag:"src", txt:"Corporate NPV25 breakevens ~$50–52 (Delaware ~$52, Midland ~$50). — Novi Labs public data, 2025."},
-          {lab:"New-well breakeven", tag:"src", txt:"Midland $61 / Delaware $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
+          {lab:"New-well breakeven", tag:"src", txt:"Permian ~$67 to profitably drill a new well (range $63–70). — Dallas Fed Energy Survey, Q1 2026."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"The ~100k locations are split into 4 breakeven bands interpolated between the verified Enverus anchors (55k sub-$50, 100k sub-$70). Individual band counts are derived, not separately published."},
           {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak (Y2 ~45%, Y3 ~30%), terminal ~13%/yr; tier EUR step-down Tier-2 ~27% / Tier-3 ~45% below Tier-1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
         ] },
@@ -1308,7 +1308,7 @@
         method:[
           {lab:"Sub-$50 inventory", tag:"src", txt:"~1,400 locations break even below $50/bbl. — Enverus, Aug 2024."},
           {lab:"Total economic inventory", tag:"src", txt:"~6,100 well sites still economic at recent prices (majors cite ~10 yrs of inventory). — RBN Energy, 2024."},
-          {lab:"New-well breakeven", tag:"der", txt:"The Dallas Fed does not break out the Bakken; its “Other U.S. shale” ~$63 (Q1 2025) is used as the basin proxy — derived, not Bakken-specific."},
+          {lab:"New-well breakeven", tag:"der", txt:"The Dallas Fed does not break out the Bakken; its “Other U.S. shale” ~$64 (Q1 2026) is used as the basin proxy — derived, not Bakken-specific."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"No public Bakken creaming curve exists. The 4 tiers are derived from the two verified anchors above (1,400 sub-$50; ~6,100 total) with an assumed breakeven spread."},
           {lab:"Decline curve", tag:"asm", txt:"Modified-hyperbolic type curve — Year-1 ~70% decline from peak, terminal ~13%/yr; tier EUR step-down Tier-2 ~27% / Tier-3 ~45% below Tier-1. Data-grounded defaults, adjustable. — Petropt “Permian Basin Decline Curve Benchmarks,” Mar 2026 (Texas RRC / NM OCD / TGS / Enverus)."}
         ] },
@@ -1318,10 +1318,10 @@
         tiers:[{name:"Tier-1",loc:1200,be:50,mult:1.10},{name:"Tier-2",loc:1800,be:60,mult:0.80},{name:"Tier-3",loc:1600,be:68,mult:0.60},{name:"Tier-4",loc:900,be:78,mult:0.46}],
         def:{price:70,pace:200},
         method:[
-          {lab:"New-well breakeven", tag:"src", txt:"Eagle Ford $62 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2025."},
+          {lab:"New-well breakeven", tag:"src", txt:"Eagle Ford $63 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2026."},
           {lab:"Inventory quality", tag:"src", txt:"Mature play — Tier-1 inventory thinning, refracs & redevelopment rising. — Enverus, 2025 (qualitative)."},
           {lab:"Total economic inventory", tag:"asm", txt:"~5,500 remaining economic locations — no public Eagle Ford creaming curve exists, so this total is an estimate. ⚠ Unverified — needs review."},
-          {lab:"Tier structure (4 bands)", tag:"der", txt:"Derived from the Dallas Fed $62 breakeven with an assumed spread; not a published distribution."},
+          {lab:"Tier structure (4 bands)", tag:"der", txt:"Derived from the Dallas Fed $63 breakeven with an assumed spread; not a published distribution."},
           {lab:"Productivity & decline", tag:"asm", txt:"Per-tier multipliers, well decline curve, and ~37%/yr legacy decline are adjustable modeling assumptions."}
         ] }
     };
