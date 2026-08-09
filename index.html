@@ -1227,10 +1227,11 @@
     function buildCreaming(hostId){
       const host=document.getElementById(hostId); if(!host)return;
       const wti=Math.round(currentWTI);
-      host.innerHTML='<div class="cream-controls"><span class="viewlabel">WTI price</span>'+
+      host.innerHTML='<div class="cream-controls"><span class="viewlabel">Drag the WTI price</span>'+
         '<input type="range" id="'+hostId+'-sl" min="30" max="100" value="'+wti+'" step="1">'+
         '<span class="cream-readout">at <b id="'+hostId+'-p">$'+wti+'</b>/bbl</span></div>'+
-        '<p class="caption" style="margin:0 0 6px"><span class="cream-big" id="'+hostId+'-c">—</span> locations economic <span id="'+hostId+'-pc" style="color:var(--muted)"></span> · of '+CREAM.total.toLocaleString()+' total Permian locations</p>'+
+        '<p class="caption" style="margin:0 0 2px"><span class="cream-big" id="'+hostId+'-c">—</span> of '+CREAM.total.toLocaleString()+' Permian locations are profitable to drill <span id="'+hostId+'-pc" style="color:var(--muted)"></span></p>'+
+        '<p class="hint" id="'+hostId+'-hint" style="margin:0 0 8px;font-size:12.5px;color:var(--muted)"></p>'+
         '<div class="cream-box"><canvas id="'+hostId+'-cv"></canvas></div>'+
         '<p class="src" style="margin-top:6px">'+CREAM.src+'. Median ~$'+CREAM.median+', average ~$'+CREAM.average+'.</p>';
       const pts=CREAM.anchors.map(a=>({x:a.n,y:a.p}));
@@ -1246,10 +1247,12 @@
       _creamCharts[hostId]=ch;
       function countAt(price){ const a=CREAM.anchors; if(price<=a[0].p)return 0;
         for(let i=1;i<a.length;i++){ if(price<=a[i].p){ const t=(price-a[i-1].p)/(a[i].p-a[i-1].p); return Math.round(a[i-1].n+t*(a[i].n-a[i-1].n)); } } return CREAM.total; }
-      function upd(price){ const cnt=countAt(price);
+      function upd(price){ const cnt=countAt(price); const pct=Math.round(cnt/CREAM.total*100);
         document.getElementById(hostId+'-p').textContent='$'+price;
         document.getElementById(hostId+'-c').textContent='~'+cnt.toLocaleString();
-        document.getElementById(hostId+'-pc').textContent='('+Math.round(cnt/CREAM.total*100)+'%)';
+        document.getElementById(hostId+'-pc').textContent='('+pct+'%)';
+        const h=document.getElementById(hostId+'-hint');
+        if(h){ if(pct>=99) h.textContent='At today’s price the whole remaining inventory is profitable — drag the price down to see how many survive a downturn.'; else if(cnt<=0) h.textContent='At this price no new Permian wells are worth drilling.'; else h.textContent='The cheapest ~'+cnt.toLocaleString()+' locations work at $'+price+'; the pricier ~'+(CREAM.total-cnt).toLocaleString()+' need a higher price.'; }
         const a=ch.options.plugins.annotation.annotations.wti; a.yMin=price; a.yMax=price; a.label.content='WTI $'+price; ch.update(); }
       const sl=document.getElementById(hostId+'-sl'); sl.addEventListener('input',()=>upd(+sl.value)); upd(wti);
     }
