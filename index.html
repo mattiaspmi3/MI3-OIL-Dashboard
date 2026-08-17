@@ -237,6 +237,9 @@
   /* small-multiple chart grids */
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .grid3 .panel { margin-top: 0; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .grid4 .panel { margin-top: 0; }
+  @media (max-width: 900px){ .grid4 { grid-template-columns: 1fr 1fr; } }
   .mini { position: relative; height: 200px; }
   .mini-h { font-size: 13.5px; font-weight: 700; margin: 0 0 2px; } .mini-sub { font-size: 11.5px; color: var(--muted); margin: 0 0 6px; }
 
@@ -475,8 +478,8 @@
       <div class="bignum" id="inv-duc-callout"></div>
 
       <div class="panel">
-        <div class="panel-head"><h2>New-well oil production per rig, by basin</h2><span class="prov live" id="prr-asof">Live</span></div>
-        <p class="caption">How much new oil each active rig is bringing on. <span class="hint">Toggle basins in the legend. EIA smooths this — read it as a trend, not a precise monthly number.</span></p>
+        <div class="panel-head"><h2>New-Well IP oil/rig, by basin</h2><span class="prov live" id="prr-asof">Live</span></div>
+        <p class="caption">How much new oil each active rig is bringing on — <b>IP = initial production</b> (a new well's early output). <span class="hint">Toggle basins in the legend. EIA smooths this — read it as a trend, not a precise monthly number.</span></p>
         <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartPerRig"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartPerRig"></div></div>
         <div class="chart-box tall"><canvas id="chartPerRig"></canvas></div>
         <p class="src" style="margin-top:6px">Source: EIA STEO Table 10a, series CONWR&lt;region&gt; (thousand bbl/d per rig).</p>
@@ -557,7 +560,7 @@
         <div class="story" id="story">
           <button class="play" id="story-play">▶ Play the story</button>
           <button id="story-prev">◀ Prev</button><button id="story-next">Next ▶</button><button id="story-exit">Reset</button>
-          <span class="step" id="story-step">Guided tour — 8 events that shaped oil prices</span>
+          <span class="step" id="story-step">Guided tour — 9 events that shaped oil prices</span>
           <span class="dots" id="story-dots"></span>
         </div>
         <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartE"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartE"></div></div>
@@ -569,7 +572,7 @@
 
       <div class="panel">
         <div class="panel-head"><h2>Oil vs. the Stock Market</h2><span id="sp-prov" class="prov sourced">FRED</span></div>
-        <p class="caption">WTI and the S&amp;P 500, each indexed to 100 at the start so their shapes compare directly.</p>
+        <p class="caption">WTI oil, the three big stock indices (S&amp;P 500, NASDAQ, Dow) and natural gas (Henry Hub) — each indexed to 100 at the start so their shapes compare directly. <span class="hint">The indices move together; oil and gas march to their own drummer. Click a legend item to show/hide.</span></p>
         <div class="callout">💡 Energy is only ~3–4% of the S&amp;P 500, but oil ripples through the economy. The link is loose and regime-dependent — balance and affordable energy market can mean a strong economy.</div>
         <div id="sp-wrap"><div class="chart-box"><canvas id="chartSP"></canvas></div></div>
         <p class="src" style="margin-top:6px" id="sp-src">S&amp;P 500 source: FRED series SP500 (needs a FRED key; ~10-year history).</p>
@@ -641,6 +644,7 @@
   <script src="data/basins.js"></script>
   <script src="data/states.js"></script>
   <script src="data/sp500.js"></script>
+  <script src="data/natgas.js"></script>
   <script src="data/drilling.js"></script>
   <script src="data/trade.js"></script>
   <script src="data/usmap.js"></script>
@@ -750,47 +754,55 @@
     // =====================================================================
     // EVENTS (oil price markers) — unchanged content, red markers
     // =====================================================================
+    // Each event carries dir (up=spike, down=crash), a PRE-event month, and a window
+    // end. The % change is computed from the pre-event WTI price to the max (up) or
+    // min (down) the event actually caused — see openEventModal().
     const EVENTS = [
-      { id:"gulf90", date:"1990-08", title:"Gulf War — Iraq invades Kuwait",
+      { id:"gulf90", date:"1990-08", dir:"up", pre:"1990-06", win:"1991-02", title:"Gulf War — Iraq invades Kuwait",
         what:"Iraq invaded Kuwait in August 1990, knocking ~4 million barrels/day off the market and threatening Saudi supply.",
         why:"A sudden loss of Middle East supply plus fear of a wider war sent prices sharply higher until the U.S.-led coalition restored confidence in early 1991.",
         price:"Spike: ~$17 → ~$36/bbl, then fell back through 1991.",
         basin:"Pre-shale era — U.S. fields (Texas, California, Alaska) were in long decline. High prices gave brief relief but triggered no new basin boom." },
-      { id:"bust98", date:"1998-12", title:"1998 price collapse (~$11/bbl)",
+      { id:"bust98", date:"1998-12", dir:"down", pre:"1997-10", win:"1999-02", title:"1998 price collapse (~$11/bbl)",
         what:"Oil fell to about $11 a barrel — one of the lowest real prices in modern history.",
         why:"The Asian financial crisis crushed demand just as OPEC overproduced.",
         price:"Crash: down to ~$11/bbl.",
         basin:"Brutal for U.S. producers; thousands of marginal “stripper” wells were plugged." },
-      { id:"iraq03", date:"2003-03", title:"2003 Iraq War",
+      { id:"iraq03", date:"2003-03", dir:"up", pre:"2002-11", win:"2003-05", title:"2003 Iraq War",
         what:"The U.S.-led invasion of Iraq disrupted Iraqi exports and stoked supply fears.",
         why:"Supply uncertainty added a risk premium; prices climbed through the mid-2000s as China’s demand surged.",
         price:"Sustained rise: ~$30 → higher through the 2000s.",
         basin:"U.S. production kept declining — shale hadn’t arrived; deepwater Gulf was the growth area." },
-      { id:"peak08", date:"2008-07", title:"2008 spike to ~$147, then the crash",
+      { id:"peak08", date:"2008-07", dir:"up", pre:"2007-01", win:"2008-09", title:"2008 spike to ~$147, then the crash",
         what:"Prices peaked near ~$147 in July 2008, then collapsed as the financial crisis hit.",
         why:"Strong demand and tight supply drove the spike; the crisis then sharply cut demand, sending prices to ~$30 by December.",
         price:"Spike to ~$147, then crash to ~$30/bbl.",
         basin:"Pivotal timing: the Bakken and Eagle Ford were just starting; the crash slowed early shale but proved the tech." },
-      { id:"boom1014", start:"2010-01", end:"2014-06", title:"2010–2014 Shale Boom",
+      { id:"boom1014", start:"2010-01", end:"2014-06", dir:"up", pre:"2009-02", win:"2014-06", title:"2010–2014 Shale Boom",
         what:"Horizontal drilling + fracking unlocked oil from tight rock. U.S. production roughly doubled.",
         why:"Sustained ~$90–100 prices made shale more profitable, prompting a wave of drilling.",
         price:"Prices held high (~$90–110).",
         basin:"A defining basin event: Permian, Bakken and Eagle Ford grew from minor to major producers, reversing about 40 years of decline." },
-      { id:"opec1416", start:"2014-11", end:"2016-02", title:"2014–2016 OPEC price war & oversupply crash",
+      { id:"opec1416", start:"2014-11", end:"2016-02", dir:"down", pre:"2014-06", win:"2016-03", title:"2014–2016 OPEC price war & oversupply crash",
         what:"OPEC refused to cut output and defended share against U.S. shale; prices crashed from ~$100 to ~$26.",
         why:"Saudi Arabia bet low prices would bankrupt higher-cost shale faster than it hurt OPEC.",
         price:"Crash: ~$100 → ~$26/bbl.",
         basin:"Rig counts collapsed; higher-cost Bakken/Eagle Ford fell hardest; the low-cost <b>Permian</b> proved most resilient." },
-      { id:"covid20", date:"2020-04", title:"2020 COVID demand collapse — negative prices",
+      { id:"covid20", date:"2020-04", dir:"down", pre:"2020-01", win:"2020-06", title:"2020 COVID demand collapse — negative prices",
         what:"Lockdowns erased demand; on April 20, 2020 WTI futures briefly went <b>negative</b> (~–$37).",
         why:"With nowhere to store oil, sellers paid buyers to take it; a Saudi–Russia price war worsened the glut.",
         price:"Historic crash: monthly avg ~$17; futures hit –$37 intraday.",
         basin:"Producers shut in wells across every basin; U.S. output dropped 2–3 MMbbl/d before recovering." },
-      { id:"ukraine22", date:"2022-02", title:"2022 Russia invades Ukraine",
+      { id:"ukraine22", date:"2022-02", dir:"up", pre:"2022-01", win:"2022-08", title:"2022 Russia invades Ukraine",
         what:"Russia’s invasion and the sanctions that followed threatened to remove a major exporter.",
         why:"Fear of losing Russian barrels plus a post-COVID rebound sent prices above $120.",
         price:"Spike: above $120/bbl in spring 2022.",
-        basin:"U.S. producers (led by the Permian) raised output, but capital discipline kept the response measured." }
+        basin:"U.S. producers (led by the Permian) raised output, but capital discipline kept the response measured." },
+      { id:"iran26", date:"2026-03", dir:"up", pre:"2026-01", win:"2026-08", title:"2026 Iran conflict",
+        what:"Escalation involving Iran raised fears of disruption to Persian Gulf flows and the Strait of Hormuz, the chokepoint much of the world’s seaborne oil passes through.",
+        why:"A geopolitical risk premium — plus heavy market positioning — pushed prices up faster than any barrels were actually lost.",
+        price:"Risk-premium spike (WTI ~$60 → ~$102). ⚠ The move may reflect market manipulation / a geopolitical fear premium more than a real supply/demand shift — no major volumes were confirmed off the market.",
+        basin:"U.S. shale (led by the Permian) is the swing barrel that can respond, but not overnight — so short-term spikes ride largely on sentiment." }
     ];
     const RECESSIONS = [ {start:"1990-07",end:"1991-03"}, {start:"2001-03",end:"2001-11"}, {start:"2007-12",end:"2009-06"}, {start:"2020-02",end:"2020-04"} ];
 
@@ -846,14 +858,19 @@
       const num=EVENTS.indexOf(e)+1, when=e.date?e.date:(e.start+' → '+e.end);
       document.getElementById('evm-title').textContent='#'+num+'  '+e.title;
       document.getElementById('evm-when').textContent=when;
-      const anchor=e.date||e.start, endA=e.date?addMonths(e.date,6):e.end;
-      const p0=priceNear(anchor), p1=priceNear(endA);
+      const anchor=e.date||e.start;
+      // Measure PRE-EVENT price → the max (spike) or min (crash) the event caused.
+      const preRef=e.pre||addMonths(anchor,-3), winEnd=e.win||(e.date?addMonths(e.date,12):e.end);
+      const p0=priceNear(preRef);
+      let ex=null;
+      (window.WTI_DATA.data||[]).forEach(r=>{ if(r.price==null||r.date<preRef||r.date>winEnd)return;
+        if(!ex||(e.dir==='down'?r.price<ex.p:r.price>ex.p)) ex={d:r.date,p:r.price}; });
       let statHTML='';
-      if(p0&&p1){ const chg=(p1.p-p0.p)/p0.p*100, up=chg>=0;
+      if(p0&&ex){ const chg=(ex.p-p0.p)/p0.p*100, up=chg>=0, down=e.dir==='down';
         statHTML='<div class="modal-stat">'+
-          '<div class="ms"><div class="v">$'+p0.p.toFixed(0)+'</div><div class="l">WTI at '+p0.d+'</div></div>'+
-          '<div class="ms"><div class="v">$'+p1.p.toFixed(0)+'</div><div class="l">WTI at '+p1.d+'</div></div>'+
-          '<div class="ms"><div class="v '+(up?'up':'down')+'">'+(up?'+':'')+chg.toFixed(0)+'%</div><div class="l">change</div></div></div>';
+          '<div class="ms"><div class="v">$'+p0.p.toFixed(0)+'</div><div class="l">before · '+p0.d+'</div></div>'+
+          '<div class="ms"><div class="v">$'+ex.p.toFixed(0)+'</div><div class="l">'+(down?'low':'peak')+' · '+ex.d+'</div></div>'+
+          '<div class="ms"><div class="v '+(up?'up':'down')+'">'+(up?'+':'')+chg.toFixed(0)+'%</div><div class="l">pre-event → '+(down?'low':'peak')+'</div></div></div>';
       }
       document.getElementById('evm-body').innerHTML=
         '<div class="ed-label">What happened</div><p>'+e.what+'</p>'+
@@ -862,8 +879,8 @@
         '<div class="ed-label">Price effect (analyst note)</div><p style="color:var(--accent-dk);font-weight:600">'+e.price+'</p>'+
         '<div class="ed-label">How it hit the basins</div><p>'+e.basin+'</p>'+
         '<div class="ed-label">WTI around this event (live EIA)</div><div class="modal-spark"><canvas id="evm-spark"></canvas></div>';
-      // sparkline window: anchor-15mo .. endA+15mo
-      const lo=addMonths(anchor,-15), hi=addMonths(endA,15);
+      // sparkline window: preRef-9mo .. winEnd+12mo
+      const lo=addMonths(preRef,-9), hi=addMonths(winEnd,12);
       const labels=(window.WTI_DATA.data||[]).map(r=>r.date).filter(d=>d>=lo&&d<=hi);
       const vals=labels.map(d=>WTI_MONTH[d]);
       if(evModalChart){ try{evModalChart.destroy();}catch(x){} }
@@ -1135,7 +1152,7 @@
         breakeven:"~$67", inventory:"toward ~2040",
         economics:"New-well <b>drill</b> breakeven ~$67 average (range $63–70) — Dallas Fed Energy Survey, Q1-2026. Operating (shut-in) breakevens are far lower — Delaware ~$33, Midland ~$35 — so wells keep pumping well below the drill price. On a returns basis, Novi Labs NPV25 breakevens run ~$50 (Midland) / ~$52 (Delaware). <b>Inventory:</b> ~100,000 remaining locations, of which ~55,000 break even below $50/bbl (Enverus, Apr 2026) — a low-breakeven runway extending toward <b>~2040</b> on current pace (Enverus, Apr 2026).",
         creaming:true,
-        watch:["Permian-led U.S. growth is flattening — watch new-well oil/rig and rig count for the inflection.","At today’s WTI essentially all of the ~100k economic locations work; only a drop toward ~$50 would sideline the costlier tier (see creaming curve)."],
+        watch:["Permian-led U.S. growth is flattening — watch New-Well IP oil/rig and rig count for the inflection.","At today’s WTI essentially all of the ~100k economic locations work; only a drop toward ~$50 would sideline the costlier tier (see creaming curve)."],
         src:"EIA (live share/drilling); Dallas Fed Energy Survey Q1-2026 (drill breakevens); Enverus Apr-2026 via World Oil (locations & ~2040 runway) + public NPV25 breakevens" },
       "Bakken":{ region:"North Dakota / Montana (Williston)", status:"Mature · peaked 2019", prodRegion:"Bakken", drillRegion:"Bakken",
         breakeven:"~$64", inventory:"~10 yrs",
@@ -1202,12 +1219,13 @@
       let html='<div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><h2 style="margin:0;font-size:19px">'+key+'</h2>'+
         '<span style="color:var(--muted);font-size:13px">'+(P.region||'')+'</span>'+(P.status?'<span class="basin-status">'+P.status+'</span>':'')+'</div>';
       html+='<div class="kstats">'+kstat(share,'Share of US crude',['live','LIVE'])+kstat(output,'Output',['live','LIVE'])+
-        kstat(rigs,'Active rigs',['live','LIVE'])+kstat(duc,'DUC wells',['live','LIVE'])+kstat(perRig,'New-well oil/rig',['live','LIVE'])+
+        kstat(rigs,'Active rigs',['live','LIVE'])+kstat(duc,'DUC wells',['live','LIVE'])+kstat(perRig,'New-Well IP oil/rig',['live','LIVE'])+
         kstat(P.breakeven||'n/a','Breakeven',['src','SOURCED'])+kstat(P.inventory||'n/a','Inventory life',['src','SOURCED'])+'</div>';
       const mh=(t,s)=>'<div class="mini-h">'+t+' <span class="prov live" style="font-size:8px;padding:2px 6px">LIVE</span></div><div class="mini-sub">'+s+'</div>';
-      html+='<div class="grid3" style="margin-top:14px">'+
+      html+='<div class="grid4" style="margin-top:14px">'+
         '<div>'+mh('Production trend','crude, MMbbl/d')+'<div class="mini"><canvas id="bp-prod"></canvas></div></div>'+
-        '<div>'+mh('New-well oil / rig',drillName?'thousand bbl/d per rig':'— not a shale-drilling basin —')+'<div class="mini"><canvas id="bp-prr"></canvas></div></div>'+
+        '<div>'+mh('New-Well IP oil/rig',drillName?'thousand bbl/d per rig (IP = initial production)':'— not a shale-drilling basin —')+'<div class="mini"><canvas id="bp-prr"></canvas></div></div>'+
+        '<div>'+mh('Active rigs',drillName?'active drilling rigs':'— not tracked —')+'<div class="mini"><canvas id="bp-rigs"></canvas></div></div>'+
         '<div>'+mh('DUC trend',drillName?'drilled-but-uncompleted wells':'— not tracked —')+'<div class="mini"><canvas id="bp-duc"></canvas></div></div></div>';
       html+='<div id="op-section" style="margin-top:18px"></div>';
       html+='<div class="panel" style="margin-top:16px"><div class="panel-head"><h2 style="font-size:15px">Inventory &amp; economics</h2><span class="prov sourced">Sourced · 2025</span></div>'+
@@ -1217,7 +1235,7 @@
       if(P.watch&&P.watch.length) html+='<div class="callout" style="margin-top:14px"><b>What to watch</b><ul style="margin:6px 0 0;padding-left:18px">'+P.watch.map(w=>'<li>'+w+'</li>').join('')+'</ul></div>';
       host.innerHTML=html;
       if(bregion) profileLine('bp-prod',bregion.data,COLORS[prodName]||'#c8102e','MMbbl/d',2);
-      if(drillName){ profileLine('bp-prr',DRILL.metrics.oil_per_rig[drillName],'#4f7186','k bbl/d/rig',2); profileLine('bp-duc',DRILL.metrics.duc[drillName],'#8d8a5e','DUC',0); }
+      if(drillName){ profileLine('bp-prr',DRILL.metrics.oil_per_rig[drillName],'#4f7186','k bbl/d/rig',2); profileLine('bp-rigs',DRILL.metrics.rigs[drillName],'#7a5c8a','rigs',0); profileLine('bp-duc',DRILL.metrics.duc[drillName],'#8d8a5e','DUC',0); }
       renderOperators(key);
       if(P.creaming) buildCreaming('bp-cream');
     }
@@ -1233,13 +1251,15 @@
         '<p class="caption" style="margin:0 0 2px"><span class="cream-big" id="'+hostId+'-c">—</span> of '+CREAM.total.toLocaleString()+' Permian locations are profitable to drill <span id="'+hostId+'-pc" style="color:var(--muted)"></span></p>'+
         '<p class="hint" id="'+hostId+'-hint" style="margin:0 0 8px;font-size:12.5px;color:var(--muted)"></p>'+
         '<div class="cream-box"><canvas id="'+hostId+'-cv"></canvas></div>'+
-        '<p class="src" style="margin-top:6px">'+CREAM.src+'. Median ~$'+CREAM.median+', average ~$'+CREAM.average+'.</p>';
-      const pts=CREAM.anchors.map(a=>({x:a.n,y:a.p}));
+        '<p class="src" style="margin-top:6px">'+CREAM.src+'. Median ~$'+CREAM.median+', average ~$'+CREAM.average+'. Shaded band above the line = the extra ~$12/bbl a well needs for a <b>minimum return</b> (the “minimum-profit” zone).</p>';
+      const pts=CREAM.anchors.map(a=>({x:a.n,y:a.p})); const MARGIN=12, ptsMin=CREAM.anchors.map(a=>({x:a.n,y:a.p+MARGIN}));
       if(_creamCharts[hostId]){try{_creamCharts[hostId].destroy();}catch(e){}}
       const ch=new Chart(document.getElementById(hostId+'-cv'),{type:'line',
-        data:{datasets:[{data:pts,borderColor:'#c8102e',borderWidth:2.2,pointRadius:0,fill:true,backgroundColor:'rgba(200,16,46,0.06)',tension:0.25,parsing:false}]},
+        data:{datasets:[
+          {label:'Breakeven',data:pts,borderColor:'#c8102e',borderWidth:2.2,pointRadius:0,fill:false,tension:0.25,parsing:false,order:2},
+          {label:'Min-profit (+$'+MARGIN+')',data:ptsMin,borderColor:'rgba(200,16,46,0.40)',borderWidth:1,borderDash:[4,3],pointRadius:0,fill:'-1',backgroundColor:'rgba(200,16,46,0.13)',tension:0.25,parsing:false,order:1}]},
         options:{responsive:true,maintainAspectRatio:false,
-          plugins:{legend:{display:false},tooltip:{callbacks:{title:()=>'',label:c=>'~'+Math.round(c.parsed.x).toLocaleString()+' locations work at ≤ $'+Math.round(c.parsed.y)}},
+          plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:12,padding:8,font:{size:11}}},tooltip:{callbacks:{title:()=>'',label:c=>c.datasetIndex===0?('~'+Math.round(c.parsed.x).toLocaleString()+' locations work at ≤ $'+Math.round(c.parsed.y)):('min-profit price ≈ $'+Math.round(c.parsed.y))}},
             annotation:{annotations:{wti:{type:'line',yMin:wti,yMax:wti,borderColor:'#16181c',borderWidth:1.5,borderDash:[5,4],
               label:{display:true,content:'WTI $'+wti,position:'start',backgroundColor:'#16181c',color:'#fff',font:{size:11},padding:4}}}}},
           scales:{x:{type:'linear',min:0,max:CREAM.total,title:{display:true,text:'cumulative remaining locations (cheapest first)',color:'#9aa1ab',font:{size:11}},ticks:{callback:v=>Math.round(v/1000)+'k'}},
@@ -1788,7 +1808,7 @@
       playBtn.addEventListener('click',play);
       document.getElementById('story-next').addEventListener('click',()=>{stop();go(story.idx+1);});
       document.getElementById('story-prev').addEventListener('click',()=>{stop();go((story.idx<=0?0:story.idx)-1);});
-      document.getElementById('story-exit').addEventListener('click',()=>{stop();story.idx=-1;chartE.options.scales.x.min=undefined;chartE.options.scales.x.max=undefined;chartE.update();stepEl.innerHTML='Guided tour — 8 events that shaped oil prices';dotsEl.querySelectorAll('.dot').forEach(d=>d.classList.remove('on'));});
+      document.getElementById('story-exit').addEventListener('click',()=>{stop();story.idx=-1;chartE.options.scales.x.min=undefined;chartE.options.scales.x.max=undefined;chartE.update();stepEl.innerHTML='Guided tour — 9 events that shaped oil prices';dotsEl.querySelectorAll('.dot').forEach(d=>d.classList.remove('on'));});
 
       buildSP();
     }
@@ -1799,20 +1819,32 @@
         wrap.innerHTML='<div class="note-inline" style="margin:0">📉 <b>S&amp;P 500 comparison is off.</b> '+(SP?SP.note:'Add a FRED key.')+' Add <code style="font-family:ui-monospace,monospace">FRED_API_KEY=yourkey</code> to <b>.env</b> and re-run <code style="font-family:ui-monospace,monospace">fetch_data.py</code> to enable it.</div>';
         srcEl.textContent='S&P 500 source: FRED series SP500 (currently disabled — no key).'; return;
       }
-      prov.className='prov live'; prov.textContent='Live · FRED';
-      const spMap={}; SP.data.forEach(d=>spMap[d.date]=d.value);
+      prov.className='prov live'; prov.textContent='Live · FRED / EIA';
+      const GAS=(window.NATGAS_DATA&&window.NATGAS_DATA.henry_hub&&window.NATGAS_DATA.henry_hub.monthly)||[];
       const wtiMap={}; WTI.data.forEach(d=>wtiMap[d.date]=d.price);
-      const labels=SP.data.map(d=>d.date).filter(d=>wtiMap[d]!=null);
-      if(!labels.length){ wrap.innerHTML='<div class="note-inline">No overlapping WTI/S&P months.</div>'; return; }
-      const sp0=spMap[labels[0]], w0=wtiMap[labels[0]];
-      const spIdx=labels.map(d=>+(spMap[d]/sp0*100).toFixed(1)), wIdx=labels.map(d=>+(wtiMap[d]/w0*100).toFixed(1));
-      new Chart(document.getElementById('chartSP'),{type:'line',data:{labels,datasets:[
-          {label:'WTI (indexed)',data:wIdx,borderColor:RED,borderWidth:1.6,pointRadius:0,tension:0.1},
-          {label:'S&P 500 (indexed)',data:spIdx,borderColor:STEEL,borderWidth:1.6,pointRadius:0,tension:0.1}]},
+      const spMap={}; SP.data.forEach(d=>spMap[d.date]=d.value);
+      const ndMap={}; (SP.nasdaq||[]).forEach(d=>ndMap[d.date]=d.value);
+      const dwMap={}; (SP.dow||[]).forEach(d=>dwMap[d.date]=d.value);
+      const gasMap={}; GAS.forEach(d=>gasMap[d.date]=d.price);
+      // each series that actually has data; the three indices cluster, WTI & gas diverge
+      const series=[
+        {label:'WTI oil',color:RED,map:wtiMap},
+        {label:'S&P 500',color:STEEL,map:spMap},
+        {label:'NASDAQ',color:'#1f9d73',map:ndMap},
+        {label:'Dow Jones',color:'#7a5c8a',map:dwMap},
+        {label:'Nat gas (Henry Hub)',color:'#c98a3b',map:gasMap}
+      ].filter(s=>Object.keys(s.map).length>1);
+      // common months where every shown series has a value → clean index-to-100
+      const labels=SP.data.map(d=>d.date).filter(m=>series.every(s=>s.map[m]!=null));
+      if(!labels.length){ wrap.innerHTML='<div class="note-inline">No overlapping months across the series.</div>'; return; }
+      const base=series.map(s=>s.map[labels[0]]);
+      const datasets=series.map((s,i)=>({label:s.label,data:labels.map(m=>+(s.map[m]/base[i]*100).toFixed(1)),
+        borderColor:s.color,backgroundColor:s.color,borderWidth:1.7,pointRadius:0,tension:0.1}));
+      new Chart(document.getElementById('chartSP'),{type:'line',data:{labels,datasets},
         options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-          plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:12}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+c.parsed.y}}},
+          plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:11.5}}},tooltip:{callbacks:{title:c=>c[0].label,label:c=>c.dataset.label+': '+c.parsed.y}}},
           scales:{x:xCat(),y:{ticks:{callback:v=>v},grid:{color:'#e6e8eb'},title:{display:true,text:'indexed to 100 at '+labels[0],color:'#9aa1ab',font:{size:11}}}}}});
-      srcEl.textContent='S&P 500 source: FRED series SP500 ('+labels[0]+'..'+labels[labels.length-1]+'). Both lines indexed to 100 at start.';
+      srcEl.textContent='Indices: FRED (SP500, NASDAQCOM, DJIA). Nat gas: EIA Henry Hub (RNGWHHD). '+labels[0]+'..'+labels[labels.length-1]+' · all indexed to 100 at start · click a legend item to show/hide.';
     }
 
     // ===================== CAPITAL & CONSOLIDATION (SOURCED, report-cycle) =====================
