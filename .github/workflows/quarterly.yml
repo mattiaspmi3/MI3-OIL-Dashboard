@@ -1,8 +1,8 @@
-name: Quarterly full data refresh + review reminder
+name: Monthly data refresh + quarterly review reminder
 
 on:
   schedule:
-    - cron: "0 8 1 1,4,7,10 *"
+    - cron: "0 8 1 * *"   # 08:00 UTC on the 1st of EVERY month
   workflow_dispatch: {}
 
 permissions:
@@ -45,7 +45,7 @@ jobs:
           git config user.name  "MI3 Dashboard Bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -m "Quarterly full data refresh (auto)" || echo "No changes to commit"
+          git commit -m "Monthly full data refresh (auto)" || echo "No changes to commit"
           git push || echo "Nothing to push"
 
       - name: Package the site for GitHub Pages
@@ -57,11 +57,16 @@ jobs:
         id: deploy
         uses: actions/deploy-pages@v4
 
-      - name: Open a human-review reminder issue (never edits sourced figures)
+      - name: Quarterly review reminder (only Jan / Apr / Jul / Oct)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          python review_checklist.py > _review.md
-          gh issue create \
-            --title "Quarterly review — check sourced figures & oil news" \
-            --body-file _review.md
+          m=$(date -u +%m)
+          if [ "$m" = "01" ] || [ "$m" = "04" ] || [ "$m" = "07" ] || [ "$m" = "10" ]; then
+            python review_checklist.py > _review.md
+            gh issue create \
+              --title "Quarterly review — check sourced figures & oil news" \
+              --body-file _review.md
+          else
+            echo "Data refreshed. Not a quarter month, so no review issue this month."
+          fi
