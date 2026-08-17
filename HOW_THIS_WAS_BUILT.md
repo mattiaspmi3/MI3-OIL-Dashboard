@@ -222,5 +222,52 @@ Say you want to add another market index. The pattern (used for NASDAQ/Dow) is:
 
 ---
 
+## 9. Making it MI3-only (restricting who can open it)
+
+Right now the site is a **public** web page — anyone with the link can open it. Nothing
+confidential is on it (all the data is public, and the API keys are never inside the page),
+but if MI3 wants it visible **only inside the company**, here are the realistic ways to do
+that, simplest first. This section is written to hand straight to whoever runs MI3's IT.
+
+The key fact that makes this easy: the finished dashboard is **one self-contained file** —
+`publish-online/index.html`. Every chart, number, and bit of logic lives inside that single
+file, so "host it internally" just means putting that one file somewhere only MI3 can reach.
+
+**Option 1 — Put the single file on MI3's internal site (recommended, least fuss).**
+Give IT the file `publish-online/index.html`. They drop it on the company intranet, internal
+SharePoint, or an internal file share. Anyone on the MI3 network opens it; nobody outside
+can even see it.
+- *Auto-refresh:* the GitHub automation can keep rebuilding that file on its schedule, and IT
+  sets up a small once-a-day task that copies the newest file from the repo to the internal
+  location. (Or, if they'd rather, refresh it by hand by re-running `python fetch_data.py`
+  then `python bundle.py` and copying the file over.)
+
+**Option 2 — Make the GitHub repo private (the quick "take it off the public web" switch).**
+In the repo: **Settings → General → Danger Zone → Change visibility → Private.**
+- *Effect:* the public link stops working. On GitHub's **free** plan a private repo can't
+  serve a public page, so this **takes the live link down** — only people you invite to the
+  repo can see anything. To keep a link that's private *and* still live, the MI3 org would
+  need a **GitHub Team / Enterprise** plan, which allows a private page restricted to org
+  members.
+
+**Option 3 — Keep it online but require an MI3 login in front of it.**
+Services like **Cloudflare Access** or **Netlify** can host the same file and only let in
+people with an **@mi3pe.com** email (or MI3's single sign-on). Anyone outside hits a login
+wall.
+- *Auto-refresh:* fully preserved — these build straight from the GitHub repo on the same
+  schedule.
+- *Tradeoff:* a little more setup and an IT/admin account, but it's the best of both worlds:
+  the dashboard stays live and always-current, yet only staff can open it.
+
+**Which to pick:** if MI3 just wants it behind the company walls, **Option 1** is the least
+work (one file on the intranet). If they want it to stay online but only for employees,
+**Option 3**. **Option 2** is the fastest way to simply make the public link disappear.
+
+> Whichever route MI3 takes, the API keys stay safe either way — they're never inside the
+> published file; they only live in GitHub's encrypted secrets, used for a moment while the
+> file is being built.
+
+---
+
 *Compiled for MI3 Energy. Every figure on the dashboard is tagged and dated; the sourced
 figures are reviewed on the quarterly cycle described above.*
