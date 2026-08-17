@@ -53,7 +53,7 @@ Nothing runs on your laptop after it's set up — GitHub does it all on a schedu
 | `bundle.py` | Inlines the data into `US-Oil-Gas-Dashboard.html` and `publish-online/index.html`. |
 | `publish-online/` | The finished, self-contained site that GitHub Pages serves. |
 | `.github/workflows/refresh.yml` | The **daily** automation (price + publish). |
-| `.github/workflows/quarterly.yml` | The **four-times-a-year** automation (full data + a review reminder). |
+| `.github/workflows/quarterly.yml` | The **monthly** full-data refresh (+ a quarterly review reminder). |
 | `.env` | Your secret API keys, **never committed** (git-ignored). |
 | `SOURCES.md` | Where each figure comes from + the quarterly human-review checklist. |
 
@@ -75,7 +75,7 @@ Nothing runs on your laptop after it's set up — GitHub does it all on a schedu
 | Stock indices (oil-vs-market chart) | FRED | `SP500, NASDAQCOM, DJIA` | monthly |
 | Natural gas price (Henry Hub) | EIA | `RNGWHHD` | monthly + spot |
 
-**Sourced / analyst (hand-entered, tagged & dated, reviewed quarterly — not auto):**
+**Sourced / analyst (hand-entered; a scheduled cloud agent re-verifies these quarterly — see §4):**
 
 | What | Source |
 |---|---|
@@ -101,11 +101,20 @@ The automation lives in two files under `.github/workflows/`. They're not AI —
   run `update_wti.py` (fetch the live price) → run `bundle.py` (rebuild) → commit the refreshed
   files → publish to GitHub Pages.
 
-**`quarterly.yml` — the heavy job (4× a year):**
-- **Trigger:** 08:00 UTC on the 1st of **January, April, July, October** (cron `0 8 1 1,4,7,10 *`), plus a manual button.
-- **Steps:** same as above, but it runs the **full** `fetch_data.py` (all data), and at the
-  end it **opens a GitHub Issue** — a reminder for a human to review the sourced/analyst figures.
-  It never changes those on its own.
+**`quarterly.yml` — the full-data job (monthly):**
+- **Trigger:** 08:00 UTC on the **1st of every month** (cron `0 8 1 * *`), plus a manual button.
+- **Steps:** same as above, but it runs the **full** `fetch_data.py` (all data), so the live
+  figures are always within a month of the latest government release. On quarter-months
+  (Jan / Apr / Jul / Oct) it also **opens a GitHub Issue** reminding a human to glance at the
+  sourced/analyst figures.
+
+**The analyst-figure cloud agent (quarterly):**
+A separate scheduled agent (it runs on claude.ai, not inside this repo) fires on the 1st of
+Jan / Apr / Jul / Oct. It re-checks the hand-entered sourced figures (breakevens, inventory
+tiers, operator production, basin shares, capex/M&A) against their public sources, **updates
+the ones it can verify** — with a fresh citation and date — and pushes them live, and
+**flags, never invents,** anything it can't confirm. That's what keeps even the *sourced*
+numbers current without any manual work.
 
 **How GitHub actually does it:** when a trigger fires, GitHub spins up a brand-new
 temporary computer ("a runner") in its cloud, runs the steps, and throws the computer
@@ -192,10 +201,10 @@ API keys from Section 5.
    publish. Your site is now live at `https://<your-username>.github.io/<repo-name>/`.
 
 **D. From then on**
-- The price refreshes **every morning**; the full data **four times a year**; and every
-  quarter you get a GitHub Issue reminding you to review the analyst figures by hand
-  (see `SOURCES.md` for the checklist). Any edit you push republishes within a couple of
-  minutes.
+- The price refreshes **every morning**; the full government/market data **every month**;
+  the sourced analyst figures are re-verified **quarterly by the cloud agent**; and each
+  quarter you also get a review-reminder Issue as a backstop (see `SOURCES.md`). Any edit
+  you push republishes within a couple of minutes.
 
 **To change a chart or wording:** edit `index.html`, run `python bundle.py`, check
 `publish-online/index.html` in a browser, then push. That's the whole loop.
