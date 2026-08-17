@@ -546,6 +546,19 @@ if FRED_API_KEY:
     except Exception as e:  # noqa: BLE001
         sp_payload["note"] = f"FRED key present but SP500 fetch failed: {e}"
         failures.append(("S&P 500 (FRED SP500)", str(e)))
+    # NASDAQ Composite + Dow, monthly -- for the multi-index oil-vs-market compare.
+    for _sid, _key in (("NASDAQCOM", "nasdaq"), ("DJIA", "dow")):
+        try:
+            _u = ("https://api.stlouisfed.org/fred/series/observations"
+                  f"?series_id={_sid}&api_key={FRED_API_KEY}&file_type=json&frequency=m")
+            _arr = [{"date": o["date"][:7], "value": float(o["value"])}
+                    for o in http_json(_u)["observations"] if o["value"] not in (".", "", None)]
+            if _arr:
+                sp_payload[_key] = _arr
+                report.append((f"Market index {_sid}", f"{len(_arr)} months"))
+        except Exception as e:  # noqa: BLE001
+            failures.append((f"Market index {_sid}", str(e)))
+    sp_payload["markets_note"] = "Indices from FRED: SP500, NASDAQCOM, DJIA. Monthly."
 save("sp500", "SP500_DATA", sp_payload)
 
 
