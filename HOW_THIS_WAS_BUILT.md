@@ -249,6 +249,8 @@ In the repo: **Settings → General → Danger Zone → Change visibility → Pr
   repo can see anything. To keep a link that's private *and* still live, the MI3 org would
   need a **GitHub Team / Enterprise** plan, which allows a private page restricted to org
   members.
+- *Just say the word:* I (Mattias) can flip the repo to private for you in a couple of
+  minutes — no need to touch GitHub yourself.
 
 **Option 3 — Keep it online but require an MI3 login in front of it.**
 Services like **Cloudflare Access** or **Netlify** can host the same file and only let in
