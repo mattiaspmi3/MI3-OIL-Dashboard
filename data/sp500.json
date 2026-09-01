@@ -1,13 +1,9 @@
 {
   "available": true,
-  "last_updated": "2026-07-27 21:31",
+  "last_updated": "2026-09-01 12:49",
   "source": "FRED series SP500 (S&P 500 index, monthly)",
-  "note": "FRED series SP500, monthly, 2016-08..2026-07 (FRED history ~10 years).",
+  "note": "FRED series SP500, monthly, 2016-09..2026-08 (FRED history ~10 years).",
   "data": [
-    {
-      "date": "2016-08",
-      "value": 2177.48
-    },
     {
       "date": "2016-09",
       "value": 2157.69
@@ -482,7 +478,11 @@
     },
     {
       "date": "2026-07",
-      "value": 7500.24
+      "value": 7481.34
+    },
+    {
+      "date": "2026-08",
+      "value": 7711.32
     }
   ],
   "nasdaq": [
@@ -3145,6 +3145,10 @@
     {
       "date": "2026-07",
       "value": 25623.68
+    },
+    {
+      "date": "2026-08",
+      "value": 26388.689
     }
   ],
   "dow": [
@@ -3623,8 +3627,11 @@
     {
       "date": "2026-07",
       "value": 52373.19
+    },
+    {
+      "date": "2026-08",
+      "value": 53605.82
     }
   ],
-  "markets_updated": "2026-08-12 21:25",
-  "markets_note": "Indices from FRED: SP500, NASDAQCOM (NASDAQ Composite), DJIA (Dow Jones). Monthly."
+  "markets_note": "Indices from FRED: SP500, NASDAQCOM, DJIA. Monthly."
 }

@@ -1,18 +1,14 @@
 {
-  "last_updated": "2026-07-27 21:31",
+  "last_updated": "2026-09-01 12:49",
   "units": "thousand barrels per day",
   "source": "EIA petroleum/move: exports MCREXUS2, imports MCRIMUS2, Canada imports MCRIMUSCA2",
   "exports": {
     "series_id": "MCREXUS2",
     "latest": {
-      "date": "2026-04",
-      "value": 5593.0
+      "date": "2026-05",
+      "value": 5728.0
     },
     "data": [
-      {
-        "date": "2021-05",
-        "value": 2834.0
-      },
       {
         "date": "2021-06",
         "value": 3414.0
@@ -248,20 +244,20 @@
       {
         "date": "2026-04",
         "value": 5593.0
+      },
+      {
+        "date": "2026-05",
+        "value": 5728.0
       }
     ]
   },
   "imports": {
     "series_id": "MCRIMUS2",
     "latest": {
-      "date": "2026-04",
-      "value": 6257.0
+      "date": "2026-05",
+      "value": 5953.0
     },
     "data": [
-      {
-        "date": "2021-05",
-        "value": 5828.0
-      },
       {
         "date": "2021-06",
         "value": 6607.0
@@ -497,20 +493,20 @@
       {
         "date": "2026-04",
         "value": 6257.0
+      },
+      {
+        "date": "2026-05",
+        "value": 5953.0
       }
     ]
   },
   "canada_imports": {
     "series_id": "MCRIMUSCA2",
     "latest": {
-      "date": "2026-04",
-      "value": 4102.0
+      "date": "2026-05",
+      "value": 3884.0
     },
     "data": [
-      {
-        "date": "2021-05",
-        "value": 3544.0
-      },
       {
         "date": "2021-06",
         "value": 4022.0
@@ -746,9 +742,13 @@
       {
         "date": "2026-04",
         "value": 4102.0
+      },
+      {
+        "date": "2026-05",
+        "value": 3884.0
       }
     ]
   },
-  "canada_share_pct": 65.6,
-  "canada_share_date": "2026-04"
+  "canada_share_pct": 65.2,
+  "canada_share_date": "2026-05"
 }
