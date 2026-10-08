@@ -5,7 +5,7 @@
   "frequency": "monthly",
   "actuals_through": "2026-07",
   "note": "The 5 named basins and 'Rest of L48' begin Dec 2008; Alaska and the Federal Gulf go back to 1990. Months after 2026-07 are STEO forecast, shown dashed.",
-  "last_updated": "2026-10-08 18:17",
+  "last_updated": "2026-10-08 18:22",
   "regions": [
     {
       "name": "Permian",
@@ -6673,242 +6673,242 @@
         },
         {
           "date": "2024-01",
-          "value": 2.06422,
+          "value": 2.06457,
           "forecast": false
         },
         {
           "date": "2024-02",
-          "value": 2.17004,
+          "value": 2.17056,
           "forecast": false
         },
         {
           "date": "2024-03",
-          "value": 2.15635,
+          "value": 2.15682,
           "forecast": false
         },
         {
           "date": "2024-04",
-          "value": 2.1539,
+          "value": 2.15439,
           "forecast": false
         },
         {
           "date": "2024-05",
-          "value": 2.15467,
+          "value": 2.15507,
           "forecast": false
         },
         {
           "date": "2024-06",
-          "value": 2.11978,
+          "value": 2.12014,
           "forecast": false
         },
         {
           "date": "2024-07",
-          "value": 2.10744,
+          "value": 2.10751,
           "forecast": false
         },
         {
           "date": "2024-08",
-          "value": 2.12886,
+          "value": 2.12897,
           "forecast": false
         },
         {
           "date": "2024-09",
-          "value": 2.13924,
+          "value": 2.13912,
           "forecast": false
         },
         {
           "date": "2024-10",
-          "value": 2.16684,
+          "value": 2.16671,
           "forecast": false
         },
         {
           "date": "2024-11",
-          "value": 2.2122,
+          "value": 2.21206,
           "forecast": false
         },
         {
           "date": "2024-12",
-          "value": 2.19106,
+          "value": 2.191,
           "forecast": false
         },
         {
           "date": "2025-01",
-          "value": 2.101,
+          "value": 2.10093,
           "forecast": false
         },
         {
           "date": "2025-02",
-          "value": 2.10402,
+          "value": 2.10403,
           "forecast": false
         },
         {
           "date": "2025-03",
-          "value": 2.14611,
+          "value": 2.14608,
           "forecast": false
         },
         {
           "date": "2025-04",
-          "value": 2.13451,
+          "value": 2.13442,
           "forecast": false
         },
         {
           "date": "2025-05",
-          "value": 2.14458,
+          "value": 2.14459,
           "forecast": false
         },
         {
           "date": "2025-06",
-          "value": 2.13341,
+          "value": 2.1336,
           "forecast": false
         },
         {
           "date": "2025-07",
-          "value": 2.11521,
+          "value": 2.11504,
           "forecast": false
         },
         {
           "date": "2025-08",
-          "value": 2.10373,
+          "value": 2.10294,
           "forecast": false
         },
         {
           "date": "2025-09",
-          "value": 2.1132,
+          "value": 2.11118,
           "forecast": false
         },
         {
           "date": "2025-10",
-          "value": 2.10467,
+          "value": 2.10615,
           "forecast": false
         },
         {
           "date": "2025-11",
-          "value": 2.05652,
+          "value": 2.05994,
           "forecast": false
         },
         {
           "date": "2025-12",
-          "value": 2.06742,
+          "value": 2.0693,
           "forecast": false
         },
         {
           "date": "2026-01",
-          "value": 1.9538,
+          "value": 1.93498,
           "forecast": false
         },
         {
           "date": "2026-02",
-          "value": 2.01049,
+          "value": 2.01515,
           "forecast": false
         },
         {
           "date": "2026-03",
-          "value": 2.0415,
+          "value": 2.04402,
           "forecast": false
         },
         {
           "date": "2026-04",
-          "value": 2.03385,
+          "value": 2.0382,
           "forecast": false
         },
         {
           "date": "2026-05",
-          "value": 2.05187,
+          "value": 2.05396,
           "forecast": false
         },
         {
           "date": "2026-06",
-          "value": 2.05877,
+          "value": 2.06453,
           "forecast": false
         },
         {
           "date": "2026-07",
-          "value": 2.07977,
+          "value": 2.05161,
           "forecast": false
         },
         {
           "date": "2026-08",
-          "value": 2.04926,
+          "value": 2.05198,
           "forecast": true
         },
         {
           "date": "2026-09",
-          "value": 2.03968,
+          "value": 2.05379,
           "forecast": true
         },
         {
           "date": "2026-10",
-          "value": 2.03769,
+          "value": 2.04901,
           "forecast": true
         },
         {
           "date": "2026-11",
-          "value": 2.04146,
+          "value": 2.04922,
           "forecast": true
         },
         {
           "date": "2026-12",
-          "value": 2.04841,
+          "value": 2.06053,
           "forecast": true
         },
         {
           "date": "2027-01",
-          "value": 2.05668,
+          "value": 2.05733,
           "forecast": true
         },
         {
           "date": "2027-02",
-          "value": 2.06587,
+          "value": 2.06994,
           "forecast": true
         },
         {
           "date": "2027-03",
-          "value": 2.07592,
+          "value": 2.08211,
           "forecast": true
         },
         {
           "date": "2027-04",
-          "value": 2.0876,
+          "value": 2.09416,
           "forecast": true
         },
         {
           "date": "2027-05",
-          "value": 2.10013,
+          "value": 2.10596,
           "forecast": true
         },
         {
           "date": "2027-06",
-          "value": 2.11261,
+          "value": 2.11666,
           "forecast": true
         },
         {
           "date": "2027-07",
-          "value": 2.12504,
+          "value": 2.12638,
           "forecast": true
         },
         {
           "date": "2027-08",
-          "value": 2.13726,
+          "value": 2.13559,
           "forecast": true
         },
         {
           "date": "2027-09",
-          "value": 2.14877,
+          "value": 2.14414,
           "forecast": true
         },
         {
           "date": "2027-10",
-          "value": 2.15934,
+          "value": 2.15078,
           "forecast": true
         },
         {
           "date": "2027-11",
-          "value": 2.16791,
+          "value": 2.15535,
           "forecast": true
         },
         {
           "date": "2027-12",
-          "value": 2.17442,
+          "value": 2.15894,
           "forecast": true
         }
       ]
