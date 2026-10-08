@@ -4,40 +4,19 @@
   "source": "U.S. Energy Information Administration (EIA), series RWTC",
   "series_id": "RWTC",
   "frequency": "monthly",
-  "last_updated": "2026-10-07 18:21",
+  "last_updated": "2026-10-08 16:53",
   "real_available": true,
   "real_note": "Real prices in 2026-08 dollars, inflation-adjusted via FRED series CPIAUCSL.",
   "latest": {
-    "date": "2026-08",
-    "price": 83.9,
-    "real": 83.9
+    "date": "2026-09",
+    "price": 97.31
   },
   "spot_latest": {
-    "date": "2026-10-07",
-    "price": 88.21,
+    "date": "2026-10-08",
+    "price": 91.1,
     "source": "NYMEX front-month (CME/Yahoo)"
   },
   "spot_recent": [
-    {
-      "date": "2026-08-18",
-      "price": 86.48
-    },
-    {
-      "date": "2026-08-19",
-      "price": 87.28
-    },
-    {
-      "date": "2026-08-20",
-      "price": 89.75
-    },
-    {
-      "date": "2026-08-21",
-      "price": 87.21
-    },
-    {
-      "date": "2026-08-24",
-      "price": 86.34
-    },
     {
       "date": "2026-08-25",
       "price": 83.9
@@ -137,6 +116,26 @@
     {
       "date": "2026-09-29",
       "price": 96.16
+    },
+    {
+      "date": "2026-09-30",
+      "price": 97.18
+    },
+    {
+      "date": "2026-10-01",
+      "price": 99.77
+    },
+    {
+      "date": "2026-10-02",
+      "price": 97.89
+    },
+    {
+      "date": "2026-10-05",
+      "price": 96.13
+    },
+    {
+      "date": "2026-10-06",
+      "price": 96.24
     }
   ],
   "data": [
@@ -2578,6 +2577,10 @@
       "date": "2026-08",
       "price": 83.9,
       "real": 83.9
+    },
+    {
+      "date": "2026-09",
+      "price": 97.31
     }
   ]
 }
