@@ -4,8 +4,8 @@ This file is the **single checklist** for keeping the dashboard's SOURCED (hand-
 analyst) figures current. The LIVE figures (EIA/BLS/FRED) update automatically when
 `fetch_data.py` runs — they are **not** listed here.
 
-The scheduled refresh agent (see "How the refresh works" below) reads this file, re-checks
-each source, updates the value + `last_reviewed` date in `index.html`, then re-bundles.
+The quarterly GitHub Action creates an assigned review issue from this checklist. It does
+not research sources or update sourced figures; a person must verify and approve those changes.
 
 Legend: **Cadence** = how often the source publishes something new worth checking.
 
@@ -31,15 +31,15 @@ Legend: **Cadence** = how often the source publishes something new worth checkin
 
 ## How the refresh works
 
-**🟢 LIVE data (fully automatic — nothing to do).** A daily **GitHub Actions** job
-(`.github/workflows/refresh.yml`) runs `fetch_data.py` + `bundle.py` on GitHub's servers
-and republishes the live site. This covers everything auto-fed by an API: US & basin
-crude production, WTI (and daily spot), rigs / wells / DUCs / oil-per-rig, crude
-exports/imports, inflation-adjusted WTI, and the S&P 500 chart. No person or laptop needed.
+**🟢 LIVE data (fully automatic — nothing to do).** GitHub Actions runs two jobs:
+`.github/workflows/refresh.yml` updates WTI daily and fetches all source data on code
+pushes; `.github/workflows/quarterly.yml` fetches all EIA/BLS/FRED data monthly. Both
+rebuild and publish the live site. No person or laptop is needed for scheduled updates.
 
-**🔴 SOURCED data (needs a human, ~once a quarter).** The figures in the table above are
-hand-entered analyst estimates. The daily job does **not** touch them — they stay frozen
-until someone updates them. They won't be wrong tomorrow, but some drift over 6–12 months.
+**🔴 SOURCED data (needs a human, quarterly reminder).** The figures in the table above
+are hand-entered analyst estimates. The scheduled issue reminds the repository owner to
+review items due by cadence; it does not browse, verify, or edit the figures. Values stay
+unchanged until someone checks a source and approves an update.
 
 ### Quarterly refresh checklist (≈1 hour, for whoever owns this)
 Do this each quarter (or when a boss flags a stale number):

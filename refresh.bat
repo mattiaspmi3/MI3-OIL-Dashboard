@@ -1,7 +1,6 @@
 @echo off
-REM Daily auto-refresh: pull the latest LIVE data (incl. daily WTI & Henry Hub spot
-REM prices), rebuild the shareable file, and push to GitHub so the shared copy stays
-REM current. Runs unattended (no pause) for Windows Task Scheduler.
+REM Manual/local full data refresh. To run this unattended, register it separately
+REM in Windows Task Scheduler. The hosted dashboard uses GitHub Actions instead.
 cd /d "%~dp0"
 set PATH=%PATH%;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd
 

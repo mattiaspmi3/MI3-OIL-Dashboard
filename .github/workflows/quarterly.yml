@@ -38,6 +38,7 @@ jobs:
       - name: Re-pull ALL EIA/BLS/FRED data, then rebuild the page
         run: |
           python fetch_data.py
+          python validate_data.py
           python bundle.py
 
       - name: Save the refreshed data back to the repo
@@ -45,8 +46,12 @@ jobs:
           git config user.name  "MI3 Dashboard Bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -m "Monthly full data refresh (auto)" || echo "No changes to commit"
-          git push || echo "Nothing to push"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Monthly full data refresh (auto)"
+            git push
+          fi
 
       - name: Package the site for GitHub Pages
         uses: actions/upload-pages-artifact@v3
@@ -61,12 +66,27 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          m=$(date -u +%m)
-          if [ "$m" = "01" ] || [ "$m" = "04" ] || [ "$m" = "07" ] || [ "$m" = "10" ]; then
+          month=$(date -u +%m)
+          if [ "$month" = "01" ] || [ "$month" = "04" ] || [ "$month" = "07" ] || [ "$month" = "10" ]; then
+            year=$(date -u +%Y)
+            quarter=$(( (10#$month - 1) / 3 + 1 ))
+            title="Quarterly sourced-data review - ${year} Q${quarter}"
             python review_checklist.py > _review.md
-            gh issue create \
-              --title "Quarterly review — check sourced figures & oil news" \
-              --body-file _review.md
+            open_issue=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')
+            if [ -z "$open_issue" ]; then
+              quarter_start_month=$(( (quarter - 1) * 3 + 1 ))
+              quarter_start=$(printf '%s-%02d-01' "$year" "$quarter_start_month")
+              legacy_issue=$(gh issue list --state open --search "\"Quarterly review\" in:title created:>=$quarter_start" --json number --jq '.[0].number // empty')
+              if [ -n "$legacy_issue" ]; then
+                gh issue edit "$legacy_issue" --title "$title" --body-file _review.md --add-assignee "$GITHUB_REPOSITORY_OWNER"
+                echo "Updated and assigned existing review issue #$legacy_issue"
+              else
+                gh issue create --title "$title" --assignee "$GITHUB_REPOSITORY_OWNER" --body-file _review.md
+              fi
+            else
+              gh issue edit "$open_issue" --body-file _review.md --add-assignee "$GITHUB_REPOSITORY_OWNER"
+              echo "Updated and assigned existing review issue #$open_issue"
+            fi
           else
             echo "Data refreshed. Not a quarter month, so no review issue this month."
           fi

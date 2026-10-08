@@ -30,16 +30,19 @@ publishes it to a permanent link. **No personal computer is involved once it's s
   live prices — that one is meant to be visible and is safe.
 
 ## How it auto-updates
-- The file `.github/workflows/refresh.yml` runs **daily on GitHub's servers**.
-- It runs `python fetch_data.py` (get data) → `python bundle.py` (rebuild) →
-  publishes to the live link, and commits a "Daily data refresh (auto)" each day.
+- `.github/workflows/refresh.yml` runs **daily on GitHub's servers**. It updates WTI
+  with `update_wti.py`; after code pushes it also fetches all source data before rebuilding
+  and publishing the page.
+- `.github/workflows/quarterly.yml` runs the full `fetch_data.py` refresh monthly,
+  rebuilds and publishes the page, and creates an assigned human-review issue in
+  Jan/Apr/Jul/Oct. It does not update analyst estimates.
 - To refresh **on demand**: repo → **Actions** tab → "Refresh & publish dashboard"
   → **Run workflow**.
 
 ## How to change a hand-entered ("Sourced") number
 - Sourced figures live in `index.html` (in clearly labelled config blocks) and are
   mapped in **`SOURCES.md`** (which figure, its source, and where it is in the file).
-- Edit `index.html`, commit, push. The daily job (or a manual run) republishes it.
+- Edit `index.html`, commit, push. The push-triggered workflow refreshes source data and republishes it.
 - Full explanation of everything is in **`GUIDE.md`**.
 
 ## To refresh manually on a laptop (optional, not required)

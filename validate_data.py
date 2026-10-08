@@ -157,3 +157,5 @@ near("1998 price bust", wmap.get("1998-12", {}).get("price"), 8, 14, " /bbl")
 print("\n" + "=" * 70)
 print(f"  RESULT: {passes} passed, {fails} failed.")
 print("=" * 70)
+if fails:
+    raise SystemExit(1)

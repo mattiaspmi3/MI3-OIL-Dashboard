@@ -150,11 +150,10 @@ North-America-wide / all-tier figure, not Permian-only.
 | Rigs, wells drilled/completed, DUC, oil-per-rig (by basin) | EIA STEO **Table 10a** | ✅ daily |
 | US crude exports / imports / % from Canada (Overview trade line) | EIA `MCREXUS2` / `MCRIMUS2` / `MCRIMUSCA2` | ✅ daily |
 
-All the live data refreshes **every day at 6 AM** via a scheduled task on the PC
-(runs `fetch_data.py`, then rebuilds the shareable file). This keeps the **daily WTI
-spot price** fresh each day; the monthly series (like
-production) simply re-check and update whenever EIA posts a new month. EIA/BLS/FRED
-are free, so this costs nothing.
+The hosted dashboard refreshes through GitHub Actions: WTI runs daily, while the full
+EIA/BLS/FRED dataset is fetched monthly. No PC task is required for the hosted link. The
+local `refresh.bat` is only a manual runner unless separately registered in Windows Task
+Scheduler.
 
 ### 🔴 SOURCED (hand-checked analyst figures — refresh on a schedule, see §6)
 
@@ -179,21 +178,18 @@ not measured data.
 
 ---
 
-## 6. Does it update over time? Yes — two automatic loops
+## 6. Does it update over time? Yes, for live data
 
-1. **Live data → daily.** A Windows scheduled task ("MI3 Oil Dashboard Refresh")
-   runs every day at 6 AM: it pulls the latest EIA/BLS/FRED data — including the
-   **daily WTI spot price** — and rebuilds the shareable file.
-   Fully automatic, on the PC.
+1. **WTI price → daily.** GitHub Actions runs `update_wti.py`, rebuilds the page, and
+  publishes it. No PC task or Claude Code subscription is required.
+2. **Full public data → monthly.** GitHub Actions runs `fetch_data.py` and `bundle.py`
+  on the first of each month for EIA/BLS/FRED series.
+3. **Sourced estimates → human review.** In Jan, Apr, Jul, and Oct, the monthly workflow
+  creates an issue assigned to the repository owner. It is a reminder, not a research
+  agent: it does not browse sources or update analyst figures. GitHub email delivery
+  depends on the owner's notification settings.
 
-2. **Sourced figures → quarterly.** A cloud agent runs on **Jan 1, Apr 1, Jul 1,
-   and Oct 1**. It reads `SOURCES.md`, re-checks each analyst source on the web,
-   updates any figure that changed (with a fresh citation and date), rebuilds the
-   file in the GitHub repo, and posts a plain-English "what changed" report. It
-   **never fabricates** — anything it can't re-verify it leaves alone and flags.
-
-The project lives in a private GitHub repo (`mattiaspmi3/MI3-OIL-Dashboard`) so the
-cloud agent can update it. Your API keys are **not** in the repo.
+The repository's Actions secrets hold API keys; they are **not** committed to the repo.
 
 ---
 
@@ -203,8 +199,8 @@ cloud agent can update it. Your API keys are **not** in the repo.
   self-contained `US-Oil-Gas-Dashboard.html`.
 - **Refresh the data yourself anytime:** double-click `refresh.bat` (or `Update Oil
   Prices.bat` for just the data).
-- **Share it:** send `US-Oil-Gas-Dashboard.html` (one file, works offline for the data,
-  online for the charts), or host the `publish-online` folder on Netlify for a link.
+- **Share it:** send the current `US-Oil-Gas-Dashboard.html` (data is embedded; charts
+  need internet), or use the GitHub Pages link. A local copy does not refresh itself.
 - **Check the numbers:** the **Data &amp; Sources** panel at the bottom of the dashboard
   lists every metric, whether it's Live/Sourced/Projection, its source, and its date.
 

@@ -17,7 +17,7 @@ data sources, rebuild-from-scratch), see **`HOW_THIS_WAS_BUILT.md`**.
 
 The dashboard is a **live, oil-only** view of the US oil picture — production, prices,
 drilling, the major basins, an interactive simulator, and the outlook. It auto-updates
-(price daily, full data quarterly) and opens from a shareable link.
+(WTI daily; full data monthly and after code pushes) and opens from a shareable link.
 
 **Architecture (one line):** `fetch_data.py`/`update_wti.py` pull data → `data/*.js` →
 `bundle.py` inlines into `publish-online/index.html` → a GitHub Action runs it on a timer →
@@ -32,9 +32,9 @@ GitHub Pages serves the link. (Details in `HOW_THIS_WAS_BUILT.md`.)
 3. **Oil-only pivot** — removed all natural-gas *tabs/content* for one clear story.
 4. **Live WTI fix** — price is fetched server-side (NYMEX front-month) and served as a tiny
    cache-proof file (`wti-latest.json`) the page re-reads on every open, so it's never stale.
-5. **Hosting + auto-refresh** — GitHub Pages + two Actions: `refresh.yml` (daily price +
-   publish, and on every push) and `quarterly.yml` (full `fetch_data.py` on the 1st of
-   Jan/Apr/Jul/Oct + a review-reminder Issue).
+5. **Hosting + auto-refresh** — GitHub Pages + two Actions: `refresh.yml` (daily price;
+  full data fetch + publish on code pushes) and `quarterly.yml` (full `fetch_data.py`
+  monthly + an assigned review-reminder Issue in Jan/Apr/Jul/Oct).
 6. **Wording/consistency** — many boss edits; tier labels unified to `Tier-1/2/3`.
 7. **Data audit** — caught an impossible operator figure (Exxon Permian > US); ran a full
    verification of every hand-entered operator/analyst number against filings; fixed stale
@@ -77,7 +77,7 @@ The edit loop (non-developer friendly):
 1. Edit `index.html` (the dashboard) in VS Code.
 2. Run `python bundle.py` to rebuild `publish-online/index.html`.
 3. Open `publish-online/index.html` in a browser to check it.
-4. Commit & push to `main` — the site republishes within a couple of minutes.
+4. Commit & push to `main` — GitHub refreshes source data, rebuilds, and republishes.
 
 Notes:
 - API keys live in `.env` (git-ignored). Recreate it on a new machine only if you need to run

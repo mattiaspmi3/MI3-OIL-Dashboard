@@ -31,10 +31,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: API key for the fallback price source (.env, not committed)
-        run: echo "EIA_API_KEY=${{ secrets.EIA_API_KEY }}" >> .env
+      - name: API keys (.env, not committed)
+        run: |
+          echo "EIA_API_KEY=${{ secrets.EIA_API_KEY }}" >> .env
+          echo "FRED_API_KEY=${{ secrets.FRED_API_KEY }}" >> .env
 
-      - name: Refresh ONLY the WTI price, then rebuild the page
+      - name: Refresh all source data after a code change
+        if: github.event_name == 'push'
+        run: python fetch_data.py
+
+      - name: Validate refreshed source data
+        if: github.event_name == 'push'
+        run: python validate_data.py
+
+      - name: Refresh WTI price, then rebuild the page
         run: |
           python update_wti.py
           python bundle.py
@@ -44,8 +54,12 @@ jobs:
           git config user.name  "MI3 Dashboard Bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -m "Daily WTI price refresh (auto)" || echo "No changes to commit"
-          git push || echo "Nothing to push"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Daily WTI price refresh (auto)"
+            git push
+          fi
 
       - name: Package the site for GitHub Pages
         uses: actions/upload-pages-artifact@v3
