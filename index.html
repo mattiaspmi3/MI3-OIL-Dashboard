@@ -142,7 +142,7 @@
 
   .note-inline { font-size: 12.5px; color: var(--muted); background: var(--panel2); border: 1px solid var(--line); border-radius: 7px; padding: 8px 12px; margin: 0 0 12px; } .note-inline b { color: var(--accent-dk); }
 
-  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } .grid2 > .panel { margin-top: 0; min-width: 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } .grid2 > .panel { margin-top: 0; } .grid2 > * { min-width: 0; }
   .prose { font-size: 14.5px; line-height: 1.65; color: #2b2f36; } .prose h3 { font-size: 16px; margin: 20px 0 6px; color: var(--ink); } .prose h4 { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent-dk); margin: 16px 0 4px; } .prose p { margin: 0 0 10px; } .prose b { color: var(--ink); }
 
   /* map — real US states */
@@ -227,7 +227,7 @@
   .op-box { position: relative; height: 230px; margin-top: 8px; }
 
   /* consistent per-basin key-stats row */
-  .kstats { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin: 4px 0 4px; }
+  .kstats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 9px; overflow: hidden; margin: 4px 0 4px; }
   .kstat { background: var(--panel); padding: 11px 12px; }
   .kstat .kv { font-family: "IBM Plex Mono", monospace; font-size: 17px; font-weight: 700; line-height: 1.05; }
   .kstat .kv.na { color: var(--faint); font-weight: 500; }
@@ -239,6 +239,9 @@
   /* small-multiple chart grids */
   .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
   .grid3 .panel { margin-top: 0; }
+  .grid3 > div { min-width: 0; }
+  .minis > div { display: flex; flex-direction: column; } .minis .mini { margin-top: auto; }
+  #tab-inventory .grid2 > .panel { display: flex; flex-direction: column; } #tab-inventory .grid2 > .panel > .chart-box { margin-top: auto; }
   .grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
   .grid4 > div { min-width: 0; }
   .grid4 .panel { margin-top: 0; }
@@ -480,14 +483,6 @@
       <p class="tab-intro">The live drilling engine behind the production numbers — rigs, wells, drilled-but-uncompleted (DUC) wells, and how much oil each rig brings on. All figures are <span class="prov live">Live · EIA STEO Table 10a</span>, by region.</p>
 
       <div class="bignum" id="inv-duc-callout"></div>
-
-      <div class="panel">
-        <div class="panel-head"><h2>New-Well IP oil/rig, by basin</h2><span class="prov live" id="prr-asof">Live</span></div>
-        <p class="caption">How much new oil each active rig is bringing on — <b>IP = initial production</b> (a new well's early output). <span class="hint">Toggle basins in the legend. EIA smooths this — read it as a trend, not a precise monthly number.</span></p>
-        <div class="controls"><span class="viewlabel">View</span><div class="btnrow" data-type-for="chartPerRig"></div><span class="viewlabel">Zoom</span><div class="btnrow" data-range-for="chartPerRig"></div></div>
-        <div class="chart-box tall"><canvas id="chartPerRig"></canvas></div>
-        <p class="src" style="margin-top:6px">Source: EIA STEO Table 10a, series CONWR&lt;region&gt; (thousand bbl/d per rig).</p>
-      </div>
 
       <div class="grid2">
         <div class="panel">
@@ -1157,7 +1152,7 @@
         breakeven:"~$67", inventory:"toward ~2040",
         economics:"New-well <b>drill</b> breakeven ~$67 average (range $63–70) — Dallas Fed Energy Survey, Q1-2026. Operating (shut-in) breakevens are far lower — Delaware ~$33, Midland ~$35 — so wells keep pumping well below the drill price. On a returns basis, Novi Labs NPV25 breakevens run ~$50 (Midland) / ~$52 (Delaware). <b>Inventory:</b> ~100,000 remaining locations, of which ~55,000 break even below $50/bbl (Enverus, Apr 2026) — a low-breakeven runway extending toward <b>~2040</b> on current pace (Enverus, Apr 2026).",
         creaming:true,
-        watch:["Permian-led U.S. growth is flattening — watch New-Well IP oil/rig and rig count for the inflection.","At today’s WTI essentially all of the ~100k economic locations work; only a drop toward ~$50 would sideline the costlier tier (see creaming curve)."],
+        watch:["Permian-led U.S. growth is flattening — watch rig count and the DUC backlog for the inflection.","At today’s WTI essentially all of the ~100k economic locations work; only a drop toward ~$50 would sideline the costlier tier (see creaming curve)."],
         src:"EIA (live share/drilling); Dallas Fed Energy Survey Q1-2026 (drill breakevens); Enverus Apr-2026 via World Oil (locations & ~2040 runway) + public NPV25 breakevens" },
       "Bakken":{ region:"North Dakota / Montana (Williston)", status:"Mature · peaked 2019", prodRegion:"Bakken", drillRegion:"Bakken",
         breakeven:"~$64", inventory:"~10 yrs",
@@ -1188,7 +1183,7 @@
         economics:"All lower-48 crude produced <b>outside</b> the named shale basins — a diffuse mix of conventional fields, stripper and legacy wells, and smaller unconventional plays (Anadarko, Powder River, Uinta, D-J / Niobrara and others). It is <b>a diffuse mix of smaller and legacy producers; no dominant operators.</b> Output declines slowly and is held up by steady, low-intensity drilling across many operators rather than a few big projects. The live rig and DUC figures shown above are EIA’s Table 10a aggregate for this residual region.",
         creaming:false,
         watch:["Slow structural decline, offset by steady drilling across many small operators.","Rig activity is diffuse — no single play or operator drives the trajectory."],
-        src:"EIA STEO COPRR48 (live production) + Table 10a (live rigs / DUC / new-well oil per rig). No single-operator concentration." }
+        src:"EIA STEO COPRR48 (live production) + Table 10a (live rigs / DUC). No single-operator concentration." }
     };
     // SOURCED creaming-curve data — VERIFIED anchors: Enverus IR (Apr 2026) location counts + Novi Labs NPV25 breakevens
     const CREAM = { total:100000, median:50, average:55,
@@ -1216,20 +1211,18 @@
       if(bregion){ const act=bregion.data.filter(p=>!p.forecast); const last=act[act.length-1];
         if(last){ output=last.value>=1?last.value.toFixed(1)+' MMbbl/d':Math.round(last.value*1000)+'k bbl/d';
           let tot=0; BAS.regions.forEach(r=>{const m=r.data.find(p=>p.date===last.date); if(m&&m.value!=null)tot+=m.value;}); if(tot)share='~'+Math.round(last.value/tot*100)+'%'; } }
-      let rigs='n/a',duc='n/a',perRig='n/a';
+      let rigs='n/a',duc='n/a';
       if(drillName&&DRILL&&DRILL.latest&&DRILL.latest[drillName]){ const s=DRILL.latest[drillName];
-        if(s.rigs)rigs=Math.round(s.rigs.value)+''; if(s.duc)duc=Math.round(s.duc.value).toLocaleString();
-        if(s.oil_per_rig)perRig=Math.round(s.oil_per_rig.value*1000).toLocaleString()+' bbl/d'; }
+        if(s.rigs)rigs=Math.round(s.rigs.value)+''; if(s.duc)duc=Math.round(s.duc.value).toLocaleString(); }
       const kstat=(v,l,tag)=>'<div class="kstat"><div class="kv'+(v==='n/a'?' na':'')+'">'+v+'</div><div class="kl">'+l+'</div><div class="ktag '+tag[0]+'">'+tag[1]+'</div></div>';
       let html='<div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap"><h2 style="margin:0;font-size:19px">'+key+'</h2>'+
         '<span style="color:var(--muted);font-size:13px">'+(P.region||'')+'</span>'+(P.status?'<span class="basin-status">'+P.status+'</span>':'')+'</div>';
       html+='<div class="kstats">'+kstat(share,'Share of US crude',['live','LIVE'])+kstat(output,'Output',['live','LIVE'])+
-        kstat(rigs,'Active rigs',['live','LIVE'])+kstat(duc,'DUC wells',['live','LIVE'])+kstat(perRig,'New-Well IP oil/rig',['live','LIVE'])+
+        kstat(rigs,'Active rigs',['live','LIVE'])+kstat(duc,'DUC wells',['live','LIVE'])+
         kstat(P.breakeven||'n/a','Breakeven',['src','SOURCED'])+kstat(P.inventory||'n/a','Inventory life',['src','SOURCED'])+'</div>';
       const mh=(t,s)=>'<div class="mini-h">'+t+' <span class="prov live" style="font-size:8px;padding:2px 6px">LIVE</span></div><div class="mini-sub">'+s+'</div>';
-      html+='<div class="grid4" style="margin-top:14px">'+
+      html+='<div class="grid3 minis" style="margin-top:14px">'+
         '<div>'+mh('Production trend','crude, MMbbl/d')+'<div class="mini"><canvas id="bp-prod"></canvas></div></div>'+
-        '<div>'+mh('New-Well IP oil/rig',drillName?'thousand bbl/d per rig (IP = initial production)':'— not a shale-drilling basin —')+'<div class="mini"><canvas id="bp-prr"></canvas></div></div>'+
         '<div>'+mh('Active rigs',drillName?'active drilling rigs':'— not tracked —')+'<div class="mini"><canvas id="bp-rigs"></canvas></div></div>'+
         '<div>'+mh('DUC trend',drillName?'drilled-but-uncompleted wells':'— not tracked —')+'<div class="mini"><canvas id="bp-duc"></canvas></div></div></div>';
       html+='<div id="op-section" style="margin-top:18px"></div>';
@@ -1240,7 +1233,7 @@
       if(P.watch&&P.watch.length) html+='<div class="callout" style="margin-top:14px"><b>What to watch</b><ul style="margin:6px 0 0;padding-left:18px">'+P.watch.map(w=>'<li>'+w+'</li>').join('')+'</ul></div>';
       host.innerHTML=html;
       if(bregion) profileLine('bp-prod',bregion.data,COLORS[prodName]||'#c8102e','MMbbl/d',2);
-      if(drillName){ profileLine('bp-prr',DRILL.metrics.oil_per_rig[drillName],'#4f7186','k bbl/d/rig',2); profileLine('bp-rigs',DRILL.metrics.rigs[drillName],'#7a5c8a','rigs',0); profileLine('bp-duc',DRILL.metrics.duc[drillName],'#8d8a5e','DUC',0); }
+      if(drillName){ profileLine('bp-rigs',DRILL.metrics.rigs[drillName],'#7a5c8a','rigs',0); profileLine('bp-duc',DRILL.metrics.duc[drillName],'#8d8a5e','DUC',0); }
       renderOperators(key);
       if(P.creaming) buildCreaming('bp-cream');
     }
@@ -1711,8 +1704,6 @@
       let natDuc=0; DRILL.regions.forEach(r=>{ const s=DRILL.latest[r]&&DRILL.latest[r].duc; if(s)natDuc+=s.value; });
       document.getElementById('inv-duc-callout').innerHTML=
         'The U.S. currently has <span class="n">'+Math.round(natDuc).toLocaleString()+' drilled-but-uncompleted (DUC) wells</span> — drilled but not yet fracked, a backlog producers can tap quickly — <span class="n">down from a peak of ~8,900 in mid-2020</span>. <span style="font-size:12px;opacity:.85">Live national total (sum of EIA regions) as of '+DRILL.actuals_through+'; peak: EIA Drilling Productivity Report, June 2020.</span>';
-      document.getElementById('prr-asof').textContent='Live · '+DRILL.actuals_through;
-      buildDrillMulti('chartPerRig','oil_per_rig','thousand bbl/d per rig',2,true);
       buildDrillMulti('chartRigs','rigs','active rigs',0,false);
       buildDrillMulti('chartDucTrend','duc','DUC wells',0,false);
       buildDucBar();
