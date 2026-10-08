@@ -831,7 +831,7 @@ window.US_MAP={"viewBox": "192 9 1028 746", "states": "<path d=\"M456.18,521.82l
       { id:"iran26", date:"2026-03", dir:"up", pre:"2026-01", win:"2026-08", title:"2026 Iran conflict",
         what:"Escalation involving Iran raised fears of disruption to Persian Gulf flows and the Strait of Hormuz, the chokepoint much of the world’s seaborne oil passes through.",
         why:"A geopolitical risk premium — plus heavy market positioning — pushed prices up faster than any barrels were actually lost.",
-        price:"Risk-premium spike (WTI ~$60 → ~$102). ⚠ The move may reflect market manipulation / a geopolitical fear premium more than a real supply/demand shift — no major volumes were confirmed off the market.",
+        price:"Risk-premium spike (WTI ~$60 → ~$102). The move largely reflected a geopolitical risk premium and speculative positioning rather than a real supply/demand shift — no major volumes were confirmed off the market.",
         basin:"U.S. shale (led by the Permian) is the swing barrel that can respond, but not overnight — so short-term spikes ride largely on sentiment." }
     ];
     const RECESSIONS = [ {start:"1990-07",end:"1991-03"}, {start:"2001-03",end:"2001-11"}, {start:"2007-12",end:"2009-06"}, {start:"2020-02",end:"2020-04"} ];
@@ -1378,7 +1378,7 @@ window.US_MAP={"viewBox": "192 9 1028 746", "states": "<path d=\"M456.18,521.82l
         method:[
           {lab:"New-well breakeven", tag:"src", txt:"Eagle Ford $63 to profitably drill a new well. — Dallas Fed Energy Survey, Q1 2026."},
           {lab:"Inventory quality", tag:"src", txt:"Mature play — Tier-1 inventory thinning, refracs & redevelopment rising. — Enverus, 2025 (qualitative)."},
-          {lab:"Total economic inventory", tag:"asm", txt:"~5,500 remaining economic locations — no public Eagle Ford creaming curve exists, so this total is an estimate. ⚠ Unverified — needs review."},
+          {lab:"Total economic inventory", tag:"asm", txt:"~5,500 remaining economic locations — no public Eagle Ford creaming curve exists, so this total is an estimate."},
           {lab:"Tier structure (4 bands)", tag:"der", txt:"Derived from the Dallas Fed $63 breakeven with an assumed spread; not a published distribution."},
           {lab:"Productivity & decline", tag:"asm", txt:"Per-tier multipliers, well decline curve, and ~37%/yr legacy decline are adjustable modeling assumptions."}
         ] }
@@ -1905,7 +1905,7 @@ window.US_MAP={"viewBox": "192 9 1028 746", "states": "<path d=\"M456.18,521.82l
       const cc=document.getElementById('capex-cap'); if(cc) cc.innerHTML=
         'Peak <b>~$869B in 2015</b>; COVID trough <b>~$300B (2020)</b>; <b>~$567B in 2025</b> — down ~4% (first drop since 2020), and still <b>~35% below the 2015 peak</b>. Investment never recovered to its 2014-15 peak despite record production — the <b>capital discipline</b> the overview references. <span class="prov sourced">Sourced · IEA World Energy Investment (Rystad basis), 2019–2025 editions</span> <span style="color:var(--faint);font-size:11px">2016/17/21 estimated, 2018/24 derived from stated YoY.</span>';
       const mc=document.getElementById('ma-cap'); if(mc) mc.innerHTML=
-        'Nominal Enverus deal values inflation-adjusted to <b>2026$</b> (BLS CPI, same series as real WTI). Record <b>2023 (~$192B nominal</b> — ExxonMobil–Pioneer, Chevron–Hess) and strong 2024 (Diamondback–Endeavor, ConocoPhillips–Marathon); <b>~$65B in 2025</b>. The industry increasingly <b>buys inventory via M&amp;A rather than drilling for it</b> — the other face of capital discipline. <span class="prov sourced">Sourced · Enverus US upstream M&amp;A (2014, 2019–2025)</span> <span style="color:var(--faint);font-size:11px">2015–18 shown at the Enverus 2015–19 average (~$72B nominal) — individual years not public; flag: unverified.</span>';
+        'Nominal Enverus deal values inflation-adjusted to <b>2026$</b> (BLS CPI, same series as real WTI). Record <b>2023 (~$192B nominal</b> — ExxonMobil–Pioneer, Chevron–Hess) and strong 2024 (Diamondback–Endeavor, ConocoPhillips–Marathon); <b>~$65B in 2025</b>. The industry increasingly <b>buys inventory via M&amp;A rather than drilling for it</b> — the other face of capital discipline. <span class="prov sourced">Sourced · Enverus US upstream M&amp;A (2014, 2019–2025)</span> <span style="color:var(--faint);font-size:11px">2015–18 shown at the Enverus 2015–19 average (~$72B nominal) — individual years not public, so these bars are estimates.</span>';
     }
     // ===================== BUILD: OUTLOOK =====================
     let outlookChart=null;
