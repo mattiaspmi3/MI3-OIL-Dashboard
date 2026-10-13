@@ -4,7 +4,10 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: "0 12 * * *"
+    # Off the top of the hour (GitHub delays/drops busy :00 slots), plus a
+    # backup run later in the day; it only commits if the price changed.
+    - cron: "37 11 * * *"
+    - cron: "23 21 * * *"
   workflow_dispatch: {}
 
 permissions:
