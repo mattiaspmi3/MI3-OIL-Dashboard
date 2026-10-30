@@ -4,7 +4,7 @@
   "source": "U.S. Energy Information Administration (EIA), series RWTC",
   "series_id": "RWTC",
   "frequency": "monthly",
-  "last_updated": "2026-10-29 17:31",
+  "last_updated": "2026-10-30 01:11",
   "real_available": true,
   "real_note": "Real prices in 2026-08 dollars, inflation-adjusted via FRED series CPIAUCSL.",
   "latest": {
@@ -12,8 +12,8 @@
     "price": 97.31
   },
   "spot_latest": {
-    "date": "2026-10-29",
-    "price": 101.43,
+    "date": "2026-10-30",
+    "price": 102.56,
     "source": "NYMEX front-month (CME/Yahoo)"
   },
   "spot_recent": [
