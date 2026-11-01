@@ -3,9 +3,9 @@
   "units": "million barrels per day",
   "source": "U.S. Energy Information Administration (EIA), Short-Term Energy Outlook (STEO)",
   "frequency": "monthly",
-  "actuals_through": "2026-07",
-  "note": "The 5 named basins and 'Rest of L48' begin Dec 2008; Alaska and the Federal Gulf go back to 1990. Months after 2026-07 are STEO forecast, shown dashed.",
-  "last_updated": "2026-10-13 17:30",
+  "actuals_through": "2026-08",
+  "note": "The 5 named basins and 'Rest of L48' begin Dec 2008; Alaska and the Federal Gulf go back to 1990. Months after 2026-08 are STEO forecast, shown dashed.",
+  "last_updated": "2026-11-01 14:33",
   "regions": [
     {
       "name": "Permian",
@@ -1074,7 +1074,7 @@
         {
           "date": "2026-08",
           "value": 6.86152,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -2225,7 +2225,7 @@
         {
           "date": "2026-08",
           "value": 1.2095,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -3376,7 +3376,7 @@
         {
           "date": "2026-08",
           "value": 1.10063,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -4527,7 +4527,7 @@
         {
           "date": "2026-08",
           "value": 0.20516,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -5678,7 +5678,7 @@
         {
           "date": "2026-08",
           "value": 0.032,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -6829,7 +6829,7 @@
         {
           "date": "2026-08",
           "value": 2.04926,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -9115,7 +9115,7 @@
         {
           "date": "2026-08",
           "value": 2.05742,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -11401,7 +11401,7 @@
         {
           "date": "2026-08",
           "value": 0.427,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",

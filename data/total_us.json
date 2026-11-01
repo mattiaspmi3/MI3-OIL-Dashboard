@@ -4,10 +4,10 @@
   "source": "U.S. Energy Information Administration (EIA)",
   "series_id": "MCRFPUS2",
   "frequency": "monthly",
-  "last_updated": "2026-10-13 17:30",
+  "last_updated": "2026-11-01 14:33",
   "latest": {
-    "date": "2026-07",
-    "value": 13.948
+    "date": "2026-08",
+    "value": 13.965
   },
   "data": [
     {
@@ -5120,11 +5120,15 @@
     },
     {
       "date": "2026-06",
-      "value": 13.844
+      "value": 13.865
     },
     {
       "date": "2026-07",
-      "value": 13.948
+      "value": 13.946
+    },
+    {
+      "date": "2026-08",
+      "value": 13.965
     }
   ]
 }

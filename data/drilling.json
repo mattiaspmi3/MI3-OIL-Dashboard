@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-10-13 17:30",
+  "last_updated": "2026-11-01 14:33",
   "source": "U.S. EIA Short-Term Energy Outlook (STEO) Table 10a / Drilling Productivity",
-  "actuals_through": "2026-07",
+  "actuals_through": "2026-08",
   "regions": [
     "Permian",
     "Bakken",
@@ -880,7 +880,7 @@
         {
           "date": "2026-08",
           "value": 265.5,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -1707,7 +1707,7 @@
         {
           "date": "2026-08",
           "value": 27.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -2534,7 +2534,7 @@
         {
           "date": "2026-08",
           "value": 56.5,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -3361,7 +3361,7 @@
         {
           "date": "2026-08",
           "value": 34.75,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -4188,7 +4188,7 @@
         {
           "date": "2026-08",
           "value": 63.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -5015,7 +5015,7 @@
         {
           "date": "2026-08",
           "value": 121.75,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -5844,7 +5844,7 @@
         {
           "date": "2026-08",
           "value": 500.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -6671,7 +6671,7 @@
         {
           "date": "2026-08",
           "value": 58.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -7498,7 +7498,7 @@
         {
           "date": "2026-08",
           "value": 123.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -8325,7 +8325,7 @@
         {
           "date": "2026-08",
           "value": 64.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -9152,7 +9152,7 @@
         {
           "date": "2026-08",
           "value": 57.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -9979,7 +9979,7 @@
         {
           "date": "2026-08",
           "value": 237.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -10808,7 +10808,7 @@
         {
           "date": "2026-08",
           "value": 488.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -11635,7 +11635,7 @@
         {
           "date": "2026-08",
           "value": 73.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -12462,7 +12462,7 @@
         {
           "date": "2026-08",
           "value": 118.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -13289,7 +13289,7 @@
         {
           "date": "2026-08",
           "value": 91.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -14116,7 +14116,7 @@
         {
           "date": "2026-08",
           "value": 67.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -14943,7 +14943,7 @@
         {
           "date": "2026-08",
           "value": 239.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -15772,7 +15772,7 @@
         {
           "date": "2026-08",
           "value": 829.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -16599,7 +16599,7 @@
         {
           "date": "2026-08",
           "value": 235.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -17426,7 +17426,7 @@
         {
           "date": "2026-08",
           "value": 410.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -18253,7 +18253,7 @@
         {
           "date": "2026-08",
           "value": 634.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -19080,7 +19080,7 @@
         {
           "date": "2026-08",
           "value": 551.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -19907,7 +19907,7 @@
         {
           "date": "2026-08",
           "value": 2250.0,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -20736,7 +20736,7 @@
         {
           "date": "2026-08",
           "value": 1.9321,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -21563,7 +21563,7 @@
         {
           "date": "2026-08",
           "value": 2.3309,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -22390,7 +22390,7 @@
         {
           "date": "2026-08",
           "value": 1.316,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -23217,7 +23217,7 @@
         {
           "date": "2026-08",
           "value": 0.5039,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -24044,7 +24044,7 @@
         {
           "date": "2026-08",
           "value": 0.0097,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -24871,7 +24871,7 @@
         {
           "date": "2026-08",
           "value": 0.7237,
-          "forecast": true
+          "forecast": false
         },
         {
           "date": "2026-09",
@@ -24884,163 +24884,163 @@
   "latest": {
     "Permian": {
       "rigs": {
-        "date": "2026-07",
-        "value": 258.8,
+        "date": "2026-08",
+        "value": 265.5,
         "forecast": false
       },
       "wells_drilled": {
-        "date": "2026-07",
-        "value": 484.0,
+        "date": "2026-08",
+        "value": 500.0,
         "forecast": false
       },
       "wells_completed": {
-        "date": "2026-07",
-        "value": 484.0,
+        "date": "2026-08",
+        "value": 488.0,
         "forecast": false
       },
       "duc": {
-        "date": "2026-07",
-        "value": 817.0,
+        "date": "2026-08",
+        "value": 829.0,
         "forecast": false
       },
       "oil_per_rig": {
-        "date": "2026-07",
-        "value": 1.9255,
+        "date": "2026-08",
+        "value": 1.9321,
         "forecast": false
       }
     },
     "Bakken": {
       "rigs": {
-        "date": "2026-07",
+        "date": "2026-08",
         "value": 27.0,
         "forecast": false
       },
       "wells_drilled": {
-        "date": "2026-07",
+        "date": "2026-08",
         "value": 58.0,
         "forecast": false
       },
       "wells_completed": {
-        "date": "2026-07",
-        "value": 65.0,
+        "date": "2026-08",
+        "value": 73.0,
         "forecast": false
       },
       "duc": {
-        "date": "2026-07",
-        "value": 249.0,
+        "date": "2026-08",
+        "value": 235.0,
         "forecast": false
       },
       "oil_per_rig": {
-        "date": "2026-07",
-        "value": 2.2968,
+        "date": "2026-08",
+        "value": 2.3309,
         "forecast": false
       }
     },
     "Eagle Ford": {
       "rigs": {
-        "date": "2026-07",
-        "value": 56.2,
+        "date": "2026-08",
+        "value": 56.5,
         "forecast": false
       },
       "wells_drilled": {
-        "date": "2026-07",
-        "value": 121.0,
+        "date": "2026-08",
+        "value": 123.0,
         "forecast": false
       },
       "wells_completed": {
-        "date": "2026-07",
-        "value": 117.0,
+        "date": "2026-08",
+        "value": 118.0,
         "forecast": false
       },
       "duc": {
-        "date": "2026-07",
-        "value": 404.0,
+        "date": "2026-08",
+        "value": 410.0,
         "forecast": false
       },
       "oil_per_rig": {
-        "date": "2026-07",
-        "value": 1.362,
+        "date": "2026-08",
+        "value": 1.316,
         "forecast": false
       }
     },
     "Appalachia": {
       "rigs": {
-        "date": "2026-07",
-        "value": 36.0,
+        "date": "2026-08",
+        "value": 34.75,
         "forecast": false
       },
       "wells_drilled": {
-        "date": "2026-07",
-        "value": 67.0,
+        "date": "2026-08",
+        "value": 64.0,
         "forecast": false
       },
       "wells_completed": {
-        "date": "2026-07",
-        "value": 95.0,
+        "date": "2026-08",
+        "value": 91.0,
         "forecast": false
       },
       "duc": {
-        "date": "2026-07",
-        "value": 661.0,
+        "date": "2026-08",
+        "value": 634.0,
         "forecast": false
       },
       "oil_per_rig": {
-        "date": "2026-07",
-        "value": 0.4994,
+        "date": "2026-08",
+        "value": 0.5039,
         "forecast": false
       }
     },
     "Haynesville": {
       "rigs": {
-        "date": "2026-07",
-        "value": 61.4,
+        "date": "2026-08",
+        "value": 63.0,
         "forecast": false
       },
       "wells_drilled": {
-        "date": "2026-07",
-        "value": 56.0,
+        "date": "2026-08",
+        "value": 57.0,
         "forecast": false
       },
       "wells_completed": {
-        "date": "2026-07",
-        "value": 66.0,
+        "date": "2026-08",
+        "value": 67.0,
         "forecast": false
       },
       "duc": {
-        "date": "2026-07",
-        "value": 561.0,
+        "date": "2026-08",
+        "value": 551.0,
         "forecast": false
       },
       "oil_per_rig": {
-        "date": "2026-07",
-        "value": 0.0095,
+        "date": "2026-08",
+        "value": 0.0097,
         "forecast": false
       }
     },
     "Rest of L48 (Conventional)": {
       "rigs": {
-        "date": "2026-07",
-        "value": 123.4,
+        "date": "2026-08",
+        "value": 121.75,
         "forecast": false
       },
       "wells_drilled": {
-        "date": "2026-07",
-        "value": 238.0,
+        "date": "2026-08",
+        "value": 237.0,
         "forecast": false
       },
       "wells_completed": {
-        "date": "2026-07",
-        "value": 243.0,
+        "date": "2026-08",
+        "value": 239.0,
         "forecast": false
       },
       "duc": {
-        "date": "2026-07",
-        "value": 2254.0,
+        "date": "2026-08",
+        "value": 2250.0,
         "forecast": false
       },
       "oil_per_rig": {
-        "date": "2026-07",
-        "value": 0.7405,
+        "date": "2026-08",
+        "value": 0.7237,
         "forecast": false
       }
     }
